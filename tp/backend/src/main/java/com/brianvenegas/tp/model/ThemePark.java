@@ -52,5 +52,13 @@ public static class Park {
     private String id;
     private String name;
 
-    public s
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String newId) {
+        this.id = newId;
+    }
+jlkjkl
+ this o
 }
