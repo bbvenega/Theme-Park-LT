@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
-public class Attractions {
+public class Attraction {
 
     @Id
     private Long rideId;
@@ -12,10 +12,10 @@ public class Attractions {
     private int standByTime;
     private boolean status;
 
-    public Attractions() {
+    public Attraction() {
     }
 
-    public Attractions(Long rideId, String rideName, int standByTime, boolean status) {
+    public Attraction(Long rideId, String rideName, int standByTime, boolean status) {
         this.rideId = rideId;
         this.rideName = rideName;
         this.standByTime = standByTime;
