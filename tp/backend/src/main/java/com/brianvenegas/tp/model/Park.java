@@ -80,6 +80,7 @@ public class Park {
         private String id;
         private String name;
         private String slug;
+        private List<Attraction> rides;
 
         // Getters and setters
         public String getId() {
@@ -106,9 +107,17 @@ public class Park {
             return slug;
         }
 
+        public void setAttraction(List<Attraction> rides) {
+            this.rides = rides;
+        }
+
+        public List<Attraction> getAttraction() {
+            return rides;
+        }
+
         @Override
         public String toString() {
-            return "IndividualPark{id='" + id + "', name='" + name + "', slug='" + slug + "'}";
+            return String.format("IndividualPark{id='%s', name='%s', slug='%s'\n %s's Rides: %s", id, name, slug, name, rides);
         }
     }
 }
