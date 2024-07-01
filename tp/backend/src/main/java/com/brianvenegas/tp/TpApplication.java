@@ -15,6 +15,9 @@ public class TpApplication {
     public static void main(String[] args) {
         SpringApplication.run(TpApplication.class, args);
 
+        
+        String DLID = "7340550b-c14d-4def-80bb-acdb51d49a66";
+
         System.out.println("Theme Park API Client");
         try {
             String response = ThemeParkApiClient.getDestinations();
@@ -25,7 +28,17 @@ public class TpApplication {
             System.out.println("Parks:");
 
             if (parks != null) {
-                parks.forEach(System.out::println);
+                // parks.forEach(System.out::println);
+
+                ThemeParkApiClient.getAttraction(DLID);
+
+                // for(Park park : parks) { 
+                //     for(Park.IndividualPark individualPark : park.getParks()) {
+                //         // System.out.println(individualPark);
+                //         ThemeParkApiClient.getAttraction(individualPark.getId());
+                //     }
+                    
+                // }
             } else {
                 System.out.println("No parks found");
             }

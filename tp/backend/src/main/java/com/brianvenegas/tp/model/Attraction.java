@@ -5,23 +5,49 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
 public class Attraction {
 
+    @Id
     private String id;
     private String name;
     private String entityType;
-    private String timezone;
+    private String parkId;
+    private String externalId;
+    private String status;
+    private String lastUpdated;
 
-    @JsonProperty("liveData")
-    private List<LiveData> liveData;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JsonProperty("queue")
+    private Queue queue;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonProperty("showtimes")
+    private List<Showtime> showtimes;
+
+    @ElementCollection
+    private List<OperatingHour> operatingHours;
+
+    @ElementCollection
+    private List<DiningAvailability> diningAvailability;
 
     // Getters and setters
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -41,447 +67,532 @@ public class Attraction {
         this.entityType = entityType;
     }
 
-    public String getTimeZone() {
-        return timezone;
+    public String getStatus() {
+        return status;
     }
 
-    public void setTimeZone(String tz) {
-        this.timezone = tz;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public List<LiveData> getLiveData() {
-        return liveData;
+    public String getLastUpdated() {
+        return lastUpdated;
     }
 
-    public void setLiveData(List<LiveData> liveData) {
-        this.liveData = liveData;
+    public void setLastUpdated(String lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 
-    public static class LiveData {
+    public Queue getQueue() {
+        return queue;
+    }
 
-        private String id;
-        private String name;
-        private String entityType;
-        private String status;
-        private String lastUpdated;
-        private Queue queue;
-        private List<Showtime> showtimes;
-        private List<OperatingHour> operatingHours;
-        private List<DiningAvailability> diningAvailability;
+    public void setQueue(Queue queue) {
+        this.queue = queue;
+    }
+
+    public List<Showtime> getShowtimes() {
+        return showtimes;
+    }
+
+    public void setShowtimes(List<Showtime> showtimes) {
+        this.showtimes = showtimes;
+    }
+
+    public List<OperatingHour> getOperatingHours() {
+        return operatingHours;
+    }
+
+    public void setOperatingHours(List<OperatingHour> operatingHours) {
+        this.operatingHours = operatingHours;
+    }
+
+    public List<DiningAvailability> getDiningAvailability() {
+        return diningAvailability;
+    }
+
+    public void setDiningAvailability(List<DiningAvailability> diningAvailability) {
+        this.diningAvailability = diningAvailability;
+    }
+}
+
+@Entity
+public static class Queue {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Standby standby;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private SingleRider singleRider;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private ReturnTime returnTime;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private PaidReturnTime paidReturnTime;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private BoardingGroup boardingGroup;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private PaidStandby paidStandby;
+
+    // Getters and setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Standby getStandby() {
+        return standby;
+    }
+
+    public void setStandby(Standby standby) {
+        this.standby = standby;
+    }
+
+    public SingleRider getSingleRider() {
+        return singleRider;
+    }
+
+    public void setSingleRider(SingleRider singleRider) {
+        this.singleRider = singleRider;
+    }
+
+    public ReturnTime getReturnTime() {
+        return returnTime;
+    }
+
+    public void setReturnTime(ReturnTime returnTime) {
+        this.returnTime = returnTime;
+    }
+
+    public PaidReturnTime getPaidReturnTime() {
+        return paidReturnTime;
+    }
+
+    public void setPaidReturnTime(PaidReturnTime paidReturnTime) {
+        this.paidReturnTime = paidReturnTime;
+    }
+
+    public BoardingGroup getBoardingGroup() {
+        return boardingGroup;
+    }
+
+    public void setBoardingGroup(BoardingGroup boardingGroup) {
+        this.boardingGroup = boardingGroup;
+    }
+
+    public PaidStandby getPaidStandby() {
+        return paidStandby;
+    }
+
+    public void setPaidStandby(PaidStandby paidStandby) {
+        this.paidStandby = paidStandby;
+    }
+}
+
+@Entity
+public static class Standby {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private int waitTime;
+
+    // Getters and setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getWaitTime() {
+        return waitTime;
+    }
+
+    public void setWaitTime(int waitTime) {
+        this.waitTime = waitTime;
+    }
+}
+
+@Entity
+public static class SingleRider {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private int waitTime;
+
+    // Getters and setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getWaitTime() {
+        return waitTime;
+    }
+
+    public void setWaitTime(int waitTime) {
+        this.waitTime = waitTime;
+    }
+}
+
+@Entity
+public static class ReturnTime {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String state;
+    private String returnStart;
+    private String returnEnd;
+
+    // Getters and setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getReturnStart() {
+        return returnStart;
+    }
+
+    public void setReturnStart(String returnStart) {
+        this.returnStart = returnStart;
+    }
+
+    public String getReturnEnd() {
+        return returnEnd;
+    }
+
+    public void setReturnEnd(String returnEnd) {
+        this.returnEnd = returnEnd;
+    }
+}
+
+@Entity
+public static class PaidReturnTime {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String state;
+    private String returnStart;
+    private String returnEnd;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Price price;
+
+    // Getters and setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getReturnStart() {
+        return returnStart;
+    }
+
+    public void setReturnStart(String returnStart) {
+        this.returnStart = returnStart;
+    }
+
+    public String getReturnEnd() {
+        return returnEnd;
+    }
+
+    public void setReturnEnd(String returnEnd) {
+        this.returnEnd = returnEnd;
+    }
+
+    public Price getPrice() {
+        return price;
+    }
+
+    public void setPrice(Price price) {
+        this.price = price;
+    }
+
+    @Entity
+    public static class Price {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        private int amount;
+        private String currency;
 
         // Getters and setters
-        void setId(String id) {
-            this.id = id;
-        }
-
-        void setName(String name) {
-            this.name = name;
-        }
-
-        void setEntityType(String entityType) {
-            this.entityType = entityType;
-        }
-
-        void setStatus(String status) {
-            this.status = status;
-        }
-
-        void setLastUpdated(String lastUpdated) {
-            this.lastUpdated = lastUpdated;
-        }
-
-        void setQueue(Queue queue) {
-            this.queue = queue;
-        }
-
-        void setShowtimes(List<Showtime> showtimes) {
-            this.showtimes = showtimes;
-        }
-
-        void setOperatingHours(List<OperatingHour> operatingHours) {
-            this.operatingHours = operatingHours;
-        }
-
-        void setDiningAvailability(List<DiningAvailability> diningAvailability) {
-            this.diningAvailability = diningAvailability;
-        }
-
-        String getId() {
+        public Long getId() {
             return id;
         }
 
-        String getName() {
-            return name;
+        public void setId(Long id) {
+            this.id = id;
         }
 
-        String getEntityType() {
-            return entityType;
+        public int getAmount() {
+            return amount;
         }
 
-        String getStatus() {
-            return status;
+        public void setAmount(int amount) {
+            this.amount = amount;
         }
 
-        String getLastUpdated() {
-            return lastUpdated;
+        public String getCurrency() {
+            return currency;
         }
 
-        Queue getQueue() {
-            return queue;
-        }
-
-        List<Showtime> getShowtimes() {
-            return showtimes;
-        }
-
-        List<OperatingHour> getOperatingHours() {
-            return operatingHours;
-        }
-
-        List<DiningAvailability> getDiningAvailability() {
-            return diningAvailability;
+        public void setCurrency(String currency) {
+            this.currency = currency;
         }
     }
+}
 
-    public static class Queue {
+@Entity
+public static class BoardingGroup {
 
-        private Standby STANDBY;
-        private SingleRider SINGLE_RIDER;
-        private ReturnTime RETURN_TIME;
-        private PaidReturnTime PAID_RETURN_TIME;
-        private BoardingGroup BOARDING_GROUP;
-        private PaidStandby PAID_STANDBY;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String allocationStatus;
+    private int currentGroupStart;
+    private int currentGroupEnd;
+    private String nextAllocationTime;
+    private int estimatedWait;
 
-        // Getters and setters
-        void setStandby(Standby standby) {
-            this.STANDBY = standby;
-        }
-
-        void setSingleRider(SingleRider singleRider) {
-            this.SINGLE_RIDER = singleRider;
-        }
-
-        void setReturnTime(ReturnTime returnTime) {
-            this.RETURN_TIME = returnTime;
-        }
-
-        void setPaidReturnTime(PaidReturnTime paidReturnTime) {
-            this.PAID_RETURN_TIME = paidReturnTime;
-        }
-
-        void setBoardingGroup(BoardingGroup boardingGroup) {
-            this.BOARDING_GROUP = boardingGroup;
-        }
-
-        void setPaidStandby(PaidStandby paidStandby) {
-            this.PAID_STANDBY = paidStandby;
-        }
-
-        Standby getStandby() {
-            return STANDBY;
-        }
-
-        SingleRider getSingleRider() {
-            return SINGLE_RIDER;
-        }
-
-        ReturnTime getReturnTime() {
-            return RETURN_TIME;
-        }
-
-        PaidReturnTime getPaidReturnTime() {
-            return PAID_RETURN_TIME;
-        }
-
-        BoardingGroup getBoardingGroup() {
-            return BOARDING_GROUP;
-        }
-
-        PaidStandby getPaidStandby() {
-            return PAID_STANDBY;
-        }
-
+    // Getters and setters
+    public Long getId() {
+        return id;
     }
 
-    public static class Standby {
-
-        private int waitTime;
-        // Getters and setters
-
-        void setWaitTime(int waitTime) {
-            this.waitTime = waitTime;
-        }
-
-        int getWaitTime() {
-            return waitTime;
-        }
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public static class SingleRider {
-
-        private int waitTime;
-        // Getters and setters
-
-        void setWaitTime(int waitTime) {
-            this.waitTime = waitTime;
-        }
-
-        int getWaitTime() {
-            return waitTime;
-        }
-
+    public String getAllocationStatus() {
+        return allocationStatus;
     }
 
-    public static class ReturnTime {
-
-        private String state;
-        private String returnStart;
-        private String returnEnd;
-        // Getters and setters
-
-        void setState(String state) {
-            this.state = state;
-        }
-
-        void setReturnStart(String returnStart) {
-            this.returnStart = returnStart;
-        }
-
-        void setReturnEnd(String returnEnd) {
-            this.returnEnd = returnEnd;
-        }
-
-        String getState() {
-            return state;
-        }
-
-        String getReturnStart() {
-            return returnStart;
-        }
-
-        String getReturnEnd() {
-            return returnEnd;
-        }
+    public void setAllocationStatus(String allocationStatus) {
+        this.allocationStatus = allocationStatus;
     }
 
-    public static class PaidReturnTime {
-
-        private String state;
-        private String returnStart;
-        private String returnEnd;
-        private Price price;
-
-        // Getters and setters
-        void setState(String state) {
-            this.state = state;
-        }
-
-        void setReturnStart(String returnStart) {
-            this.returnStart = returnStart;
-        }
-
-        void setReturnEnd(String returnEnd) {
-            this.returnEnd = returnEnd;
-        }
-
-        void setPrice(Price price) {
-            this.price = price;
-        }
-
-        String getState() {
-            return state;
-        }
-
-        String getReturnStart() {
-            return returnStart;
-        }
-
-        String getReturnEnd() {
-            return returnEnd;
-        }
-
-        Price getPrice() {
-            return price;
-        }
-
-        public static class Price {
-
-            private int amount;
-            private String currency;
-            // Getters and setters
-
-            void setAmount(int amount) {
-                this.amount = amount;
-            }
-
-            void setCurrency(String currency) {
-                this.currency = currency;
-            }
-
-            int getAmount() {
-                return amount;
-            }
-
-            String getCurrency() {
-                return currency;
-
-            }
-        }
+    public int getCurrentGroupStart() {
+        return currentGroupStart;
     }
 
-    public static class BoardingGroup {
-
-        private String allocationStatus;
-        private int currentGroupStart;
-        private int currentGroupEnd;
-        private String nextAllocationTime;
-        private int estimatedWait;
-        // Getters and setters
-
-        void setAllocationStatus(String allocationStatus) {
-            this.allocationStatus = allocationStatus;
-        }
-
-        void setCurrentGroupStart(int currentGroupStart) {
-            this.currentGroupStart = currentGroupStart;
-        }
-
-        void setCurrentGroupEnd(int currentGroupEnd) {
-            this.currentGroupEnd = currentGroupEnd;
-        }
-
-        void setNextAllocationTime(String nextAllocationTime) {
-            this.nextAllocationTime = nextAllocationTime;
-        }
-
-        void setEstimatedWait(int estimatedWait) {
-            this.estimatedWait = estimatedWait;
-        }
-
-        String getAllocationStatus() {
-            return allocationStatus;
-        }
-
-        int getCurrentGroupStart() {
-            return currentGroupStart;
-        }
-
-        int getCurrentGroupEnd() {
-            return currentGroupEnd;
-        }
-
-        String getNextAllocationTime() {
-            return nextAllocationTime;
-        }
-
-        int getEstimatedWait() {
-            return estimatedWait;
-        }
-
+    public void setCurrentGroupStart(int currentGroupStart) {
+        this.currentGroupStart = currentGroupStart;
     }
 
-    public static class PaidStandby {
-
-        private int waitTime;
-        // Getters and setters
-
-        void setWaitTime(int waitTime) {
-            this.waitTime = waitTime;
-        }
-
-        int getWaitTime() {
-            return waitTime;
-        }
-
+    public int getCurrentGroupEnd() {
+        return currentGroupEnd;
     }
 
-    public static class Showtime {
-
-        private String type;
-        private String startTime;
-        private String endTime;
-        // Getters and setters
-
-        void setType(String type) {
-            this.type = type;
-        }
-
-        void setStartTime(String startTime) {
-            this.startTime = startTime;
-        }
-
-        void setEndTime(String endTime) {
-            this.endTime = endTime;
-        }
-
-        String getType() {
-            return type;
-        }
-
-        String getStartTime() {
-            return startTime;
-        }
-
-        String getEndTime() {
-            return endTime;
-        }
-
+    public void setCurrentGroupEnd(int currentGroupEnd) {
+        this.currentGroupEnd = currentGroupEnd;
     }
 
-    public static class OperatingHour {
-
-        private String type;
-        private String startTime;
-        private String endTime;
-        // Getters and setters
-
-        void setType(String type) {
-            this.type = type;
-        }
-
-        void setStartTime(String startTime) {
-            this.startTime = startTime;
-        }
-
-        void setEndTime(String endTime) {
-            this.endTime = endTime;
-        }
-
-        String getType() {
-            return type;
-        }
-
-        String getStartTime() {
-            return startTime;
-        }
-
-        String getEndTime() {
-            return endTime;
-        }
-
+    public String getNextAllocationTime() {
+        return nextAllocationTime;
     }
 
-    public static class DiningAvailability {
-
-        private int partySize;
-        private int waitTime;
-        // Getters and setters
-
-        void setPartySize(int partySize) {
-            this.partySize = partySize;
-        }
-
-        void setWaitTime(int waitTime) {
-            this.waitTime = waitTime;
-        }
-
-        int getPartySize() {
-            return partySize;
-        }
-
-        int getWaitTime() {
-            return waitTime;
-        }
-
+    public void setNextAllocationTime(String nextAllocationTime) {
+        this.nextAllocationTime = nextAllocationTime;
     }
+
+    public int getEstimatedWait() {
+        return estimatedWait;
+    }
+
+    public void setEstimatedWait(int estimatedWait) {
+        this.estimatedWait = estimatedWait;
+    }
+}
+
+@Entity
+public static class PaidStandby {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private int waitTime;
+
+    // Getters and setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getWaitTime() {
+        return waitTime;
+    }
+
+    public void setWaitTime(int waitTime) {
+        this.waitTime = waitTime;
+    }
+}
+
+@Entity
+public static class Showtime {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String type;
+    private String startTime;
+    private String endTime;
+
+    // Getters and setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+}
+
+@Entity
+public static class OperatingHour {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String type;
+    private String startTime;
+    private String endTime;
+
+    // Getters and setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+}
+
+@Entity
+public static class DiningAvailability {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private int partySize;
+    private int waitTime;
+
+    // Getters and setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getPartySize() {
+        return partySize;
+    }
+
+    public void setPartySize(int partySize) {
+        this.partySize = partySize;
+    }
+
+    public int getWaitTime() {
+        return waitTime;
+    }
+
+    public void setWaitTime(int waitTime) {
+        this.waitTime = waitTime;
+    }
+}
 }
