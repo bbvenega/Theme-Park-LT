@@ -69,7 +69,7 @@ public class Park {
 
     @Override
     public String toString() {
-        return "ThemePark{id='" + id + "', name='" + name + "', slug='" + slug + "', parks=" + parks + "}";
+        return "ThemePark{id='" + id + "', name='" + name + "', slug='" + slug + "', parks=" + parks + "}\n\n";
     }
 
     @Entity
@@ -80,7 +80,9 @@ public class Park {
         private String id;
         private String name;
         private String slug;
-        private List<Attraction> rides;
+        @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+        @JsonProperty("rides")
+        private List<Attraction> Attractions;
 
         // Getters and setters
         public String getId() {
