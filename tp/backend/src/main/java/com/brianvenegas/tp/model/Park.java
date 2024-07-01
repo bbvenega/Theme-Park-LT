@@ -81,7 +81,7 @@ public class Park {
         private String name;
         private String slug;
         @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-        @JsonProperty("rides")
+        @JsonProperty("liveData")
         private List<Attraction> Attractions;
 
         // Getters and setters
@@ -110,16 +110,16 @@ public class Park {
         }
 
         public void setAttraction(List<Attraction> rides) {
-            this.rides = rides;
+            this.Attractions = rides;
         }
 
         public List<Attraction> getAttraction() {
-            return rides;
+            return Attractions;
         }
 
         @Override
         public String toString() {
-            return String.format("IndividualPark{id='%s', name='%s', slug='%s'\n %s's Rides: %s", id, name, slug, name, rides);
+            return String.format("IndividualPark{id='%s', name='%s', slug='%s'\n %s's Rides: %s", id, name, slug, name, Attractions);
         }
     }
 }
