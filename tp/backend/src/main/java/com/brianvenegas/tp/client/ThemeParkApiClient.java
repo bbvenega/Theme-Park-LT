@@ -1,14 +1,15 @@
 package com.brianvenegas.tp.client;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
+import com.brianvenegas.tp.model.Attraction;
 import com.brianvenegas.tp.model.Park;
+import com.brianvenegas.tp.model.Park.IndividualPark;
 import com.brianvenegas.tp.model.ParkWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -28,7 +29,7 @@ public class ThemeParkApiClient {
         return responseBody;
     }
 
-    public static void getAttraction(String parkId) throws IOException, InterruptedException {
+    public static String getAttraction(String parkId) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.themeparks.wiki/v1//entity/" + parkId + "/live"))
@@ -41,9 +42,11 @@ public class ThemeParkApiClient {
                 HttpResponse.BodyHandlers.ofString());
 
         String responseBody = response.body();
-        PrintWriter out = new PrintWriter("DLJSON.txt");
+        // PrintWriter out = new PrintWriter("DLJSON.txt");
         // System.out.println("Response JSON: " + responseBody);  // Print the response JSON
-        out.println(responseBody);
+        // out.println(responseBody);
+
+        return responseBody;
     }
 
     public static List<Park> parseParks(String json) throws IOException {
@@ -53,10 +56,9 @@ public class ThemeParkApiClient {
         return wrapper.getParks();
     }
 
-    // public static void parseAttractions(String json, List<Park> parks) throws IOException {
-    //     ObjectMapper objectMapper = new ObjectMapper();
-    //     List<Park> attractions = objectMapper.readValue(json, List.class);
-    //     // System.out.println("Deserialized Response: " + attractions);
-    //     parks.addAll(attractions);
-    // }
+    public static List<Attraction> parseAttractions(String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        IndividualPark park = objectMapper.readValue(json, Park.IndividualPark.class);
+        return park.getAttraction();
+    }
 }

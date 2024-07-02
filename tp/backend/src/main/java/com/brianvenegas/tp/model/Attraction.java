@@ -141,21 +141,27 @@ public class Attraction {
         private Long id;
 
         @JsonProperty("STANDBY")
+        @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
         private Standby standby;
 
         @JsonProperty("SINGLE_RIDER")
+        @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
         private SingleRider singleRider;
 
         @JsonProperty("RETURN_TIME")
+        @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
         private ReturnTime returnTime;
 
         @JsonProperty("PAID_RETURN_TIME")
+        @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
         private PaidReturnTime paidReturnTime;
 
         @JsonProperty("BOARDING_GROUP")
+        @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
         private BoardingGroup boardingGroup;
 
         @JsonProperty("PAID_STANDBY")
+        @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
         private PaidStandby paidStandby;
 
         // Getters and setters

@@ -5,11 +5,14 @@ import java.util.List;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import com.brianvenegas.tp.client.ThemeParkApiClient; // Add this import statement
+import com.brianvenegas.tp.model.Attraction; // Add this import statement
 import com.brianvenegas.tp.model.Park; // Add this import statement
 
 @SpringBootApplication
+@EntityScan(basePackages = "com.brianvenegas.tp.model")
 public class TpApplication {
 
     public static void main(String[] args) {
@@ -30,15 +33,30 @@ public class TpApplication {
             if (parks != null) {
                 // parks.forEach(System.out::println);
 
-                ThemeParkApiClient.getAttraction(DLID);
+                // ThemeParkApiClient.getAttraction(DLID);
 
-                // for(Park park : parks) { 
-                //     for(Park.IndividualPark individualPark : park.getParks()) {
-                //         // System.out.println(individualPark);
-                //         ThemeParkApiClient.getAttraction(individualPark.getId());
-                //     }
+                for(Park park : parks) { 
+                    for(Park.IndividualPark individualPark : park.getParks()) {
+                       String responseJSON = ThemeParkApiClient.getAttraction(individualPark.getId());
+                       List<Attraction> rides = ThemeParkApiClient.parseAttractions(responseJSON);
+                       individualPark.setAttraction(rides);
+                    }
                     
-                // }
+                }
+            } else {
+                System.out.println("No parks found");
+            }
+
+            if(parks != null) {
+            for(Park park : parks) {
+                System.out.println(park.getName() + "------------------------------------");
+                for(Park.IndividualPark individualPark : park.getParks()) {
+                    System.out.println(individualPark.getName()+ "------------------------------------");
+                    for(Attraction ride : individualPark.getAttraction()) {
+                        System.out.println(ride.getName());
+                    }
+                }
+            }
             } else {
                 System.out.println("No parks found");
             }
