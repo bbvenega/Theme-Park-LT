@@ -18,7 +18,6 @@ public class TpApplication {
     public static void main(String[] args) {
         SpringApplication.run(TpApplication.class, args);
 
-        
         String DLID = "7340550b-c14d-4def-80bb-acdb51d49a66";
 
         System.out.println("Theme Park API Client");
@@ -34,29 +33,34 @@ public class TpApplication {
                 // parks.forEach(System.out::println);
 
                 // ThemeParkApiClient.getAttraction(DLID);
-
-                for(Park park : parks) { 
-                    for(Park.IndividualPark individualPark : park.getParks()) {
-                       String responseJSON = ThemeParkApiClient.getAttraction(individualPark.getId());
-                       List<Attraction> rides = ThemeParkApiClient.parseAttractions(responseJSON);
-                       individualPark.setAttraction(rides);
+                for (Park park : parks) {
+                    for (Park.IndividualPark individualPark : park.getParks()) {
+                        System.out.println("Getting rides for park: " + individualPark.getName());
+                        String responseJSON = ThemeParkApiClient.getAttraction(individualPark.getId());
+                        List<Attraction> rides = ThemeParkApiClient.parseAttractions(responseJSON);
+                        individualPark.setAttraction(rides);
                     }
-                    
+
                 }
             } else {
                 System.out.println("No parks found");
             }
 
-            if(parks != null) {
-            for(Park park : parks) {
-                System.out.println(park.getName() + "------------------------------------");
-                for(Park.IndividualPark individualPark : park.getParks()) {
-                    System.out.println(individualPark.getName()+ "------------------------------------");
-                    for(Attraction ride : individualPark.getAttraction()) {
-                        System.out.println(ride.getName());
+            if (parks != null) {
+                for (Park park : parks) {
+                    System.out.println(park.getName() + "------------------------------------");
+                    for (Park.IndividualPark individualPark : park.getParks()) {
+                        System.out.println(individualPark.getName() + "------------------------------------");
+                        for (Attraction ride : individualPark.getAttraction()) {
+                            if (ride.getStatus().equals("OPERATING") && ride.getEntityType().equals("ATTRACTION")) {
+                                if (ride.getQueue() != null && ride.getQueue().getStandby() != null) {
+
+                                    System.out.printf("%ss: standby wait time: %d\n", ride.getName(), ride.getQueue().getStandby().getWaitTime());
+                                }
+                            } 
+                        }
                     }
                 }
-            }
             } else {
                 System.out.println("No parks found");
             }
@@ -64,6 +68,7 @@ public class TpApplication {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-
+        System.out.println("Exiting...");
+        System.exit(0);
     }
 }
