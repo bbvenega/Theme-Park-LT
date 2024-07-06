@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import com.brianvenegas.tp.client.ThemeParkApiClient; // Add this import statement
 import com.brianvenegas.tp.model.Attraction; // Add this import statement
 import com.brianvenegas.tp.model.Park; // Add this import statement
+import com.brianvenegas.tp.model.Park.IndividualPark;
 import com.brianvenegas.tp.model.User;
 
 @SpringBootApplication
@@ -33,18 +34,18 @@ public class TpApplication {
             if (parks != null) {
                 // parks.forEach(System.out::println);
 
-                ThemeParkApiClient.getAttraction(DLID);
+                // ThemeParkApiClient.getAttraction(DLID);
     
                 // The code below will be implemented when the API is fully functional
-                // for (Park park : parks) {
-                //     for (Park.IndividualPark individualPark : park.getParks()) {
-                //         System.out.println("Getting rides for park: " + individualPark.getName());
-                //         String responseJSON = ThemeParkApiClient.getAttraction(individualPark.getId());
-                //         List<Attraction> rides = ThemeParkApiClient.parseAttractions(responseJSON);
-                //         individualPark.setAttraction(rides);
-                //     }
+                for (Park park : parks) {
+                    for (Park.IndividualPark individualPark : park.getParks()) {
+                        System.out.println("Getting rides for park: " + individualPark.getName());
+                        String responseJSON = ThemeParkApiClient.getAttraction(individualPark.getId());
+                        List<Attraction> rides = ThemeParkApiClient.parseAttractions(responseJSON);
+                        individualPark.setAttraction(rides);
+                    }
 
-                // }
+                }
             } else {
                 System.out.println("No parks found");
             }
@@ -71,26 +72,44 @@ public class TpApplication {
                 userInputPassword = System.console().readLine();
             }
 
-            if (parks != null) {
-                for (Park park : parks) {
-                    System.out.println(park.getName() + "------------------------------------");
-                    for (Park.IndividualPark individualPark : park.getParks()) {
-                        System.out.println(individualPark.getName() + "------------------------------------");
-                        for (Attraction ride : individualPark.getAttraction()) {
-                            if (ride.getStatus().equals("OPERATING") && ride.getEntityType().equals("ATTRACTION")) {
-                                if (ride.getQueue() != null && ride.getQueue().getStandby() != null) {
+            System.out.println("Welcome, " + user.getName() + "!\n\n");
 
-                                    System.out.printf("%ss: standby wait time: %d\n", ride.getName(), ride.getQueue().getStandby().getWaitTime());
-                                }
-                            }
-                        }
-                    }
-                }
-            } else {
-                System.out.println("No parks found");
+            System.out.println("Please select a park to view the rides: ");
+
+            int counter = 1;
+            for (Park park : parks) {
+                System.out.printf("[%d] %s\n", counter, park.getName());
+                counter++;
             }
 
-            // The code below will be implemented when the API is fully functional
+            counter = 1;
+            int parkSelection = Integer.parseInt(System.console().readLine());
+
+            Park selectedPark = parks.get(parkSelection - 1);
+
+            if(selectedPark.getParks() != null) {
+                for (IndividualPark indvPark : selectedPark.getParks()) {
+                    System.out.printf("[%d] %s\n", counter, indvPark.getName());
+                    counter++;
+                }
+
+                 parkSelection = Integer.parseInt(System.console().readLine());
+            } 
+
+            IndividualPark selectedIndvPark = selectedPark.getParks().get(parkSelection - 1);
+
+
+            System.out.println("Rides for " + selectedIndvPark.getName() + "------------------------------------");
+            for(int i = 0; i < selectedIndvPark.getAttraction().size(); i++) {
+                Attraction ride = selectedIndvPark.getAttraction().get(i);
+                if (ride.getStatus().equals("OPERATING") && ride.getEntityType().equals("ATTRACTION")) {
+                    if (ride.getQueue() != null && ride.getQueue().getStandby() != null) {
+                        System.out.printf("%s: standby wait time: %d\n",  ride.getName(), ride.getQueue().getStandby().getWaitTime());
+                    }
+                } 
+            }
+
+            // // The code below will be implemented when the API is fully functional
             // if (parks != null) {
             //     for (Park park : parks) {
             //         System.out.println(park.getName() + "------------------------------------");
@@ -108,6 +127,8 @@ public class TpApplication {
             // } else {
             //     System.out.println("No parks found");
             // }
+
+
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
