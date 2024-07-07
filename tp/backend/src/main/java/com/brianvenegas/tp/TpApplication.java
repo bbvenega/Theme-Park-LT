@@ -12,6 +12,7 @@ import com.brianvenegas.tp.model.Attraction; // Add this import statement
 import com.brianvenegas.tp.model.Park; // Add this import statement
 import com.brianvenegas.tp.model.Park.IndividualPark;
 import com.brianvenegas.tp.model.User;
+import com.brianvenegas.tp.model.Visit;
 
 @SpringBootApplication
 @EntityScan(basePackages = "com.brianvenegas.tp.model")
@@ -73,8 +74,11 @@ public class TpApplication {
             }
 
             System.out.println("Welcome, " + user.getName() + "!\n\n");
+            System.out.print("Please enter today's date: DD/MM/YYYY: ");
+            String date = System.console().readLine();
 
-            System.out.println("Please select a park to view the rides: ");
+            
+            
 
             int counter = 1;
             for (Park park : parks) {
@@ -82,32 +86,30 @@ public class TpApplication {
                 counter++;
             }
 
-            counter = 1;
+            System.out.print("Please select a park that you are visiting today: ");
+
+            
             int parkSelection = Integer.parseInt(System.console().readLine());
 
             Park selectedPark = parks.get(parkSelection - 1);
 
             if(selectedPark.getParks() != null) {
+                counter = 1;
+                
                 for (IndividualPark indvPark : selectedPark.getParks()) {
                     System.out.printf("[%d] %s\n", counter, indvPark.getName());
                     counter++;
                 }
-
+                System.out.printf("Please select a park in %s that you are visiting today: ", selectedPark.getName());
                  parkSelection = Integer.parseInt(System.console().readLine());
             } 
 
             IndividualPark selectedIndvPark = selectedPark.getParks().get(parkSelection - 1);
 
+            System.out.println("\nYou have selected " + selectedIndvPark.getName() + " in " + selectedPark.getName() + "\n\n");
 
-            System.out.println("Rides for " + selectedIndvPark.getName() + "------------------------------------");
-            for(int i = 0; i < selectedIndvPark.getAttraction().size(); i++) {
-                Attraction ride = selectedIndvPark.getAttraction().get(i);
-                if (ride.getStatus().equals("OPERATING") && ride.getEntityType().equals("ATTRACTION")) {
-                    if (ride.getQueue() != null && ride.getQueue().getStandby() != null) {
-                        System.out.printf("%s: standby wait time: %d\n",  ride.getName(), ride.getQueue().getStandby().getWaitTime());
-                    }
-                } 
-            }
+            Visit currVisit = new Visit(selectedIndvPark.getName(), date);
+            user.getVisits().add(currVisit);
 
             // // The code below will be implemented when the API is fully functional
             // if (parks != null) {
