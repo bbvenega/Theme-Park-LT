@@ -33,7 +33,7 @@ public class Visit {
         userAttractions = null;
     }
 
-    public Visit(Long id, String parkName, String dateVisited) {
+    public Visit( String parkName, String dateVisited) {
         this.parkName = parkName;
         this.dateVisited = dateVisited;
     }

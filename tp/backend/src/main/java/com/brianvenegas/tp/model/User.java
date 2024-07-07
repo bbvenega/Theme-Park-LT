@@ -1,5 +1,6 @@
 package com.brianvenegas.tp.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -31,6 +32,7 @@ public class User {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.visits = new ArrayList<>();
     }
 
     public long getId() {
