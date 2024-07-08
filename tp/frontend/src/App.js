@@ -1,27 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { getGreeting } from './api';
+// App.js
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import LoginButton from './LoginButton';
+import LogoutButton from './logout';
+import Profile from './profile';
+import UserSettings from './UserSettings';
 
 const App = () => {
-    const [greeting, setGreeting] = useState('');
-
-    useEffect(() => {
-        const fetchGreeting = async () => {
-            try {
-                const data = await getGreeting();
-                setGreeting(data);
-            } catch (error) {
-                console.error('Error fetching greeting:', error);
-            }
-        };
-
-        fetchGreeting();
-    }, []);
-
+    const {isAuthenticated} = useAuth0();
+    
     return (
-
-          <div style={{ backgroundColor: 'pink', height: '100vh', padding: '20px' }}>
-            <h1>{greeting}</h1>
+        <Router>
+        <div>
+            <h1>Welcome to My App</h1>
+            <LoginButton />
+            <LogoutButton />
+            <Switch>
+                <Route path="/profile">
+                {isAuthenticated ? <Profile /> : <Redirect to="/" />}
+                </Route> 
+                <Route path="/" component ={UserSettings} exact/>
+                <Route path="*">
+                <Redirect to="/" />
+                </Route>
+            </Switch>
+          
         </div>
+        </Router>
+
     );
 };
 
