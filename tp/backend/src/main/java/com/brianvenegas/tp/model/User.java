@@ -75,9 +75,13 @@ public class User {
     public void setVisits(List<Visit> newVisits) {
         this.visits = newVisits;
     }
+    
+    public String getAuthoID() {
+        return auth0Id;
+    }
 
-    public String getAuth0Id() {
-        return this.auth0Id;
+    public void setAuth0Id(String auth0Id) {
+        this.auth0Id = auth0Id;
     }
 
 }

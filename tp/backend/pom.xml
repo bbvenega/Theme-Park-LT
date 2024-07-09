@@ -68,6 +68,18 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-client</artifactId>
 		</dependency>
+
+<dependency>
+    <groupId>com.auth0</groupId>
+    <artifactId>auth0</artifactId>
+    <version>1.32.0</version>
+</dependency>
+		
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>jwks-rsa</artifactId>
+			<version>0.20.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
