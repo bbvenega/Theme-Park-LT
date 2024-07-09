@@ -11,5 +11,5 @@ import com.brianvenegas.tp.model.User;
 @Repository
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByAuth0Id(String email);
+    Optional<User> findByAuth0Id(String auth0Id);
 }
