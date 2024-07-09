@@ -23,4 +23,6 @@ public class UserService {
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null); // Finds the user by ID or returns null if not found
     }
+
+    public Optional<
 }
