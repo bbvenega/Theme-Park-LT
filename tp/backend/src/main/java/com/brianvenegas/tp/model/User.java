@@ -21,6 +21,7 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private String auth0Id;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private List<Visit> visits;
@@ -73,6 +74,10 @@ public class User {
 
     public void setVisits(List<Visit> newVisits) {
         this.visits = newVisits;
+    }
+
+    public String getAuth0Id() {
+        return this.auth0Id;
     }
 
 }
