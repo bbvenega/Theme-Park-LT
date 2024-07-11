@@ -2,6 +2,9 @@
 import React from 'react';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
+
 
 const Auth0ProviderWithNavigate = ({ children }) => {
     const navigate = useNavigate();
@@ -9,6 +12,10 @@ const Auth0ProviderWithNavigate = ({ children }) => {
     const onRedirectCallback = (appState) => {
         console.log('onRedirectCallback called with appState:', appState);
         navigate(appState?.returnTo || '/home');
+    };
+
+    Auth0ProviderWithNavigate.propTypes = {
+        children: PropTypes.node.isRequired,
     };
     console.log('window.location.origin:', window.location.origin);
     console.log('Auth0 Domain:', process.env.REACT_APP_AUTH0_DOMAIN);

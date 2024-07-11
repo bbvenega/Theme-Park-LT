@@ -6,6 +6,7 @@ import App from './App';
 import './assets/styles/index.css';
 import Auth0ProviderWithNavigate from './components/auth/Auth0ProviderWithNavigate';
 
+
 const root = createRoot(document.getElementById('root'));
 
 root.render(
