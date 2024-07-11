@@ -9,6 +9,11 @@ const Profile = () => {
   console.log("isAuthenticated:", isAuthenticated);
   console.log("user:", user);
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+
   useEffect(() => {
     const sendTokenToBackend = async () => {
       try {
@@ -32,9 +37,6 @@ const Profile = () => {
     }
   }, [isAuthenticated, getAccessTokenSilently]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     isAuthenticated && (
