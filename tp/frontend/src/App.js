@@ -21,13 +21,15 @@ const App = () => {
             <LoginButton />
             <LogoutButton />
             <Routes>
-                <Route path="/" element={<LandingPage />} />
+            <Route path="/" element={<LandingPage />} />
                 <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/" />} />
                 <Route path="/settings" element={isAuthenticated ? <UserSettings /> : <Navigate to="/" />} />
                 <Route path="/home" element={isAuthenticated ? <HomePage /> : <Navigate to="/" />} />
+                {/* <Route path="/list" element={isAuthenticated ? <ListComponent /> : <Navigate to="/" />} /> */}
+                <Route path="/list" element={<ListComponent />} />
                 <Route path="*" element={<Navigate to="/" />} />
-                <Route path="/list" element={isAuthenticated ? <ListComponent /> : <Navigate to="/" />} /> 
             </Routes>
+            
         </div>
     );
 };
