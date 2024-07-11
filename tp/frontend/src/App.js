@@ -11,24 +11,24 @@ import LandingPage from './pages/LandingPage';
 import ListComponent from './components/common/ListComponent';
 
 const App = () => {
-    const { isAuthenticated } = useAuth0();
+    // const { isAuthenticated } = useAuth0();
 
-    console.log('User is authenticated:', isAuthenticated);
+    // console.log('User is authenticated:', isAuthenticated);
 
     return (
         <div>
             <h1>Welcome to My App</h1>
-            <LoginButton />
-            <LogoutButton />
-            <Routes>
-            <Route path="/" element={<LandingPage />} />
-                <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/" />} />
-                <Route path="/settings" element={isAuthenticated ? <UserSettings /> : <Navigate to="/" />} />
-                <Route path="/home" element={isAuthenticated ? <HomePage /> : <Navigate to="/" />} />
+            {/* <LoginButton /> */}
+            {/* <LogoutButton /> */}
+            {/* <Routes> */}
+            {/* <Route path="/" element={<LandingPage />} /> */}
+                {/* <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/" />} /> */}
+                {/* <Route path="/settings" element={isAuthenticated ? <UserSettings /> : <Navigate to="/" />} /> */}
+                {/* <Route path="/home" element={isAuthenticated ? <HomePage /> : <Navigate to="/" />} /> */}
                 {/* <Route path="/list" element={isAuthenticated ? <ListComponent /> : <Navigate to="/" />} /> */}
-                <Route path="/list" element={<ListComponent />} />
-                <Route path="*" element={<Navigate to="/" />} />
-            </Routes>
+                {/* <Route path="/list" element={<ListComponent />} /> */}
+                {/* <Route path="*" element={<Navigate to="/" />} /> */}
+            {/* </Routes> */}
             
         </div>
     );
