@@ -2,13 +2,13 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
-import LoginButton from './LoginButton';
-import LogoutButton from './LogoutButton';
-import Profile from './Profile';
-import HomePage from './HomePage';
-import UserSettings from './UserSettings';
-import LandingPage from './LandingPage';
-import ListComponent from './ListComponent';
+import LoginButton from './components/auth/LoginButton';
+import LogoutButton from './components/auth/LogoutButton';
+import Profile from './components/auth/Profile';
+import HomePage from './pages/HomePage';
+import UserSettings from './pages/UserSettings';
+import LandingPage from './pages/LandingPage';
+import ListComponent from './components/common/ListComponent';
 
 const App = () => {
     const { isAuthenticated } = useAuth0();
