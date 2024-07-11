@@ -1,11 +1,36 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
+import axios from "axios";
+import { useEffect } from "react";
 
 const Profile = () => {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
 
   console.log("isAuthenticated:", isAuthenticated);
   console.log("user:", user);
+
+  useEffect(() => {
+    const sendTokenToBackend = async () => {
+      try {
+        const token = await getAccessTokenSilently();
+        console.log("token:", token);
+        await axios.post("http://localhost:8080/api/authenticate", {}, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          
+        });
+
+        console.log("Token sent to backend successfully");
+      } catch (error) {
+        console.error("error: sending token to backend: ", error);
+      } 
+    };
+
+    if (isAuthenticated) {
+      sendTokenToBackend();
+    }
+  }, [isAuthenticated, getAccessTokenSilently]);
 
   if (isLoading) {
     return <div>Loading...</div>;
