@@ -1,5 +1,5 @@
 import React from 'react';
-import './UserSettings.css';
+import '../assets/styles/UserSettings.css';
 
 const UserSettings = () => {
     return (
