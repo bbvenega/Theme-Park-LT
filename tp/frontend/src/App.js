@@ -8,6 +8,7 @@ import Profile from './Profile';
 import HomePage from './HomePage';
 import UserSettings from './UserSettings';
 import LandingPage from './LandingPage';
+import ListComponent from './ListComponent';
 
 const App = () => {
     const { isAuthenticated } = useAuth0();
@@ -25,6 +26,7 @@ const App = () => {
                 <Route path="/settings" element={isAuthenticated ? <UserSettings /> : <Navigate to="/" />} />
                 <Route path="/home" element={isAuthenticated ? <HomePage /> : <Navigate to="/" />} />
                 <Route path="*" element={<Navigate to="/" />} />
+                <Route path="/list" element={isAuthenticated ? <ListComponent /> : <Navigate to="/" />} /> 
             </Routes>
         </div>
     );
