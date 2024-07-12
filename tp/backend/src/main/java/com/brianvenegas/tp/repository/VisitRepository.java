@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.brianvenegas.tp.model.Visit;
 
-public interface VisitRepository extends JpaRepository<Visit, String> {
+public interface VisitRepository extends JpaRepository<Visit, Long> {
     List<Visit> findByUserId(String id);
 }
