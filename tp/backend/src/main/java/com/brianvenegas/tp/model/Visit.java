@@ -1,5 +1,6 @@
 package com.brianvenegas.tp.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -10,6 +11,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
@@ -18,22 +20,19 @@ public class Visit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
     private String parkName;
     private String dateVisited;
 
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "visit")
-    private List<userAttraction> userAttractions;
+    private List<userAttraction> userAttractions = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
     private User user;
 
     public Visit() {
-        parkName = "";
-        dateVisited = "";
-        userAttractions = null;
     }
 
     public Visit( String parkName, String dateVisited) {
@@ -41,11 +40,11 @@ public class Visit {
         this.dateVisited = dateVisited;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String newId) {
+    public void setId(Long newId) {
         this.id = newId;
     }
 
@@ -94,6 +93,7 @@ public static class userAttraction {
     private int postedWaitTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "visit_id")
     private Visit visit;
 
     @ManyToOne(fetch = FetchType.LAZY)
