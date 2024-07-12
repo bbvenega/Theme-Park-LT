@@ -55,7 +55,26 @@ const Dashboard = () => {
         <h2>Your Parks</h2>
         <ul>
             {parks.map((park) => (
-                <li key={park.id}>{park.name}</li>
+                <li key={park.id}>{park.name}
+                <h3> {park.name}'s Individual Parks </h3>
+                <ul>
+                    {park.parks.map((individualPark) => (
+                        <li key={individualPark.id}>
+                            <h4>{individualPark.name}</h4>
+                            <ul>
+                            {individualPark.attraction && individualPark.attraction.map((attraction) => (
+                                            attraction && (
+                                                <li key={attraction.id}>
+                                                    {attraction.name} - Wait Time: {attraction.queue?.standby?.waitTime ?? 'N/A'}
+                                                </li>
+                                    ) 
+                                ))}
+                            </ul>
+                            </li>
+                            
+                    ))}
+                </ul>
+                </li>
             ))}
         </ul>
       <LogoutButton />
