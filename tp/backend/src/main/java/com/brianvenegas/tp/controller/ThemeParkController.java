@@ -20,7 +20,4 @@ public class ThemeParkController {
     public List<Park> getParks() {
         return themeParkService.getParks();
     }
-
-
-
 }
