@@ -3,27 +3,49 @@ import React, { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 import LogoutButton from '../components/auth/LogoutButton';
+import fetchVisits from '../services/getVisitsByUserId';
 
 const Dashboard = () => {
     const [parks, setParks] = useState([]);
     const [loading, setLoading] = useState(true);
-    const { getAccessTokenSilently, isAuthenticated, isLoading } = useAuth0();
+    const { getAccessTokenSilently, isAuthenticated, isLoading, user } = useAuth0();
+    const [visits, setVisits] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        console.log('User object: ', user);
         const fetchParks = async () => {
         
             if(isAuthenticated && !isLoading) {
             try {
                 const token = await getAccessTokenSilently();
-                console.log(token);
+                console.log("TOKEN: ", token);
+                try {
                 const response = await axios.get('http://localhost:8080/parks', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     }
                 });
                 setParks(response.data);
+            } catch (error) {
+                console.error('Error fetching parks: ', error);
+                setError(error);
                 setLoading(false);
+            }
+
+            try {
+                const userId = user.sub.split('|')[1];
+                console.log(`IN DASHBOARD ~ Fetching visits for user: ${userId}, with token: ${token}`);
+                const userVisits = await fetchVisits(userId, token);
+                setVisits(userVisits);
+                
+            } catch (error) {
+                console.error('Error fetching visits: ', error);
+                setError(error);
+                setLoading(false);
+            }
+
+            setLoading(false);
             } catch (error) {
                 console.error('Error fetching data: ', error);
                 setError(error);
@@ -33,11 +55,12 @@ const Dashboard = () => {
             console.log('User is not authenticated');
             setLoading(false);
         }
+    };
     
-        };
+
 
         fetchParks();
-    }, [getAccessTokenSilently, isAuthenticated, isLoading]);
+    }, [getAccessTokenSilently, isAuthenticated, isLoading, user]);
 
     if(loading) {
         return <div>Loading...</div>
@@ -51,6 +74,21 @@ const Dashboard = () => {
     <div>
       <h1>Welcome to Your Dashboard</h1>
       <p>This is a private page you can see only after logging in.</p>
+
+        <h2>Your Visits</h2>
+        {visits && visits.length >0 ? (
+            <ul>
+                {visits.map((visit) => (
+                    <li key={visit.id}>
+                        <p> Park: {visit.parkName} - {visit.dateVisited} </p>
+                    </li>
+                ))}
+            </ul>
+        ): (
+            <p> No Visits Found! </p>
+        )}
+        
+        
 
         <h2>Your Parks</h2>
         {/* <pre>{JSON.stringify(parks, null, 2)}</pre> */}
