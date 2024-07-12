@@ -2,6 +2,8 @@ package com.brianvenegas.tp.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,7 +18,7 @@ public class Visit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     private String parkName;
     private String dateVisited;
 
@@ -25,6 +27,7 @@ public class Visit {
     private List<userAttraction> userAttractions;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private User user;
 
     public Visit() {
@@ -38,11 +41,11 @@ public class Visit {
         this.dateVisited = dateVisited;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long newId) {
+    public void setId(String newId) {
         this.id = newId;
     }
 

@@ -23,11 +23,10 @@ public class AuthCrontoller {
         String name = jwt.getClaim("name");
 
         User user = new User();
-        user.setAuth0Id(auth0Id);
         user.setEmail(email);
         user.setName(name);
 
-        User savedUser = userService.saveOrUpdateUser(user);
+        User savedUser = userService.saveUser(user);
         return ResponseEntity.ok(savedUser);
     }
 }
