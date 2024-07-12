@@ -53,6 +53,7 @@ const Dashboard = () => {
       <p>This is a private page you can see only after logging in.</p>
 
         <h2>Your Parks</h2>
+        {/* <pre>{JSON.stringify(parks, null, 2)}</pre> */}
         <ul>
             {parks.map((park) => (
                 <li key={park.id}>{park.name}
@@ -62,10 +63,13 @@ const Dashboard = () => {
                         <li key={individualPark.id}>
                             <h4>{individualPark.name}</h4>
                             <ul>
-                            {individualPark.attraction && individualPark.attraction.map((attraction) => (
+                            {individualPark.attraction && individualPark.attraction
+                                .filter(attraction =>
+                                    attraction.entityType === 'ATTRACTION' && attraction.status === 'OPERATING'
+                                ).map((attraction) => (
                                             attraction && (
                                                 <li key={attraction.id}>
-                                                    {attraction.name} - Wait Time: {attraction.queue?.standby?.waitTime ?? 'N/A'}
+                                                      {attraction.name} - Wait Time: {attraction.queue && attraction.queue.STANDBY ? attraction.queue.STANDBY.waitTime : "N/A"}
                                                 </li>
                                     ) 
                                 ))}

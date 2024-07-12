@@ -47,6 +47,17 @@ public class ThemeParkService {
                                 logger.info("Attractions loaded for " + individualPark.getName());
                                 List<Attraction> rides = ThemeParkApiClient.parseAttractions(responseJSON);
                                 individualPark.setAttraction(rides);
+
+                                for(Attraction attraction : rides) {
+                                    if(attraction.getEntityType().equals( "ATTRACTION") && attraction.getStatus().equals("OPERATING")) {
+                                    if (attraction.getQueue() != null && attraction.getQueue().getStandby() != null) {
+                                        logger.info("Attraction: {} - Wait Time: {}", attraction.getName(), attraction.getQueue().getStandby().getWaitTime());
+                                    } else {
+                                        logger.info("Attraction: {} - Wait Time: N/A", attraction.getName());
+                                    
+                                    }
+                                }
+                                }
                             } catch (IOException | InterruptedException e) {
                                 logger.error("Error fetching attractions for park: " + individualPark.getName(), e);
                             }
