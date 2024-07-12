@@ -1,12 +1,13 @@
 package com.brianvenegas.tp.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.brianvenegas.tp.model.User; // Import the User entity
-import com.brianvenegas.tp.repository.UserRepository; // Import the UserRepository interface
+import com.brianvenegas.tp.model.User;
+import com.brianvenegas.tp.repository.UserRepository; // Import the User entity
 
 
 // @Service indicates this class contains business logic
@@ -17,30 +18,39 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    public List<User> getAllUser() {
+        return userRepository.findAll(); // Returns all users in the database
+    }
+
     // Method to create a new user
     public User createUser(User user) {
         return userRepository.save(user); // Saves the user entity to the database
     }
 
     // Method to retrieve a user by ID
-    public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null); // Finds the user by ID or returns null if not found
+    public Optional<User> getUserById(String id) {
+        return userRepository.findById(id); // Finds the user by ID or returns null if not found
     }
 
-    public Optional<User> getUserByAuth0Id(String auth0Id) {
-        return userRepository.findByAuth0Id(auth0Id); // Finds the user by Auth0 ID
+    public User saveUser(User user) {
+        return userRepository.save(user); // Saves the user entity to the database
     }
 
-    public User saveOrUpdateUser(User user) {
-        Optional<User> existingUser = userRepository.findByAuth0Id(user.getAuthoID());
+    public void deleteUser(String id) {
+        userRepository.deleteById(id); // Deletes the user by ID
+    }
 
-        if (existingUser.isPresent()) {
-            User userToUpdate = existingUser.get();
-            userToUpdate.setName(user.getName());
-            userToUpdate.setEmail(user.getEmail());
-            return userRepository.save(userToUpdate);
-        } else {
+    public User updateUser(String id, User userDetails) {
+        return userRepository.findById(id).map(user -> {
+            user.setName(userDetails.getName());
+            user.setEmail(userDetails.getEmail());
+            user.setVisits(userDetails.getVisits());
             return userRepository.save(user);
-        }
+        }).orElseGet(() -> {
+            userDetails.setId(id);
+            return userRepository.save(userDetails);
+        });
     }
+
+
 }

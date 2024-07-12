@@ -17,7 +17,6 @@ public class AuthService {
         String name = oidcUser.getFullName();
 
         User user = new User();
-        user.setAuth0Id(oktaId);
         user.setEmail(email);
         user.setName(name);
 

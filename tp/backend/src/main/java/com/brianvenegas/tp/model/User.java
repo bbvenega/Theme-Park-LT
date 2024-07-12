@@ -3,6 +3,8 @@ package com.brianvenegas.tp.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,13 +19,12 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     private String name;
     private String email;
-    private String password;
-    private String auth0Id;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonManagedReference
     private List<Visit> visits;
 
     public User() {
@@ -32,15 +33,14 @@ public class User {
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
-        this.password = password;
         this.visits = new ArrayList<>();
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long newId) {
+    public void setId(String newId) {
         this.id = newId;
     }
 
@@ -60,13 +60,7 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String newPassword) {
-        this.password = newPassword;
-    }
 
     public List<Visit> getVisits() {
         return visits;
@@ -75,13 +69,6 @@ public class User {
     public void setVisits(List<Visit> newVisits) {
         this.visits = newVisits;
     }
-    
-    public String getAuthoID() {
-        return auth0Id;
-    }
 
-    public void setAuth0Id(String auth0Id) {
-        this.auth0Id = auth0Id;
-    }
 
 }
