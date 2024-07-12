@@ -6,25 +6,46 @@ import LogoutButton from '../components/auth/LogoutButton';
 
 const Dashboard = () => {
     const [parks, setParks] = useState([]);
-    const { getAccessTokenSilently } = useAuth0();
+    const [loading, setLoading] = useState(true);
+    const { getAccessTokenSilently, isAuthenticated, isLoading } = useAuth0();
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchParks = async () => {
+        
+            if(isAuthenticated && !isLoading) {
             try {
                 const token = await getAccessTokenSilently();
+                console.log(token);
                 const response = await axios.get('http://localhost:8080/parks', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     }
                 });
                 setParks(response.data);
+                setLoading(false);
             } catch (error) {
                 console.error('Error fetching data: ', error);
+                setError(error);
+                setLoading(false);
             }
+        } else {
+            console.log('User is not authenticated');
+            setLoading(false);
+        }
+    
         };
 
         fetchParks();
-    }, [getAccessTokenSilently]);
+    }, [getAccessTokenSilently, isAuthenticated, isLoading]);
+
+    if(loading) {
+        return <div>Loading...</div>
+    }
+
+    if(error) {
+        return <div>Oops... {error.message}</div>
+    }
 
   return (
     <div>
