@@ -11,6 +11,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
@@ -26,6 +28,11 @@ public class Attraction {
     private String externalId;
     private String status;
     private String lastUpdated;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "visit_id")
+    private Visit visit;
+    
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonProperty("queue")
@@ -130,6 +137,10 @@ public class Attraction {
 
     public void setDiningAvailability(List<DiningAvailability> diningAvailability) {
         this.diningAvailability = diningAvailability;
+    }
+
+    public Visit getVisit() {
+        return visit;
     }
 
     @Entity

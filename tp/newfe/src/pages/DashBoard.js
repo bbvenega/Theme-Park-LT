@@ -4,6 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 import LogoutButton from '../components/auth/LogoutButton';
 import fetchVisits from '../services/getVisitsByUserId';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
     const [parks, setParks] = useState([]);
@@ -87,6 +88,10 @@ const Dashboard = () => {
         ): (
             <p> No Visits Found! </p>
         )}
+
+        <Link to="/add-visit">
+            <button type ="button">Add Visit</button>
+        </Link>
         
         
 

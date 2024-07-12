@@ -1,5 +1,6 @@
 package com.brianvenegas.tp.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +32,7 @@ public class VisitController {
     }
 
     @GetMapping("/{id}") // Get a visit by ID
-    public Optional<Visit> getVisitById(@PathVariable String id) {
+    public Optional<Visit> getVisitById(@PathVariable Long id) {
         return visitService.getVisitById(id);
     }
 
@@ -42,16 +43,19 @@ public class VisitController {
 
     @PostMapping
     public Visit createVisit(@RequestBody Visit visit) {
+        if(visit.getUserAttractions() == null) {
+            visit.setUserAttractions(new ArrayList<>());
+        }
         return visitService.createVisit(visit);
     } 
 
     @PutMapping("/{id}")
-    public Visit updateVisit(@PathVariable String id, @RequestBody Visit visitDetails) {
+    public Visit updateVisit(@PathVariable Long id, @RequestBody Visit visitDetails) {
         return visitService.updateVisit(id, visitDetails);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteVisit(@PathVariable String id) {
+    public void deleteVisit(@PathVariable Long id) {
         visitService.deleteVisit(id);
     }
 }
