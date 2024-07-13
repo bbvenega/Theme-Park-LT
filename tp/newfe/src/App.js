@@ -4,6 +4,7 @@ import Dashboard from './pages/DashBoard';
 import Home from './pages/HomePage';
 import AddVisit from './pages/AddVisit';
 import NavBar from './components/NavBar';
+import VisitPage from './pages/VisitPage';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/add-visit" element={<AddVisit />} />
+      <Route path="/visit/:visitId" element={<VisitPage />} />
       <Route path="*" element={<Navigate replace to="/" />} />
     </Routes>
   </Router>

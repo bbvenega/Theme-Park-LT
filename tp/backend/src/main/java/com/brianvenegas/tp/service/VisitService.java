@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.brianvenegas.tp.model.User;
 import com.brianvenegas.tp.model.Visit;
+import com.brianvenegas.tp.model.Attraction;
 import com.brianvenegas.tp.repository.AttractionRepository;
 import com.brianvenegas.tp.repository.UserRepository;
 import com.brianvenegas.tp.repository.VisitRepository;
@@ -62,6 +63,7 @@ public class VisitService {
         Visit visit = visitRepository.findById(visitId).orElseThrow(() -> new RuntimeException("Visit not found"));
         
         attraction.setVisit(visit);
+        return attractionRepository.save(attraction);
     }
 
     public Optional<Visit> getVisitById(Long id) {
