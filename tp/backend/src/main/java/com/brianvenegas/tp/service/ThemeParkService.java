@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.brianvenegas.tp.client.ThemeParkApiClient;
 import com.brianvenegas.tp.model.Attraction;
 import com.brianvenegas.tp.model.Park;
+import com.brianvenegas.tp.repository.AttractionRepository;
 
 import jakarta.annotation.PostConstruct;
 
@@ -20,11 +21,19 @@ import jakarta.annotation.PostConstruct;
 public class ThemeParkService {
 
     private static final Logger logger = LoggerFactory.getLogger(ThemeParkService.class);
-
     private List<Park> parks = new ArrayList<>();
+    private final AttractionRepository attractionRepository;
+
+    public ThemeParkService(AttractionRepository attractionRepository) {
+        this.attractionRepository = attractionRepository;
+    }
 
     @PostConstruct
     public void init() {
+        loadParkandAttractions();
+    }
+
+    private void loadParkandAttractions() {
         logger.info("Initializing ThemeParkService...");
         boolean dataLoaded = false;
         int attempts = 0;
@@ -85,6 +94,7 @@ public class ThemeParkService {
         if (!dataLoaded) {
             logger.error("Failed to load parks data after " + attempts + " attempts");
         }
+
     }
 
     public List<Park> getParks() {
@@ -101,4 +111,10 @@ public class ThemeParkService {
         }
         return new ArrayList<>();
     }
+
+    public List<Attraction> getAttractionByIndividualPark(Park.IndividualPark individualParkId) {
+        return attractionRepository.findByIndividualPark(individualParkId);
+    }
+
+
 }

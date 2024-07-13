@@ -81,7 +81,7 @@ const Dashboard = () => {
             <ul>
                 {visits.map((visit) => (
                     <li key={visit.id}>
-                        <p> Park: {visit.parkName} - {visit.dateVisited} </p>
+                        <Link to={`/visit/${visit.id}`}>{visit.dateVisited} - {visit.parkName}</Link>
                     </li>
                 ))}
             </ul>
