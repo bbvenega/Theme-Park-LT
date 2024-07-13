@@ -80,6 +80,8 @@ public class Park {
         private String id;
         private String name;
         private String slug;
+
+        
         @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
         @JsonProperty("liveData")
         private List<Attraction> Attractions;

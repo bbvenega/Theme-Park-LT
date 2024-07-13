@@ -32,6 +32,10 @@ public class Attraction {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "visit_id")
     private Visit visit;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "individual_park_id")
+    private Park.IndividualPark individualPark;
     
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -142,6 +146,20 @@ public class Attraction {
     public Visit getVisit() {
         return visit;
     }
+
+    public void setVisit(Visit visit) {
+        this.visit = visit;
+    }
+
+    public Park.IndividualPark getIndividualPark() {
+        return individualPark;
+    }
+
+    public void setIndividualPark(Park.IndividualPark individualPark) {
+        this.individualPark = individualPark;
+    }
+
+
 
     @Entity
     @JsonIgnoreProperties(ignoreUnknown = true)
