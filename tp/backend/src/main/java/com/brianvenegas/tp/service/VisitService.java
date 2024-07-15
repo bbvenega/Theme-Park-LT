@@ -4,6 +4,7 @@ package com.brianvenegas.tp.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,14 +34,20 @@ public class VisitService {
     private ParkRepository parkRepository;
 
     public List<Visit> getAllVisit() {
-        return visitRepository.findAll();
+        System.out.println("Getting all visits" + visitRepository.findAll());
+        List<Visit> visits = visitRepository.findAll();
+        visits.forEach(visit -> {
+            Hibernate.initialize(visit.getUser());
+            Hibernate.initialize(visit.getPark());
+            Hibernate.initialize(visit.getUserAttractions());
+        });
+        return visits;
     }
 
     public Visit createVisit(Visit visit) {
-    
+
         String userId = visit.getUser().getId();
-        String parkId = visit.getPark().getId();
-        System.out.println("Creating visit for user ID: " + userId + " and park ID: " + parkId);
+        System.out.println("Creating visit for user ID: " + userId);
 
         User user = UserRepository.findById(visit.getUser().getId())
         .orElseGet(() -> {
@@ -51,8 +58,11 @@ public class VisitService {
             return UserRepository.save(newUser);
         });
 
+        // System.out.println("User found: " + user.getName());
+
         visit.setUser(user);
 
+        System.out.println("Attempting to find park: " + visit.getPark().getId());
         Optional<Park> optionalPark = parkRepository.findById(visit.getPark().getId());
         
         if (optionalPark.isPresent()) {
@@ -88,6 +98,8 @@ public class VisitService {
     }
 
     public List<Visit> getVisitsByUserId(String id) {
+        System.out.println("Getting visits by user ID: " + id);
+        System.out.println(visitRepository.findByUserId(id));
         return visitRepository.findByUserId(id);
     }
 

@@ -16,7 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Park {
 
     @Id
@@ -78,7 +78,7 @@ public class Park {
     }
 
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class IndividualPark {
 
         @Id
@@ -90,6 +90,7 @@ public class Park {
         @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "individualPark")
         @JsonProperty("liveData")
         @JsonManagedReference
+        @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
         private List<Attraction> Attractions= new ArrayList<>();
 
         @ManyToOne

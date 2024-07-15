@@ -57,7 +57,9 @@ const AddVisit = () => {
             parkName: selectedParkName,
             dateVisited: date,
             user: {
-                id: userId,
+                id: user.sub.split('|')[1],
+                name: user.sub.split('|')[1],
+                email: "default"
             },
             userAttractions: []
         
@@ -66,7 +68,8 @@ const AddVisit = () => {
         console.log("New Visit: ", newVisit);
 
         try {
-            console.log('ADDVISIT.JS: attempting to call http://localhost:8080/visits/', newVisit)
+            console.log('ADDVISIT.JS: attempting to call http://localhost:8080/visits', newVisit)
+            console.log(newVisit)
             await axios.post('http://localhost:8080/visits', newVisit, {
                 headers: {
                     Authorization: `Bearer ${token}`,
