@@ -68,8 +68,9 @@ public class VisitController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteVisit(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteVisit(@PathVariable Long id) {
         visitService.deleteVisit(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/{visitId}/attractions")
