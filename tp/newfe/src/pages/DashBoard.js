@@ -106,7 +106,7 @@ const Dashboard = () => {
                         <li key={individualPark.id}>
                             <h4>{individualPark.name}</h4>
                             <ul>
-                            {individualPark.attraction && individualPark.attraction
+                            {individualPark.attractions && individualPark.attractions
                                 .filter(attraction =>
                                     attraction.entityType === 'ATTRACTION' && attraction.status === 'OPERATING'
                                 ).map((attraction) => (
