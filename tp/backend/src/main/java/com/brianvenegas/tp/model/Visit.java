@@ -24,6 +24,10 @@ public class Visit {
     private String parkName;
     private String dateVisited;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "park_id")
+    private Park park;
+
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "visit")
     private List<userAttraction> userAttractions = new ArrayList<>();
@@ -78,6 +82,14 @@ public class Visit {
 
     public void setUser(User newUser) {
         this.user = newUser;
+    }
+
+    public Park getPark() {
+        return park;
+    }
+
+    public void setPark(Park newPark) {
+        this.park = newPark;
     }
 
 

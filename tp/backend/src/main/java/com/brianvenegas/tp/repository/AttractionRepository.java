@@ -10,5 +10,4 @@ import com.brianvenegas.tp.model.Park;
 
 public interface AttractionRepository extends JpaRepository<Attraction, String>{
     List<Attraction> findByIndividualPark(Park.IndividualPark individualPark);
-    
 }

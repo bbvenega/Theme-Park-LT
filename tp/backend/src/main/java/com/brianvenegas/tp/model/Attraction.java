@@ -1,8 +1,11 @@
 package com.brianvenegas.tp.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.CascadeType;
@@ -35,8 +38,8 @@ public class Attraction {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "individual_park_id")
+    @JsonBackReference
     private Park.IndividualPark individualPark;
-    
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonProperty("queue")
@@ -44,15 +47,18 @@ public class Attraction {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonProperty("showtimes")
-    private List<Showtime> showtimes;
+    @JsonManagedReference
+    private List<Showtime> showtimes = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonProperty("operatingHours")
-    private List<OperatingHour> operatingHours;
+    @JsonManagedReference
+    private List<OperatingHour> operatingHours = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonProperty("diningAvailability")
-    private List<DiningAvailability> diningAvailability;
+    @JsonManagedReference
+    private List<DiningAvailability> diningAvailability = new ArrayList<>();
 
     // Getters and setters
     public String getId() {
@@ -158,8 +164,6 @@ public class Attraction {
     public void setIndividualPark(Park.IndividualPark individualPark) {
         this.individualPark = individualPark;
     }
-
-
 
     @Entity
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -408,6 +412,7 @@ public class Attraction {
         @Entity
         @JsonIgnoreProperties(ignoreUnknown = true)
         public static class Price {
+
             @Id
             @GeneratedValue(strategy = GenerationType.IDENTITY)
             private Long id;
@@ -423,6 +428,7 @@ public class Attraction {
             public void setId(Long id) {
                 this.id = id;
             }
+
             public int getAmount() {
                 return amount;
             }
@@ -533,6 +539,7 @@ public class Attraction {
 
     @Entity
     @JsonIgnoreProperties(ignoreUnknown = true)
+    
     public static class Showtime {
 
         @Id
@@ -541,6 +548,11 @@ public class Attraction {
         private String type;
         private String startTime;
         private String endTime;
+
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "attraction_id")
+        @JsonBackReference
+        private Attraction attraction;
 
         // Getters and setters
         public Long getId() {
@@ -573,6 +585,14 @@ public class Attraction {
 
         public void setEndTime(String endTime) {
             this.endTime = endTime;
+        }
+
+        public void setAttraction(Attraction attraction) {
+            this.attraction = attraction;
+        }
+
+        public Attraction getAttraction() {
+            return attraction;
         }
     }
 
@@ -587,6 +607,11 @@ public class Attraction {
         private String startTime;
         private String endTime;
 
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "attraction_id")
+        @JsonBackReference
+        private Attraction attraction;
+
         // Getters and setters
         public Long getId() {
             return id;
@@ -619,10 +644,19 @@ public class Attraction {
         public void setEndTime(String endTime) {
             this.endTime = endTime;
         }
+
+        public void setAttraction(Attraction attraction) {
+            this.attraction = attraction;
+        }
+
+        public Attraction getAttraction() {
+            return attraction;
+        }
     }
 
     @Entity
     @JsonIgnoreProperties(ignoreUnknown = true)
+    
     public static class DiningAvailability {
 
         @Id
@@ -631,6 +665,11 @@ public class Attraction {
 
         private int partySize;
         private int waitTime;
+
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "attraction_id")
+        @JsonBackReference
+        private Attraction attraction;
 
         // Getters and setters
         public Long getId() {
@@ -655,6 +694,14 @@ public class Attraction {
 
         public void setWaitTime(int waitTime) {
             this.waitTime = waitTime;
+        }
+
+        public void setAttraction(Attraction attraction) {
+            this.attraction = attraction;
+        }
+
+        public Attraction getAttraction() {
+            return attraction;
         }
     }
 }
