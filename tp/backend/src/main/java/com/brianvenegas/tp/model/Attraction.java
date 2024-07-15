@@ -43,6 +43,7 @@ public class Attraction {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonProperty("queue")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Queue queue;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
@@ -166,7 +167,8 @@ public class Attraction {
     }
 
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class Queue {
 
         @Id
@@ -256,7 +258,8 @@ public class Attraction {
     }
 
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class Standby {
 
         @Id
@@ -283,7 +286,8 @@ public class Attraction {
     }
 
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class SingleRider {
 
         @Id
@@ -310,7 +314,7 @@ public class Attraction {
     }
 
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class ReturnTime {
 
         @Id
@@ -355,7 +359,7 @@ public class Attraction {
     }
 
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class PaidReturnTime {
 
         @Id
@@ -366,6 +370,7 @@ public class Attraction {
         private String returnEnd;
 
         @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+        @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
         private Price price;
 
         // Getters and setters
@@ -410,7 +415,7 @@ public class Attraction {
         }
 
         @Entity
-        @JsonIgnoreProperties(ignoreUnknown = true)
+        @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
         public static class Price {
 
             @Id
@@ -448,7 +453,7 @@ public class Attraction {
     }
 
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class BoardingGroup {
 
         @Id
@@ -511,7 +516,7 @@ public class Attraction {
     }
 
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class PaidStandby {
 
         @Id
@@ -538,7 +543,7 @@ public class Attraction {
     }
 
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     
     public static class Showtime {
 
@@ -597,7 +602,7 @@ public class Attraction {
     }
 
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class OperatingHour {
 
         @Id
@@ -655,7 +660,7 @@ public class Attraction {
     }
 
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     
     public static class DiningAvailability {
 

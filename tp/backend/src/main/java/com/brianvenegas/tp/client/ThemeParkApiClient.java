@@ -5,12 +5,13 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.brianvenegas.tp.model.Attraction;
 import com.brianvenegas.tp.model.Park;
-import com.brianvenegas.tp.model.Park.IndividualPark;
 import com.brianvenegas.tp.model.ParkWrapper;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ThemeParkApiClient {
@@ -56,9 +57,19 @@ public class ThemeParkApiClient {
         return wrapper.getParks();
     }
 
+
     public static List<Attraction> parseAttractions(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        IndividualPark park = objectMapper.readValue(json, Park.IndividualPark.class);
-        return park.getAttractions();
+        JsonNode root = objectMapper.readTree(json);
+        JsonNode liveDataNode = root.path("liveData");
+
+        List<Attraction> attractions = new ArrayList<>();
+        if (liveDataNode.isArray()) {
+            for (JsonNode node : liveDataNode) {
+                Attraction attraction = objectMapper.treeToValue(node, Attraction.class);
+                attractions.add(attraction);
+            }
+        }
+        return attractions;
     }
 }
