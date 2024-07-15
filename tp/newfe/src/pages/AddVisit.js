@@ -8,6 +8,7 @@ const AddVisit = () => {
     const { getAccessTokenSilently, isAuthenticated, isLoading, user } = useAuth0();
     const [date, setDate] = useState('');
     const [selectedPark, setSelectedPark] = useState('');
+    const [selectedParkName, setSelectedParkName] = useState('');
 
 
 
@@ -18,6 +19,7 @@ const AddVisit = () => {
                     const token = await getAccessTokenSilently();
                     console.log("TOKEN: ", token);
 
+                        console.log('ADDVISIT.JS: attempting to call http://localhost:8080/parks')
                         const response = await axios.get('http://localhost:8080/parks', {
                             headers: {
                                 Authorization: `Bearer ${token}`,
@@ -49,7 +51,10 @@ const AddVisit = () => {
             console.log('User ID: ', userId);
 
             const newVisit = {
-            parkName: selectedPark,
+            park: {
+                id: selectedPark,
+            },
+            parkName: selectedParkName,
             dateVisited: date,
             user: {
                 id: userId,
@@ -58,7 +63,10 @@ const AddVisit = () => {
         
         };
 
+        console.log("New Visit: ", newVisit);
+
         try {
+            console.log('ADDVISIT.JS: attempting to call http://localhost:8080/visits/', newVisit)
             await axios.post('http://localhost:8080/visits', newVisit, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -71,6 +79,8 @@ const AddVisit = () => {
             alert('Error adding visit');
         }
     };
+
+
 
 
     if(loading) {
@@ -91,12 +101,17 @@ const AddVisit = () => {
             <label>Park: </label>
             <select
                 value = {selectedPark}
-                onChange = {(e) => setSelectedPark(e.target.value)}
+                onChange = {(e) => {
+                    const selectedParkId = e.target.value;
+                    const selectedParkObj = parks.find(park => park.id === selectedParkId);
+                    setSelectedPark(selectedParkId);
+                    setSelectedParkName(selectedParkObj ? selectedParkObj.name : '');
+                }}
                 required
                 >
                 <option value = ''>Select a park</option>
                 {parks.map((park) => (
-                    <option key = {park.id} value = {park.name}>
+                    <option key = {park.id} value = {park.id}>
                         {park.name}
                     </option>
                 ))}
