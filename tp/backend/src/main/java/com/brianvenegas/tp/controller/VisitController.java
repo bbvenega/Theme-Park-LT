@@ -38,8 +38,10 @@ public class VisitController {
     private ThemeParkService ThemeParkService;
 
     @GetMapping
-    public List<Visit> getAllVisit() {
-        return visitService.getAllVisit();
+    public ResponseEntity<List<Visit>> getAllVisit() {
+        System.out.println("Getting all visits");
+        List<Visit> visits = visitService.getAllVisit();
+        return new ResponseEntity<>(visits, HttpStatus.OK);
     }
 
     @GetMapping("/{id}") // Get a visit by ID
@@ -53,20 +55,12 @@ public class VisitController {
     }
 
     @PostMapping
-    public ResponseEntity<Visit> createVisit(@RequestBody Visit visit) {
-        try {
-            logger.info("Recieved request to create visit: " + visit);
-            if (visit.getUserAttractions() == null) {
-                visit.setUserAttractions(new ArrayList<>());
-            }
-            Visit createdVisit = visitService.createVisit(visit);
-            logger.info("Successfully created visit: " + createdVisit);
-            return new ResponseEntity<>(createdVisit, HttpStatus.CREATED);
-        } catch (Exception e) {
-            logger.error("Error creating visit", e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    public Visit createVisit(@RequestBody Visit visit) {
+        if(visit.getUserAttractions() == null) {
+            visit.setUserAttractions(new ArrayList<>());
         }
-    }
+        return visitService.createVisit(visit);
+    } 
 
     @PutMapping("/{id}")
     public Visit updateVisit(@PathVariable Long id, @RequestBody Visit visitDetails) {
