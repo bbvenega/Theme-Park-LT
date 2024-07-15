@@ -59,6 +59,6 @@ public class ThemeParkApiClient {
     public static List<Attraction> parseAttractions(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         IndividualPark park = objectMapper.readValue(json, Park.IndividualPark.class);
-        return park.getAttraction();
+        return park.getAttractions();
     }
 }

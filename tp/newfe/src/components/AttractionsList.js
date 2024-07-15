@@ -1,23 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const AttractionsList = ({ visitId }) => {
   const [attractions, setAttractions] = useState([]);
   const [selectedAttraction, setSelectedAttraction] = useState(null);
+  const {getAccessTokenSilently} = useAuth0();
 
   console.log('visitId:', visitId);
 
   useEffect(() => {
     const fetchAttractions = async () => {
       try {
-        const visitResponse = await axios.get(`/api/visits/${visitId}`);
+        const token = await getAccessTokenSilently();
+        const visitResponse = await axios.get(`http://localhost:8080/visits/${visitId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const mainParkId = visitResponse.data.parkId;
 
-        const individualParksResponse = await axios.get(`/api/parks/${mainParkId}`);
+        const individualParksResponse = await axios.get(`http://localhost:8080/parks/${mainParkId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const individualParks = individualParksResponse.data.individualParks;
 
         const attractionsPromises = individualParks.map(individualPark =>
-          axios.get(`/api/parks/${individualPark.id}/attractions`)
+          axios.get(`http://localhost:8080/api/parks/${individualPark.id}/attractions`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
         );
 
         const responses = await Promise.all(attractionsPromises);
