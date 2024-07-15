@@ -27,7 +27,7 @@ const Dashboard = () => {
                         Authorization: `Bearer ${token}`,
                     }
                 });
-                setParks(response.data);
+                setParks(response.data || []);
             } catch (error) {
                 console.error('Error fetching parks: ', error);
                 setError(error);

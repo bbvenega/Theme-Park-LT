@@ -1,14 +1,18 @@
 package com.brianvenegas.tp.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -20,9 +24,10 @@ public class Park {
     private String name;
     private String slug;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "park")
     @JsonProperty("parks")
-    private List<IndividualPark> parks;
+    @JsonManagedReference
+    private List<IndividualPark> parks = new ArrayList<>();
 
     public Park() {
     }
@@ -82,9 +87,15 @@ public class Park {
         private String slug;
 
         
-        @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+        @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "individualPark")
         @JsonProperty("liveData")
-        private List<Attraction> Attractions;
+        @JsonManagedReference
+        private List<Attraction> Attractions= new ArrayList<>();
+
+        @ManyToOne
+        @JsonIgnoreProperties("parks")
+        @JsonBackReference
+        private Park park;
 
         // Getters and setters
         public String getId() {
@@ -111,12 +122,20 @@ public class Park {
             return slug;
         }
 
-        public void setAttraction(List<Attraction> rides) {
+        public void setAttractions(List<Attraction> rides) {
             this.Attractions = rides;
         }
 
-        public List<Attraction> getAttraction() {
+        public List<Attraction> getAttractions() {
             return Attractions;
+        }
+
+        public void setPark(Park park) {
+            this.park = park;
+        }
+
+        public Park getPark() {
+            return park;
         }
 
         @Override

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +21,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.brianvenegas.tp.model.Attraction;
 import com.brianvenegas.tp.model.Visit;
+import com.brianvenegas.tp.service.ThemeParkService;
 import com.brianvenegas.tp.service.VisitService;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api/visits")
+@RequestMapping("/visits")
 public class VisitController {
-    
+
+    private static final Logger logger = LoggerFactory.getLogger(VisitService.class);
+
     @Autowired
     private VisitService visitService;
+
+    @Autowired
+    private ThemeParkService ThemeParkService;
 
     @GetMapping
     public List<Visit> getAllVisit() {
@@ -45,12 +53,20 @@ public class VisitController {
     }
 
     @PostMapping
-    public Visit createVisit(@RequestBody Visit visit) {
-        if(visit.getUserAttractions() == null) {
-            visit.setUserAttractions(new ArrayList<>());
+    public ResponseEntity<Visit> createVisit(@RequestBody Visit visit) {
+        try {
+            logger.info("Recieved request to create visit: " + visit);
+            if (visit.getUserAttractions() == null) {
+                visit.setUserAttractions(new ArrayList<>());
+            }
+            Visit createdVisit = visitService.createVisit(visit);
+            logger.info("Successfully created visit: " + createdVisit);
+            return new ResponseEntity<>(createdVisit, HttpStatus.CREATED);
+        } catch (Exception e) {
+            logger.error("Error creating visit", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return visitService.createVisit(visit);
-    } 
+    }
 
     @PutMapping("/{id}")
     public Visit updateVisit(@PathVariable Long id, @RequestBody Visit visitDetails) {
