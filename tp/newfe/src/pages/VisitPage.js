@@ -9,6 +9,8 @@ const VisitPage = () => {
     return (
         <div>
             <h1>Visit Page</h1>
+
+            
             <AddAttractionToVisit visitId={visitId} />
         </div>
     );

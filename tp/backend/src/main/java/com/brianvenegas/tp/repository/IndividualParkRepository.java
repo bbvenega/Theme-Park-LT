@@ -7,4 +7,5 @@ import com.brianvenegas.tp.model.Park.IndividualPark;
 
 @Repository
 public interface IndividualParkRepository extends JpaRepository<IndividualPark, String> {
+   
 }

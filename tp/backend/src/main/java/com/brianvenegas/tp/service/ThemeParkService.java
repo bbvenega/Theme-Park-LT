@@ -152,15 +152,11 @@ public class ThemeParkService {
 
 
     public List<Attraction> getAttractionsByIndividualParkId(String parkId) {
-        for (Park park : parks) {
-            for (Park.IndividualPark individualPark : park.getParks()) {
-                if (individualPark.getId().equals(parkId)) {
-                    return individualPark.getAttractions();
-                }
-            }
-        }
-        return new ArrayList<>();
-    }
+        System.out.println("IN THEMEPARKSERVICE ~ Attempting to get attractions for park: " + parkId);
+        return individualParkRepository.findById(parkId)
+        .map(Park.IndividualPark::getAttractions)
+        .orElseThrow(() -> new RuntimeException("IndividualPark not found with id " + parkId));
+}
     
 }
 
