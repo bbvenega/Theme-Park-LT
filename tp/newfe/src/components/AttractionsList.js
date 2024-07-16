@@ -27,9 +27,10 @@ const AttractionsList = ({ visitId }) => {
           },
         });
         const individualParks = individualParksResponse.data.parks;
+        console.log('individualParks:', individualParks);
 
         const attractionsPromises = individualParks.map(individualPark =>
-          axios.get(`http://localhost:8080/api/parks/${individualPark.id}/attractions`, {
+          axios.get(`http://localhost:8080/parks/${individualPark.id}/attractions`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -54,8 +55,18 @@ const AttractionsList = ({ visitId }) => {
   const handleAddAttraction = async () => {
     if (selectedAttraction) {
       try {
-        await axios.post(`/api/visits/${visitId}/attractions`, {
-          attraction_id: selectedAttraction.id
+        const token = await getAccessTokenSilently();
+        await axios.post(`http://localhost:8080/visits/${visitId}/attractions`, {
+          attraction: selectedAttraction,
+          timeOfDay: "CHANGE THIS",
+          actualWaitTime: 0,
+          postedWaitTime: selectedAttraction.queue?.standby?.waitTime || 0,
+          attractionName: selectedAttraction.name,
+
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
         alert('Attraction added!');
       } catch (error) {
@@ -63,20 +74,23 @@ const AttractionsList = ({ visitId }) => {
       }
     }
   };
-
+  console.log('selectedAttraction:', selectedAttraction);
   return (
     <div>
       <h2>Attractions</h2>
       <ul>
-        {attractions.map(attraction => (
+        {attractions.filter(attraction =>
+                                    attraction.entityType === 'ATTRACTION' && attraction.status === 'OPERATING'
+                                ).map(attraction => (
           <li key={attraction.id} onClick={() => handleAttractionSelect(attraction)}>
-            {attraction.name}
+            {attraction.name} - ~ Wait Time: {attraction.queue && attraction.queue.STANDBY ? attraction.queue.STANDBY.waitTime : "N/A"}
           </li>
         ))}
       </ul>
       {selectedAttraction && (
         <div>
           <h3>Selected Attraction: {selectedAttraction.name}</h3>
+          
           <button onClick={handleAddAttraction}>Add Attraction</button>
         </div>
       )}

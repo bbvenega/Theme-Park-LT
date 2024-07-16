@@ -88,10 +88,10 @@ public class Park {
 
         
         @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "individualPark")
-        @JsonProperty("liveData")
+        // @JsonProperty("liveData")
         @JsonManagedReference
         @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-        private List<Attraction> Attractions= new ArrayList<>();
+        private List<Attraction> attractions= new ArrayList<>();
 
         @ManyToOne
         @JsonIgnoreProperties("parks")
@@ -124,11 +124,11 @@ public class Park {
         }
 
         public void setAttractions(List<Attraction> rides) {
-            this.Attractions = rides;
+            this.attractions = rides;
         }
 
         public List<Attraction> getAttractions() {
-            return Attractions;
+            return attractions;
         }
 
         public void setPark(Park park) {
@@ -141,7 +141,7 @@ public class Park {
 
         @Override
         public String toString() {
-            return String.format("IndividualPark{id='%s', name='%s', slug='%s'\n %s's Rides: %s", id, name, slug, name, Attractions);
+            return String.format("IndividualPark{id='%s', name='%s', slug='%s'\n %s's Rides: %s", id, name, slug, name, attractions);
         }
     }
 }
