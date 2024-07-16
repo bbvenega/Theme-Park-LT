@@ -8,6 +8,7 @@ const AttractionsList = ({ visitId }) => {
   const {getAccessTokenSilently} = useAuth0();
 
   console.log('visitId:', visitId);
+  
 
   useEffect(() => {
     const fetchAttractions = async () => {
@@ -18,14 +19,14 @@ const AttractionsList = ({ visitId }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        const mainParkId = visitResponse.data.parkId;
+        const mainParkId = visitResponse.data.park.id;
 
         const individualParksResponse = await axios.get(`http://localhost:8080/parks/${mainParkId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        const individualParks = individualParksResponse.data.individualParks;
+        const individualParks = individualParksResponse.data.parks;
 
         const attractionsPromises = individualParks.map(individualPark =>
           axios.get(`http://localhost:8080/api/parks/${individualPark.id}/attractions`, {
