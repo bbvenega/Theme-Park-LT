@@ -19,10 +19,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.brianvenegas.tp.model.Attraction;
 import com.brianvenegas.tp.model.Visit;
+import com.brianvenegas.tp.model.Visit.userAttraction;
 import com.brianvenegas.tp.service.ThemeParkService;
 import com.brianvenegas.tp.service.VisitService;
+
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -73,9 +74,15 @@ public class VisitController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{visitId}/attractions")
+    public List<userAttraction> getVisitAttractions(@PathVariable Long visitId) {
+        return visitService.getVisitAttractions(visitId);
+    }
+    
+
     @PostMapping("/{visitId}/attractions")
-    public ResponseEntity<Attraction> addAttractionToVisit(@PathVariable Long visitId, @RequestBody Attraction attraction) {
-        Attraction attractionToAdd = visitService.addAttractionToVisit(visitId, attraction);
+    public ResponseEntity<Visit.userAttraction> addAttractionToVisit(@PathVariable Long visitId, @RequestBody Visit.userAttraction userAttraction) {
+        Visit.userAttraction attractionToAdd = visitService.addAttractionToVisit(visitId, userAttraction);
         return ResponseEntity.status(HttpStatus.CREATED).body(attractionToAdd);
     }
 }
