@@ -32,8 +32,9 @@ public class Visit {
     private Park park;
 
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "visit")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "visit", orphanRemoval=true)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    // @JoinColumn(name = "visit_id")
     private List<userAttraction> userAttractions = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -109,12 +110,14 @@ public static class userAttraction {
     private String timeOfDay;
     private int actualWaitTime;
     private int postedWaitTime;
+    private String attractionName;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "visit_id")
     private Visit visit;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "attraction_id")
     private Attraction attraction;
 
     public userAttraction() {
@@ -124,11 +127,12 @@ public static class userAttraction {
         postedWaitTime = 0;
     }
 
-    public userAttraction(Long id, Attraction attraction, String timeOfDay, int actualWaitTime, int postedWaitTime) {
+    public userAttraction(Attraction attraction) {
         this.attraction = attraction;
-        this.timeOfDay = timeOfDay;
-        this.actualWaitTime = actualWaitTime;
-        this.postedWaitTime = attraction.getQueue().getStandby().getWaitTime();
+        this.timeOfDay = "CHANGE THIS";
+        this.actualWaitTime = 0;
+        this.postedWaitTime = 0;
+        // this.postedWaitTime = attraction.getQueue().getStandby().getWaitTime();
     }
 
     public Long getId() {
@@ -179,5 +183,13 @@ public static class userAttraction {
         this.visit = newVisit;
     }
 
+    public String getAttractionName() {
+        return attractionName;
+    }
+
+    public void setAttractionName(String newAttractionName) {
+        this.attractionName = newAttractionName;
+
+}
 }
 }

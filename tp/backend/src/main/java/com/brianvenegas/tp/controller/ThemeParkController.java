@@ -28,6 +28,7 @@ public class ThemeParkController {
         return themeParkService.getParks();
     }
 
+    
     @GetMapping("/{parkId}")
     public ResponseEntity<Park> getParkById(@PathVariable String parkId) {
         Park park = themeParkService.getParkByID(parkId);
