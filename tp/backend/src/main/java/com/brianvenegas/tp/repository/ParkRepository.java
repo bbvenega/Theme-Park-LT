@@ -6,5 +6,6 @@ import com.brianvenegas.tp.model.Park;
 
 public interface ParkRepository extends JpaRepository<Park, String> {
     Park findByName(String name);
-    
+ 
+   
 }

@@ -148,4 +148,20 @@ public class ThemeParkService {
         }
         return null;
     }
+
+
+
+    public List<Attraction> getAttractionsByIndividualParkId(String parkId) {
+        for (Park park : parks) {
+            for (Park.IndividualPark individualPark : park.getParks()) {
+                if (individualPark.getId().equals(parkId)) {
+                    return individualPark.getAttractions();
+                }
+            }
+        }
+        return new ArrayList<>();
+    }
+    
 }
+
+
