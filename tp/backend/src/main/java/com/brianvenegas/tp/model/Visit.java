@@ -119,19 +119,18 @@ public static class userAttraction {
     @JsonBackReference
     private Visit visit;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "attraction_id")
-    private Attraction attraction;
+
+    private String attractionId;
 
     public userAttraction() {
-        attraction = null;
+        attractionId = "";
         timeOfDay = "";
         actualWaitTime = 0;
         postedWaitTime = 0;
     }
 
-    public userAttraction(Attraction attraction) {
-        this.attraction = attraction;
+    public userAttraction(String attractionId) {
+        this.attractionId = attractionId;
         this.timeOfDay = "CHANGE THIS";
         this.actualWaitTime = 0;
         this.postedWaitTime = 0;
@@ -146,12 +145,12 @@ public static class userAttraction {
         this.id = newId;
     }
 
-    public Attraction getAttraction() {
-        return attraction;
+    public String getAttractionID() {
+        return attractionId;
     }
 
-    public void setAttraction(Attraction newAttraction) {
-        this.attraction = newAttraction;
+    public void setAttractionID(String attractionId) {
+        this.attractionId = attractionId;
     }
 
     public String getTimeOfDay() {
