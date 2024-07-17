@@ -61,7 +61,7 @@ public class ThemeParkService {
 
                     for (Park.IndividualPark individualPark : park.getParks()) {
                         individualPark.setPark(park);
-                        logger.info("Saved individual park: {}", individualPark.getName());
+                        // logger.info("Saved individual park: {}", individualPark.getName());
                         individualParkRepository.save(individualPark);
                     }
                 }
@@ -80,19 +80,26 @@ public class ThemeParkService {
 
                                 for (Attraction attraction : rides) {
                                     attraction.setIndividualPark(individualPark);
+                                    // logger.info("ATTRACTION: {}", attraction.getName());
                                     if (attraction.getEntityType().equals("ATTRACTION") && attraction.getStatus().equals("OPERATING")) {
                                         if (attraction.getQueue() != null && attraction.getQueue().getStandby() != null) {
-                                            // logger.info("Attraction: {} - Wait Time: {}", attraction.getName(), attraction.getQueue().getStandby().getWaitTime());
+                                            // logger.info("Attraction: {} - Wait Time: {} ~ ID: {}", attraction.getName(), attraction.getQueue().getStandby().getWaitTime(), attraction.getId());
                                         } else {
                                             // logger.info("Attraction: {} - Wait Time: N/A", attraction.getName());
 
                                         }
                                     }
                                     attractionRepository.save(attraction);
+                                    // logger.info("Saved attraction {} with ID: {} ~ {}", attraction.getName(), attraction.getId(), attractionRepository.findById(attraction.getId()));
+                                }
+                                individualPark.setAttractions(rides);
+
+                                for (Attraction attraction : individualPark.getAttractions()) {
+                                    System.out.println("Attraction: " + attraction.getName() + " ~ ID: " + attraction.getId());
                                 }
                                 individualParkRepository.save(individualPark);
                             } catch (IOException | InterruptedException e) {
-                                logger.error("Error fetching attractions for park: " + individualPark.getName(), e);
+                                // logger.error("Error fetching attractions for park: " + individualPark.getName(), e);
                             }
                         }).orTimeout(10, TimeUnit.SECONDS); // Timeout after 10 seconds
                         futures.add(future);
