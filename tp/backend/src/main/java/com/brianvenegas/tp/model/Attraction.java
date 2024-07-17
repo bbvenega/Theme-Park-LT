@@ -3,7 +3,6 @@ package com.brianvenegas.tp.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.brianvenegas.tp.model.Visit.userAttraction;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -62,8 +61,7 @@ public class Attraction {
     @JsonManagedReference
     private List<DiningAvailability> diningAvailability = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "attraction", orphanRemoval = true)
-    private List<userAttraction> userAttractions = new ArrayList<>();
+
     // Getters and setters
     public String getId() {
         return id;
@@ -169,13 +167,6 @@ public class Attraction {
         this.individualPark = individualPark;
     }
 
-    public List<userAttraction> getUserAttractions() {
-        return userAttractions;
-    }
-
-    public void setUserAttractions(List<userAttraction> userAttractions) {
-        this.userAttractions = userAttractions;
-    }
 
     @Entity
     

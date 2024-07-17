@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -32,10 +33,11 @@ public class Visit {
     private Park park;
 
 
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "visit", orphanRemoval=true)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    // @JoinColumn(name = "visit_id")
+    @JsonManagedReference
     private List<userAttraction> userAttractions = new ArrayList<>();
+    
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
@@ -114,6 +116,7 @@ public static class userAttraction {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "visit_id")
+    @JsonBackReference
     private Visit visit;
 
     @ManyToOne(fetch = FetchType.EAGER)
