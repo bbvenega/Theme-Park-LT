@@ -7,6 +7,7 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.brianvenegas.tp.model.Attraction;
 import com.brianvenegas.tp.model.Park;
 import com.brianvenegas.tp.model.User;
 import com.brianvenegas.tp.model.Visit;
@@ -87,17 +88,29 @@ public class VisitService {
 
     @Transactional
     public Visit.userAttraction addAttractionToVisit(Long visitId, Visit.userAttraction userAttraction) {
-        Visit visit = visitRepository.findById(visitId).orElseThrow(() -> new RuntimeException("Visit not found"));
+    Visit visit = visitRepository.findById(visitId).orElseThrow(() -> new RuntimeException("Visit not found"));
 
-        
+    // Ensure the userAttraction has a valid Visit reference
+    userAttraction.setVisit(visit);
 
-        userAttraction.setVisit(visit);
-        visit.getUserAttractions().add(userAttraction);
-        visitRepository.save(visit);
+    // Ensure the userAttraction has a valid Attraction reference
+    Attraction attraction = attractionRepository.findById(userAttraction.getAttraction().getId())
+            .orElseThrow(() -> new RuntimeException("Attraction not found"));
+    userAttraction.setAttraction(attraction);
 
-        visitRepository.save(visit);
-        return userAttraction;
-    }
+    // Debugging: Print the state of objects before saving
+    System.out.println("Visit: " + visit);
+    System.out.println("userAttraction: " + userAttraction);
+    System.out.println("Attraction: " + attraction);
+
+    // Add the userAttraction to the visit's list
+    visit.getUserAttractions().add(userAttraction);
+
+    // Save the visit, which should cascade the save to userAttractions
+    visitRepository.save(visit);
+
+    return userAttraction;
+}
 
     public Optional<Visit> getVisitById(Long id) {
         return visitRepository.findById(id);
