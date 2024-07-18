@@ -1,8 +1,11 @@
 package com.brianvenegas.tp.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.CascadeType;
@@ -11,6 +14,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
@@ -27,21 +32,36 @@ public class Attraction {
     private String status;
     private String lastUpdated;
 
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "visit_id")
+    // // @JsonBackReference
+    // private Visit visit;
+
+    @ManyToOne
+    @JoinColumn(name = "individual_park_id")
+    @JsonBackReference
+    private IndividualPark individualPark;
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonProperty("queue")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Queue queue;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonProperty("showtimes")
-    private List<Showtime> showtimes;
+    @JsonManagedReference
+    private List<Showtime> showtimes = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonProperty("operatingHours")
-    private List<OperatingHour> operatingHours;
+    @JsonManagedReference
+    private List<OperatingHour> operatingHours = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonProperty("diningAvailability")
-    private List<DiningAvailability> diningAvailability;
+    @JsonManagedReference
+    private List<DiningAvailability> diningAvailability = new ArrayList<>();
+
 
     // Getters and setters
     public String getId() {
@@ -132,8 +152,43 @@ public class Attraction {
         this.diningAvailability = diningAvailability;
     }
 
+    // public Visit getVisit() {
+    //     return visit;
+    // }
+
+    // public void setVisit(Visit visit) {
+    //     this.visit = visit;
+    // }
+
+    public IndividualPark getIndividualPark() {
+        return individualPark;
+    }
+
+    public void setIndividualPark(IndividualPark individualPark) {
+        this.individualPark = individualPark;
+    }
+
+    @Override
+    public String toString() {
+        return "Attraction{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", entityType='" + entityType + '\'' +
+                ", parkId='" + parkId + '\'' +
+                ", externalId='" + externalId + '\'' +
+                ", status='" + status + '\'' +
+                ", lastUpdated='" + lastUpdated + '\'' +
+                ", queue=" + queue +
+                ", showtimes=" + showtimes +
+                ", operatingHours=" + operatingHours +
+                ", diningAvailability=" + diningAvailability +
+                '}';
+    }
+
+
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class Queue {
 
         @Id
@@ -223,7 +278,8 @@ public class Attraction {
     }
 
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class Standby {
 
         @Id
@@ -250,7 +306,8 @@ public class Attraction {
     }
 
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class SingleRider {
 
         @Id
@@ -277,7 +334,7 @@ public class Attraction {
     }
 
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class ReturnTime {
 
         @Id
@@ -322,7 +379,7 @@ public class Attraction {
     }
 
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class PaidReturnTime {
 
         @Id
@@ -333,6 +390,7 @@ public class Attraction {
         private String returnEnd;
 
         @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+        @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
         private Price price;
 
         // Getters and setters
@@ -377,8 +435,9 @@ public class Attraction {
         }
 
         @Entity
-        @JsonIgnoreProperties(ignoreUnknown = true)
+        @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
         public static class Price {
+
             @Id
             @GeneratedValue(strategy = GenerationType.IDENTITY)
             private Long id;
@@ -394,6 +453,7 @@ public class Attraction {
             public void setId(Long id) {
                 this.id = id;
             }
+
             public int getAmount() {
                 return amount;
             }
@@ -413,7 +473,7 @@ public class Attraction {
     }
 
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class BoardingGroup {
 
         @Id
@@ -476,7 +536,7 @@ public class Attraction {
     }
 
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class PaidStandby {
 
         @Id
@@ -503,7 +563,8 @@ public class Attraction {
     }
 
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    
     public static class Showtime {
 
         @Id
@@ -513,6 +574,11 @@ public class Attraction {
         private String startTime;
         private String endTime;
 
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "attraction_id")
+        @JsonBackReference
+        private Attraction attraction;
+
         // Getters and setters
         public Long getId() {
             return id;
@@ -545,10 +611,18 @@ public class Attraction {
         public void setEndTime(String endTime) {
             this.endTime = endTime;
         }
+
+        public void setAttraction(Attraction attraction) {
+            this.attraction = attraction;
+        }
+
+        public Attraction getAttraction() {
+            return attraction;
+        }
     }
 
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class OperatingHour {
 
         @Id
@@ -558,6 +632,11 @@ public class Attraction {
         private String startTime;
         private String endTime;
 
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "attraction_id")
+        @JsonBackReference
+        private Attraction attraction;
+
         // Getters and setters
         public Long getId() {
             return id;
@@ -590,10 +669,19 @@ public class Attraction {
         public void setEndTime(String endTime) {
             this.endTime = endTime;
         }
+
+        public void setAttraction(Attraction attraction) {
+            this.attraction = attraction;
+        }
+
+        public Attraction getAttraction() {
+            return attraction;
+        }
     }
 
     @Entity
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    
     public static class DiningAvailability {
 
         @Id
@@ -602,6 +690,11 @@ public class Attraction {
 
         private int partySize;
         private int waitTime;
+
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "attraction_id")
+        @JsonBackReference
+        private Attraction attraction;
 
         // Getters and setters
         public Long getId() {
@@ -626,6 +719,14 @@ public class Attraction {
 
         public void setWaitTime(int waitTime) {
             this.waitTime = waitTime;
+        }
+
+        public void setAttraction(Attraction attraction) {
+            this.attraction = attraction;
+        }
+
+        public Attraction getAttraction() {
+            return attraction;
         }
     }
 }
