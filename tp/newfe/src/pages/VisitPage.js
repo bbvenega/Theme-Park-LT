@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
-import AttractionsList from "../components/AttractionsList";
+// import AttractionsList from "../components/AttractionsList";
 import AddAttractionToVisit from '../components/AddAttractionToVisit';
 import {getVisitDetails} from '../services/VisitService';
 import {useAuth0} from '@auth0/auth0-react';
+import {formatMilliseconds } from '../services/formatTIme';
 
 const VisitPage = () => {
     const {visitId} = useParams();
@@ -13,7 +14,7 @@ const VisitPage = () => {
     useEffect(() => {
         const fetchVisitDetails = async () => {
             try {
-            const data = await getVisitDetails(visitId);
+            const data = await getVisitDetails(visitId, getAccessTokenSilently);
             setVisitDetails(data);
         } catch (error) {
             console.error("Error fetching visit details: ", error);
@@ -31,7 +32,11 @@ const VisitPage = () => {
             <h2>Visited Attractions</h2>
             <ul> 
                 {visitDetails.userAttractions.map((attraction) => (
-                    <li key={attraction.attractionName}>{attraction.postedWaitTime} ~ {attraction.actualWaitTime}
+                    //eslint-disable-next-line
+                    console.log('attraction:', attraction),
+                    <li key={attraction.id}>{attraction.attractionName}: The wait time when added: {attraction.postedWaitTime} minutes ~ Actual wait time:{formatMilliseconds(attraction.actualWaitTime)}
+                        <ul> Fastpass? {attraction.fastpass ? '[Yes]' : '[No]'} Single rider? {attraction.singleRider ? '[Yes]' : '[No]'} Broke down? {attraction.brokeDown ? '[Yes]' : '[No]'}
+                        </ul> 
                     </li>
                 ))}
             </ul>
