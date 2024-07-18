@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import AttractionsList from './AttractionsList';
+
 
 const AddAttractionToVisit = ({ visitId }) => {
     return (
