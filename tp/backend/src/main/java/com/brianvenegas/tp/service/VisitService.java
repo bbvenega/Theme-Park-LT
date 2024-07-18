@@ -88,15 +88,17 @@ public class VisitService {
 
     @Transactional
     public Visit.userAttraction addAttractionToVisit(Long visitId, Visit.userAttraction userAttraction) {
-    Visit visit = visitRepository.findById(visitId).orElseThrow(() -> new RuntimeException("Visit not found"));
+        System.out.println("Finding attraction: " + userAttraction.getAttractionId());
+        Visit visit = visitRepository.findById(visitId).orElseThrow(() -> new RuntimeException("Visit not found"));
 
     // Ensure the userAttraction has a valid Visit reference
     userAttraction.setVisit(visit);
 
     // Ensure the userAttraction has a valid Attraction reference
-    Attraction attraction = attractionRepository.findById(userAttraction.getAttraction().getId())
+    
+    Attraction attraction = attractionRepository.findById(userAttraction.getAttractionId())
             .orElseThrow(() -> new RuntimeException("Attraction not found"));
-    userAttraction.setAttraction(attraction);
+    
 
     // Debugging: Print the state of objects before saving
     System.out.println("Visit: " + visit);
@@ -108,6 +110,11 @@ public class VisitService {
 
     // Save the visit, which should cascade the save to userAttractions
     visitRepository.save(visit);
+
+    System.out.println("This user's attractions!");
+    for(userAttraction ride : visit.getUserAttractions()) {
+        System.out.println("Attraction: " + ride.getAttractionId() + "Ride: " + ride.getAttractionName());
+    }
 
     return userAttraction;
 }

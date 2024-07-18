@@ -32,12 +32,9 @@ public class Visit {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Park park;
 
-
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "visit", orphanRemoval=true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "visit", orphanRemoval = true)
     @JsonManagedReference
     private List<userAttraction> userAttractions = new ArrayList<>();
-    
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
@@ -48,7 +45,7 @@ public class Visit {
     public Visit() {
     }
 
-    public Visit( String parkName, String dateVisited) {
+    public Visit(String parkName, String dateVisited) {
         this.parkName = parkName;
         this.dateVisited = dateVisited;
     }
@@ -101,97 +98,99 @@ public class Visit {
         this.park = newPark;
     }
 
+    @Entity
+    public static class userAttraction {
 
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        private String timeOfDay;
+        private int actualWaitTime;
+        private int postedWaitTime;
+        private String attractionName;
+        private String attractionId;
 
-@Entity
-public static class userAttraction {
+        @ManyToOne(fetch = FetchType.EAGER)
+        @JoinColumn(name = "visit_id")
+        @JsonBackReference
+        private Visit visit;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String timeOfDay;
-    private int actualWaitTime;
-    private int postedWaitTime;
-    private String attractionName;
+        public userAttraction() {
+            attractionId = "";
+            timeOfDay = "";
+            actualWaitTime = 0;
+            postedWaitTime = 0;
+        }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "visit_id")
-    @JsonBackReference
-    private Visit visit;
+        public userAttraction(String attractionId) {
+            this.attractionId = attractionId;
+            this.timeOfDay = "CHANGE THIS";
+            this.actualWaitTime = 0;
+            this.postedWaitTime = 0;
+            // this.postedWaitTime = attraction.getQueue().getStandby().getWaitTime();
+        }
 
+        public Long getId() {
+            return id;
+        }
 
-    private String attractionId;
+        public void setId(Long newId) {
+            this.id = newId;
+        }
 
-    public userAttraction() {
-        attractionId = "";
-        timeOfDay = "";
-        actualWaitTime = 0;
-        postedWaitTime = 0;
+        public String getTimeOfDay() {
+            return timeOfDay;
+        }
+
+        public void setTimeOfDay(String newTimeOfDay) {
+            this.timeOfDay = newTimeOfDay;
+        }
+
+        public int getActualWaitTime() {
+            return actualWaitTime;
+        }
+
+        public void setActualWaitTime(int newActualWaitTime) {
+            this.actualWaitTime = newActualWaitTime;
+        }
+
+        public int getPostedWaitTime() {
+            return postedWaitTime;
+        }
+
+        public void setPostedWaitTime(int newPostedWaitTime) {
+            this.postedWaitTime = newPostedWaitTime;
+        }
+
+        public Visit getVisit() {
+            return visit;
+        }
+
+        public void setVisit(Visit newVisit) {
+            this.visit = newVisit;
+        }
+
+        public String getAttractionName() {
+            return attractionName;
+        }
+
+        public void setAttractionName(String newAttractionName) {
+            this.attractionName = newAttractionName;
+
+        }
+
+        public String getAttractionId() {
+            return attractionId;
+        }
+
+        public void setAttractionId(String newAttractionId) {
+            this.attractionId = newAttractionId;
+        }
+
+        @Override
+        public String toString() {
+            return "\nuserAttraction [actualWaitTime=" + actualWaitTime + ", attractionName=" + attractionName + ", id=" + id
+                    + ", postedWaitTime=" + postedWaitTime + ", rideID=" + attractionId + ", timeOfDay=" + timeOfDay + "]";
+        }
     }
-
-    public userAttraction(String attractionId) {
-        this.attractionId = attractionId;
-        this.timeOfDay = "CHANGE THIS";
-        this.actualWaitTime = 0;
-        this.postedWaitTime = 0;
-        // this.postedWaitTime = attraction.getQueue().getStandby().getWaitTime();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long newId) {
-        this.id = newId;
-    }
-
-    public String getAttractionID() {
-        return attractionId;
-    }
-
-    public void setAttractionID(String attractionId) {
-        this.attractionId = attractionId;
-    }
-
-    public String getTimeOfDay() {
-        return timeOfDay;
-    }
-
-    public void setTimeOfDay(String newTimeOfDay) {
-        this.timeOfDay = newTimeOfDay;
-    }
-
-    public int getActualWaitTime() {
-        return actualWaitTime;
-    }
-
-    public void setActualWaitTime(int newActualWaitTime) {
-        this.actualWaitTime = newActualWaitTime;
-    }
-
-    public int getPostedWaitTime() {
-        return postedWaitTime;
-    }
-
-    public void setPostedWaitTime(int newPostedWaitTime) {
-        this.postedWaitTime = newPostedWaitTime;
-    }
-
-    public Visit getVisit() {
-        return visit;
-    }
-
-    public void setVisit(Visit newVisit) {
-        this.visit = newVisit;
-    }
-
-    public String getAttractionName() {
-        return attractionName;
-    }
-
-    public void setAttractionName(String newAttractionName) {
-        this.attractionName = newAttractionName;
-
-}
-}
 }
