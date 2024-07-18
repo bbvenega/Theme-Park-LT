@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -25,7 +24,6 @@ import jakarta.persistence.OneToOne;
 public class Attraction {
 
     @Id
-    @Column(nullable = false, updatable = false)
     private String id;
     private String name;
     private String entityType;
@@ -34,14 +32,15 @@ public class Attraction {
     private String status;
     private String lastUpdated;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "visit_id")
-    private Visit visit;
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "visit_id")
+    // // @JsonBackReference
+    // private Visit visit;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "individual_park_id")
     @JsonBackReference
-    private Park.IndividualPark individualPark;
+    private IndividualPark individualPark;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonProperty("queue")
@@ -153,20 +152,37 @@ public class Attraction {
         this.diningAvailability = diningAvailability;
     }
 
-    public Visit getVisit() {
-        return visit;
-    }
+    // public Visit getVisit() {
+    //     return visit;
+    // }
 
-    public void setVisit(Visit visit) {
-        this.visit = visit;
-    }
+    // public void setVisit(Visit visit) {
+    //     this.visit = visit;
+    // }
 
-    public Park.IndividualPark getIndividualPark() {
+    public IndividualPark getIndividualPark() {
         return individualPark;
     }
 
-    public void setIndividualPark(Park.IndividualPark individualPark) {
+    public void setIndividualPark(IndividualPark individualPark) {
         this.individualPark = individualPark;
+    }
+
+    @Override
+    public String toString() {
+        return "Attraction{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", entityType='" + entityType + '\'' +
+                ", parkId='" + parkId + '\'' +
+                ", externalId='" + externalId + '\'' +
+                ", status='" + status + '\'' +
+                ", lastUpdated='" + lastUpdated + '\'' +
+                ", queue=" + queue +
+                ", showtimes=" + showtimes +
+                ", operatingHours=" + operatingHours +
+                ", diningAvailability=" + diningAvailability +
+                '}';
     }
 
 

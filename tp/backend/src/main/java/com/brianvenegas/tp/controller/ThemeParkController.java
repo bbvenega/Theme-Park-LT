@@ -31,10 +31,21 @@ public class ThemeParkController {
     
     @GetMapping("/{parkId}")
     public ResponseEntity<Park> getParkById(@PathVariable String parkId) {
+        
         Park park = themeParkService.getParkByID(parkId);
         if (park != null) {
             return new ResponseEntity<>(park, HttpStatus.OK);
         } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/attractions")
+    public ResponseEntity<List<Attraction>> getAttractions() {
+        try {
+            List<Attraction> attractions = themeParkService.getAttractions();
+            return new ResponseEntity<>(attractions, HttpStatus.OK);
+        } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

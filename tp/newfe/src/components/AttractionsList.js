@@ -57,7 +57,7 @@ const AttractionsList = ({ visitId }) => {
       try {
         const token = await getAccessTokenSilently();
         await axios.post(`http://localhost:8080/visits/${visitId}/attractions`, {
-          attraction: selectedAttraction,
+          attractionId: selectedAttraction.id,
           timeOfDay: "CHANGE THIS",
           actualWaitTime: 0,
           postedWaitTime: selectedAttraction.queue?.standby?.waitTime || 0,
@@ -75,6 +75,7 @@ const AttractionsList = ({ visitId }) => {
     }
   };
   console.log('selectedAttraction:', selectedAttraction);
+  console.log('selectedAttraction ID: ', selectedAttraction?.id);
   return (
     <div>
       <h2>Attractions</h2>
