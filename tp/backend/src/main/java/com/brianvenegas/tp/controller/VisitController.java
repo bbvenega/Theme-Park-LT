@@ -82,6 +82,10 @@ public class VisitController {
 
     @PostMapping("/{visitId}/attractions")
     public ResponseEntity<Visit.userAttraction> addAttractionToVisit(@PathVariable Long visitId, @RequestBody Visit.userAttraction userAttraction) {
+       System.out.println("IN ADD ATTRACTION TO VISIT IN CONTROLLER");
+
+       System.out.println("Recieved visitId: " + visitId);
+    System.out.println("Recieved attraction: " + userAttraction);
         Visit.userAttraction attractionToAdd = visitService.addAttractionToVisit(visitId, userAttraction);
         return ResponseEntity.status(HttpStatus.CREATED).body(attractionToAdd);
     }
