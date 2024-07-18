@@ -60,7 +60,7 @@ const AttractionsList = ({ visitId }) => {
           attractionId: selectedAttraction.id,
           timeOfDay: "CHANGE THIS",
           actualWaitTime: 0,
-          postedWaitTime: selectedAttraction.queue?.standby?.waitTime || 0,
+          postedWaitTime: selectedAttraction.queue.STANDBY.waitTime,
           attractionName: selectedAttraction.name,
 
         }, {
@@ -76,6 +76,7 @@ const AttractionsList = ({ visitId }) => {
   };
   console.log('selectedAttraction:', selectedAttraction);
   console.log('selectedAttraction ID: ', selectedAttraction?.id);
+  console.log('selectedAttraction WT: ',  selectedAttraction.queue.STANDBY.waitTime);
   return (
     <div>
       <h2>Attractions</h2>
