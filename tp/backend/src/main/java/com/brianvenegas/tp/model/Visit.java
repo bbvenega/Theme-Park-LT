@@ -109,6 +109,9 @@ public class Visit {
         private int postedWaitTime;
         private String attractionName;
         private String attractionId;
+        private boolean fastpass;
+        private boolean singleRider;
+        private boolean brokeDown;
 
         @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "visit_id")
@@ -185,6 +188,30 @@ public class Visit {
 
         public void setAttractionId(String newAttractionId) {
             this.attractionId = newAttractionId;
+        }
+
+        public boolean isFastpass() {
+            return fastpass;
+        }
+
+        public void setFastpass(boolean newFastpass) {
+            this.fastpass = newFastpass;
+        }
+
+        public boolean isSingleRider() {
+            return singleRider;
+        }
+
+        public void setSingleRider(boolean newSingleRider) {
+            this.singleRider = newSingleRider;
+        }
+
+        public boolean isBrokeDown() {
+            return brokeDown;
+        }
+
+        public void setBrokeDown(boolean newBrokeDown) {
+            this.brokeDown = newBrokeDown;
         }
 
         @Override
