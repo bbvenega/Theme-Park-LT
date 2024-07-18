@@ -8,6 +8,9 @@ const AttractionsList = ({ visitId }) => {
   const [selectedAttraction, setSelectedAttraction] = useState(null);
   const [elapsedTime, setElapsedTime] = useState(0);
   const { getAccessTokenSilently } = useAuth0();
+  const [fastpass, setFastpass] = useState(false);
+  const [singleRider, setSingleRider] = useState(false);
+  const [brokeDown, setBrokeDown] = useState(false);
 
   console.log("visitId:", visitId);
 
@@ -75,6 +78,9 @@ const AttractionsList = ({ visitId }) => {
             actualWaitTime: elapsedTime,
             postedWaitTime: selectedAttraction.queue.STANDBY.waitTime,
             attractionName: selectedAttraction.name,
+            fastpass: fastpass,
+            singleRider: singleRider,
+            brokeDown: brokeDown,
           },
           {
             headers: {
@@ -117,6 +123,30 @@ const AttractionsList = ({ visitId }) => {
       {selectedAttraction && (
         <div>
           <h3>Selected Attraction: {selectedAttraction.name}</h3>
+          <label>
+            <input
+              type="checkbox"
+              checked={fastpass}
+              onChange={(e) => setFastpass(e.target.checked)}
+              />
+              Fastpass?
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={singleRider}
+              onChange={(e) => setSingleRider(e.target.checked)}
+              />
+              Single Rider?
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={brokeDown}
+              onChange={(e) => setBrokeDown(e.target.checked)}
+              />
+              Did it breakdown?
+          </label>
 
           <button onClick={handleAddAttraction}>Add Attraction</button>
         </div>

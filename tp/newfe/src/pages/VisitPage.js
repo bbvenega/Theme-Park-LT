@@ -34,7 +34,9 @@ const VisitPage = () => {
                 {visitDetails.userAttractions.map((attraction) => (
                     //eslint-disable-next-line
                     console.log('attraction:', attraction),
-                    <li key={attraction.id}>{attraction.attractionName}: The wait time when added: {attraction.postedWaitTime} minutes ~ Actual wait time:{formatMilliseconds(attraction.actualWaitTime)} 
+                    <li key={attraction.id}>{attraction.attractionName}: The wait time when added: {attraction.postedWaitTime} minutes ~ Actual wait time:{formatMilliseconds(attraction.actualWaitTime)}
+                        <ul> Fastpass? {attraction.fastpass ? '[Yes]' : '[No]'} Single rider? {attraction.singleRider ? '[Yes]' : '[No]'} Broke down? {attraction.brokeDown ? '[Yes]' : '[No]'}
+                        </ul> 
                     </li>
                 ))}
             </ul>
