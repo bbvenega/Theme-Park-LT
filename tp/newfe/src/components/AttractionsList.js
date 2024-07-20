@@ -3,7 +3,7 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import Stopwatch from "./stopwatch";
 
-const AttractionsList = ({ visitId }) => {
+const AttractionsList = ({ visitId, onAddAttraction }) => {
   const [attractions, setAttractions] = useState([]);
   const [selectedAttraction, setSelectedAttraction] = useState(null);
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -66,41 +66,28 @@ const AttractionsList = ({ visitId }) => {
     setSelectedAttraction(attraction);
   };
 
-  const handleAddAttraction = async () => {
+  const handleSubmit = () => {
     if (selectedAttraction) {
-      try {
-        const token = await getAccessTokenSilently();
-        await axios.post(
-          `http://localhost:8080/visits/${visitId}/attractions`,
-          {
-            attractionId: selectedAttraction.id,
-            timeOfDay: "CHANGE THIS",
-            actualWaitTime: elapsedTime,
-            postedWaitTime: selectedAttraction.queue.STANDBY.waitTime,
-            attractionName: selectedAttraction.name,
-            fastpass: fastpass,
-            singleRider: singleRider,
-            brokeDown: brokeDown,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        alert("Attraction added!");
-      } catch (error) {
-        console.error("Error adding attraction: ", error);
-      }
+      onAddAttraction({
+        attractionId: selectedAttraction.id,
+        timeOfDay: "CHANGE THIS",
+        actualWaitTime: elapsedTime,
+        postedWaitTime: selectedAttraction.queue.STANDBY.waitTime,
+        attractionName: selectedAttraction.name,
+        fastpass: fastpass,
+        singleRider: singleRider,
+        brokeDown: brokeDown,
+      });
     }
   };
+
   // console.log('selectedAttraction:', selectedAttraction);
   // console.log('selectedAttraction ID: ', selectedAttraction?.id);
   // console.log('selectedAttraction WT: ',  selectedAttraction.queue.STANDBY.waitTime);
   return (
     <div>
       <h2>Attractions</h2>
-      <Stopwatch onStop={setElapsedTime} />
+      {/* <Stopwatch onStop={setElapsedTime} /> */}
       <ul>
         {attractions
           .filter(
@@ -128,27 +115,27 @@ const AttractionsList = ({ visitId }) => {
               type="checkbox"
               checked={fastpass}
               onChange={(e) => setFastpass(e.target.checked)}
-              />
-              Fastpass?
+            />
+            Fastpass?
           </label>
           <label>
             <input
               type="checkbox"
               checked={singleRider}
               onChange={(e) => setSingleRider(e.target.checked)}
-              />
-              Single Rider?
+            />
+            Single Rider?
           </label>
           <label>
             <input
               type="checkbox"
               checked={brokeDown}
               onChange={(e) => setBrokeDown(e.target.checked)}
-              />
-              Did it breakdown?
+            />
+            Did it breakdown?
           </label>
 
-          <button onClick={handleAddAttraction}>Add Attraction</button>
+          <button onClick={handleSubmit}>Add Attraction</button>
         </div>
       )}
     </div>
