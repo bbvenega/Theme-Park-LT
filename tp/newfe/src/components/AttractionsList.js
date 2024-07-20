@@ -1,60 +1,10 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
+import React, { useState } from "react";
 
-const AttractionsList = ({ visitId, onAddAttraction }) => {
-  const [attractions, setAttractions] = useState([]);
+const AttractionsList = ({ attractions, onAddAttraction }) => {
   const [selectedAttraction, setSelectedAttraction] = useState(null);
-  const { getAccessTokenSilently } = useAuth0();
   const [fastpass, setFastpass] = useState(false);
   const [singleRider, setSingleRider] = useState(false);
   const [brokeDown, setBrokeDown] = useState(false);
-
-  useEffect(() => {
-    const fetchAttractions = async () => {
-      try {
-        const token = await getAccessTokenSilently();
-        const visitResponse = await axios.get(
-          `http://localhost:8080/visits/${visitId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const mainParkId = visitResponse.data.park.id;
-
-        const individualParksResponse = await axios.get(
-          `http://localhost:8080/parks/${mainParkId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const individualParks = individualParksResponse.data.parks;
-
-        const attractionsPromises = individualParks.map((individualPark) =>
-          axios.get(
-            `http://localhost:8080/parks/${individualPark.id}/attractions`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          )
-        );
-
-        const responses = await Promise.all(attractionsPromises);
-        const allAttractions = responses.flatMap((res) => res.data);
-        setAttractions(allAttractions);
-      } catch (error) {
-        console.error("Error fetching attractions:", error);
-      }
-    };
-
-    fetchAttractions();
-  }, [visitId, getAccessTokenSilently]);
 
   const handleAttractionSelect = (attraction) => {
     setSelectedAttraction(attraction);
