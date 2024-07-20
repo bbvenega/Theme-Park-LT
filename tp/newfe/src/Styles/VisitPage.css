@@ -1,0 +1,43 @@
+/* styles.css */
+body {
+    background-color: #2596be;
+    text-align: center;
+}
+
+.visit-page {
+
+}
+
+.attraction-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.attraction-item {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px;
+    background-color: #226de6;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.attraction-name {
+    font-weight: bold;
+    color: gold;
+}
+
+.attraction-details {
+    list-style-type: none;
+    padding: 0;
+}
+
+.attraction-detail-item{
+    font-size: 0.9em;
+    color: gray;
+}
+
+
+
+
+
