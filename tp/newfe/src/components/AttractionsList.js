@@ -67,6 +67,7 @@ const AttractionsList = ({ visitId, onAddAttraction }) => {
   };
 
   const handleSubmit = () => {
+    console.log("selectedAttraction:", selectedAttraction);
     if (selectedAttraction) {
       onAddAttraction({
         attractionId: selectedAttraction.id,

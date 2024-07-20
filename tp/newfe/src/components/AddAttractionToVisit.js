@@ -2,11 +2,11 @@
 import AttractionsList from './AttractionsList';
 
 
-const AddAttractionToVisit = ({ visitId }) => {
+const AddAttractionToVisit = ({ visitId, onAddAttraction }) => {
     return (
         <div>
             <h2>Add Attraction</h2>
-            <AttractionsList visitId={visitId} />
+            <AttractionsList visitId={visitId} onAddAttraction={onAddAttraction} />
         </div>
     );
 };
