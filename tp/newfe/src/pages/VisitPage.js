@@ -19,18 +19,23 @@ const VisitPage = () => {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [parkName, setParkName] = useState(null);
+  const [attractions, setAttractions] = useState([]);
+  const [loadingPage, setLoadingPage] = useState(true);
+  const [loadingAttractions, setLoadingAttractions] = useState(true);
 
   useEffect(() => {
     const fetchVisitDetails = async () => {
       try {
+        console.log("Fetching visit details...");
         const data = await getVisitDetails(visitId, getAccessTokenSilently);
+        console.log("Visit details fetched: ", data);
         setVisitDetails(data);
+        setLoadingPage(false);
       } catch (error) {
         console.error("Error fetching visit details: ", error);
+        setLoadingPage(false);
       }
     };
-
-
 
     fetchVisitDetails();
   }, [visitId, getAccessTokenSilently]);
@@ -38,8 +43,59 @@ const VisitPage = () => {
   useEffect(() => {
     if (visitDetails) {
       setParkName(visitDetails.parkName);
+      console.log("Park name set: ", visitDetails.parkName);
     }
   }, [visitDetails]);
+
+  useEffect(() => {
+    const fetchAttractions = async () => {
+      try {
+        console.log("Fetching attractions...");
+        const token = await getAccessTokenSilently();
+        const visitResponse = await axios.get(
+          `http://localhost:8080/visits/${visitId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Visit response: ", visitResponse.data);
+        const mainParkId = visitResponse.data.park.id;
+        const individualParksResponse = await axios.get(
+          `http://localhost:8080/parks/${mainParkId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Individual parks response: ", individualParksResponse.data);
+        const individualParks = individualParksResponse.data.parks;
+        const attractionsPromises = individualParks.map((individualPark) =>
+          axios.get(
+            `http://localhost:8080/parks/${individualPark.id}/attractions`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          )
+        );
+
+        const responses = await Promise.all(attractionsPromises);
+        const allAttractions = responses.flatMap((res) => res.data);
+        console.log("Attractions fetched: ", allAttractions);
+        setAttractions(allAttractions);
+        setLoadingAttractions(false); // Data is ready
+      } catch (error) {
+        console.error("Error fetching attractions:", error);
+        setLoadingAttractions(false); // Error occurred, stop loading
+      }
+    };
+
+    fetchAttractions();
+  }, [visitId, getAccessTokenSilently]);
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -111,28 +167,44 @@ const VisitPage = () => {
     }
   };
 
+  if (loadingPage) {
+    return <div>Loading...</div>; // Loading placeholder for page
+  }
+
   return (
-    <div className = "visit-page-container">
+    <div className={`visit-page-container ${showModal || showConfirmationModal ? 'blurred' : ''}`}>
       <h1>{parkName}</h1>
       <button onClick={handleOpenModal}>Add Attraction</button>
       <Modal show={showModal} onClose={handleCloseModal}>
-        <AttractionsList visitId={visitId} onAddAttraction={handleAddAttraction} />
+        {loadingAttractions ? (
+          <div>Loading...</div>
+        ) : (
+          <AttractionsList
+            attractions={attractions}
+            onAddAttraction={handleAddAttraction}
+          />
+        )}
       </Modal>
       {selectedAttractionData && (
-        <div className = "stopwatch-container">
+        <div className="stopwatch-container">
           <h3>Currently Timing: {selectedAttractionData.attraction.name}</h3>
-          <Stopwatch onStop={handleStopwatchStop} postedWaitTime={selectedAttractionData.attraction.queue.STANDBY.waitTime}/>
+          <Stopwatch
+            onStop={handleStopwatchStop}
+            postedWaitTime={
+              selectedAttractionData.attraction.queue.STANDBY.waitTime
+            }
+          />
           <button onClick={handleShowConfirmationModal}>Submit</button>
         </div>
       )}
-      <ConfirmationModal 
-      show = {showConfirmationModal}
-      onClose = {handleCloseConfirmationModal}
-      onConfirm= {handleConfirmSubmit}
-      elapsedTime = {elapsedTime}
+      <ConfirmationModal
+        show={showConfirmationModal}
+        onClose={handleCloseConfirmationModal}
+        onConfirm={handleConfirmSubmit}
+        elapsedTime={elapsedTime}
       />
       {visitDetails ? (
-        <div className = "visited-attractions-container">
+        <div className="visited-attractions-container">
           <h2>Visited Attractions</h2>
           <ul className="attractions-list">
             {visitDetails.userAttractions.map((attraction) => (
