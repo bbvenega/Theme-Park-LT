@@ -1,24 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-import Stopwatch from "./stopwatch";
 
 const AttractionsList = ({ visitId, onAddAttraction }) => {
   const [attractions, setAttractions] = useState([]);
   const [selectedAttraction, setSelectedAttraction] = useState(null);
-  const [elapsedTime, setElapsedTime] = useState(0);
   const { getAccessTokenSilently } = useAuth0();
   const [fastpass, setFastpass] = useState(false);
   const [singleRider, setSingleRider] = useState(false);
   const [brokeDown, setBrokeDown] = useState(false);
 
-  console.log("visitId:", visitId);
-
   useEffect(() => {
     const fetchAttractions = async () => {
       try {
         const token = await getAccessTokenSilently();
-        console.log("Token: ", token);
         const visitResponse = await axios.get(
           `http://localhost:8080/visits/${visitId}`,
           {
@@ -38,7 +33,6 @@ const AttractionsList = ({ visitId, onAddAttraction }) => {
           }
         );
         const individualParks = individualParksResponse.data.parks;
-        console.log("individualParks:", individualParks);
 
         const attractionsPromises = individualParks.map((individualPark) =>
           axios.get(
@@ -67,28 +61,19 @@ const AttractionsList = ({ visitId, onAddAttraction }) => {
   };
 
   const handleSubmit = () => {
-    console.log("selectedAttraction:", selectedAttraction);
     if (selectedAttraction) {
       onAddAttraction({
-        attractionId: selectedAttraction.id,
-        timeOfDay: "CHANGE THIS",
-        actualWaitTime: elapsedTime,
-        postedWaitTime: selectedAttraction.queue.STANDBY.waitTime,
-        attractionName: selectedAttraction.name,
-        fastpass: fastpass,
-        singleRider: singleRider,
-        brokeDown: brokeDown,
+        attraction: selectedAttraction,
+        fastpass,
+        singleRider,
+        brokeDown,
       });
     }
   };
 
-  // console.log('selectedAttraction:', selectedAttraction);
-  // console.log('selectedAttraction ID: ', selectedAttraction?.id);
-  // console.log('selectedAttraction WT: ',  selectedAttraction.queue.STANDBY.waitTime);
   return (
     <div>
       <h2>Attractions</h2>
-      {/* <Stopwatch onStop={setElapsedTime} /> */}
       <ul>
         {attractions
           .filter(
