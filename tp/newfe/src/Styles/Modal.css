@@ -5,6 +5,7 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
+    background-image: linear-gradient(45deg, #154c79 0%, #1e81b0 51%, #063970  100%);
     backdrop-filter: blur(10px);
     display: flex;
     justify-content: center;
@@ -13,7 +14,7 @@
 }
 
 .modal-content {
-    background: slategrey;
+    background-image: linear-gradient(45deg, #154c79 0%, #1e81b0 51%, #063970  100%);
     padding: 20px;
     border-radius: 5px;
     position: relative;
