@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import AttractionsList from "../components/AttractionsList";
 import Modal from "../components/Modal";
 import ConfirmationModal from "../components/ConfirmationModal";
+import EditAttractionModal from "../components/EditAttractionModal";
 import { getVisitDetails } from "../services/VisitService";
 import { useAuth0 } from "@auth0/auth0-react";
 import { formatTime } from "../services/formatTime";
@@ -16,7 +17,9 @@ const VisitPage = () => {
   const [visitDetails, setVisitDetails] = useState(null);
   const { getAccessTokenSilently } = useAuth0();
   const [showModal, setShowModal] = useState(false);
+  const [showEditAttractionModal, setShowEditAttractionModal] = useState(false);
   const [selectedAttractionData, setSelectedAttractionData] = useState(null);
+  const [selectedAttraction, setSelectedAttraction] = useState(null);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [parkName, setParkName] = useState(null);
@@ -116,6 +119,66 @@ const VisitPage = () => {
     setShowConfirmationModal(false);
   };
 
+  const handleShowEditAttractionModal = (attraction) => {
+    setSelectedAttraction(attraction);
+    setShowEditAttractionModal(true);
+  }
+
+  const handleCloseEditAttractionModal = () => {
+    setShowEditAttractionModal(false);
+  }
+
+  const handleSaveAttraction = async (updatedAttraction) => {
+    
+    console.log("Updated attraction: ", updatedAttraction);
+    try {
+      const token = await getAccessTokenSilently();
+
+      const updatedAttractionPayload = {
+        id: updatedAttraction.id,
+        timeOfDay: updatedAttraction.timeOfDay,
+        actualWaitTime: updatedAttraction.actualWaitTime,
+        postedWaitTime: updatedAttraction.postedWaitTime,
+        attractionName: updatedAttraction.attractionName,
+        fastpass: updatedAttraction.fastpass,
+        singleRider: updatedAttraction.singleRider,
+        brokeDown: updatedAttraction.brokeDown
+      };
+
+      console.log("Token: ", token);
+      console.log(`Attempting to call http://localhost:8080/visits/${visitId}/attractions/${updatedAttraction.id}`);
+      await axios.put(
+        `http://localhost:8080/visits/${visitId}/attractions/${updatedAttraction.id}`,
+        updatedAttractionPayload,
+        {
+          headers: {
+            Authorizationq: `Bearer ${token}`,
+          },
+    }
+
+  );
+    const updatedAttractions = visitDetails.userAttractions.map((attraction) =>
+      attraction.id === updatedAttraction.id ? updatedAttraction : attraction
+    );
+    setVisitDetails((prevDetails) => ({
+      ...prevDetails,
+      userAttractions: updatedAttractions,
+    }));
+    handleCloseEditAttractionModal();
+  } catch (error) {
+    console.error("Error updating attraction: ", error);
+  }
+};
+
+  const handleDeleteAttraction = (attractionId) => {
+    setVisitDetails((prevDetails) => ({
+      ...prevDetails,
+      userAttractions: prevDetails.userAttractions.filter((attraction) => attraction.id !== attractionId),
+    }));
+    setShowEditAttractionModal(false);
+    }
+
+
   const handleAddAttraction = (data) => {
     setShowModal(false); // Close the modal immediately
     setSelectedAttractionData(data);
@@ -211,12 +274,22 @@ const VisitPage = () => {
         onConfirm={handleConfirmSubmit}
         elapsedTime={elapsedTime}
       />
+      <EditAttractionModal
+        show={showEditAttractionModal}
+        onClose={handleCloseEditAttractionModal}
+        attraction={selectedAttraction}
+        onSave={handleSaveAttraction}
+        onDelete={handleDeleteAttraction}
+      />
       {visitDetails ? (
         <div className="visited-attractions-container">
           <h2>Visited Attractions</h2>
           <ul className="attractions-list">
             {visitDetails.userAttractions.map((attraction) => (
-              <li key={attraction.id} className="visited-attraction-item">
+              <li key={attraction.id} 
+              className="visited-attraction-item"
+              onClick={() => handleShowEditAttractionModal(attraction)}
+              >
                 <span className="attraction-name">
                   {attraction.attractionName}
                 </span>
