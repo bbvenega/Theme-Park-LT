@@ -1,25 +1,48 @@
-/* styles.css */
 body {
-    background-color: #2596be;
+    background-color: #1D2951;
     text-align: center;
+    color: white; /* Ensures text is readable on dark background */
 }
 
-.visit-page {
-
+.visit-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Ensures the container takes up the full viewport height */
+    padding: 20px;
 }
 
-.attraction-list {
+.stopwatch-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.attractions-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     list-style-type: none;
     padding: 0;
+    width: 100%;
 }
 
-.attraction-item {
-    display: inline-block;
+.visited-attraction-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     margin: 10px;
     padding: 10px;
     background-color: #226de6;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 80vw;
 }
 
 .attraction-name {
@@ -30,14 +53,41 @@ body {
 .attraction-details {
     list-style-type: none;
     padding: 0;
+    color: white;
 }
 
-.attraction-detail-item{
+.attraction-detail-item {
     font-size: 0.9em;
-    color: gray;
+    color: lightgray;
 }
 
+.timer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 0 auto; /* Center horizontally */
+}
 
+.circular-timer {
+    transform: rotate(-90deg);
+}
 
+.timer-background {
+    fill: none;
+    stroke: #e6e6e6;
+}
 
+.timer-progress {
+    fill: none;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s, stroke 0.5s;
+}
 
+.timer-text {
+    position: absolute;
+    font-size: 24px;
+    text-align: center;
+    color: white; /* Ensures the timer text is readable */
+}

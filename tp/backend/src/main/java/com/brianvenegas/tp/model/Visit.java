@@ -105,7 +105,7 @@ public class Visit {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
         private String timeOfDay;
-        private int actualWaitTime;
+        private long actualWaitTime;
         private int postedWaitTime;
         private String attractionName;
         private String attractionId;
@@ -149,11 +149,11 @@ public class Visit {
             this.timeOfDay = newTimeOfDay;
         }
 
-        public int getActualWaitTime() {
+        public long getActualWaitTime() {
             return actualWaitTime;
         }
 
-        public void setActualWaitTime(int newActualWaitTime) {
+        public void setActualWaitTime(long newActualWaitTime) {
             this.actualWaitTime = newActualWaitTime;
         }
 
