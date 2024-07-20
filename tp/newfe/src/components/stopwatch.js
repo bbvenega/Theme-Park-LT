@@ -39,9 +39,11 @@ const Stopwatch = ({ onStop, postedWaitTime }) => {
     <div>
       <h1>Stopwatch</h1>
       <CircularTimer duration={postedWaitTime * 60} elapsedTime={time} />
-      <button onClick={start}>Start</button>
-      <button onClick={stop}>Stop</button>
-      <button onClick={reset}>Reset</button>
+      <div className="buttons-container">
+      <button className="button" onClick={start}>Start</button>
+      <button className="button" onClick={stop}>Stop</button>
+      <button className="button" onClick={reset}>Reset</button>
+    </div>
     </div>
   );
 };
