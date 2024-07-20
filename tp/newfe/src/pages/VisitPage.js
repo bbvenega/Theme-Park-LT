@@ -4,7 +4,7 @@ import AttractionsList from "../components/AttractionsList";
 import Modal from "../components/Modal";
 import { getVisitDetails } from "../services/VisitService";
 import { useAuth0 } from "@auth0/auth0-react";
-import { formatMilliseconds } from "../services/formatTIme";
+import { formatMilliseconds } from "../services/formatTime";
 import Stopwatch from "../components/stopwatch"; // Import Stopwatch component
 import "../Styles/VisitPage.css";
 import axios from "axios";
@@ -15,6 +15,7 @@ const VisitPage = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [showModal, setShowModal] = useState(false);
   const [selectedAttractionData, setSelectedAttractionData] = useState(null);
+  const [elapsedTime, setElapsedTime] = useState(0);
 
   useEffect(() => {
     const fetchVisitDetails = async () => {
@@ -37,12 +38,26 @@ const VisitPage = () => {
     setShowModal(false);
   };
 
-  const handleAddAttraction = async (attractionData) => {
+  const handleAddAttraction = (data) => {
+    setShowModal(false); // Close the modal immediately
+    setSelectedAttractionData(data);
+  };
+
+  const handleStopwatchStop = async (time) => {
     try {
       const token = await getAccessTokenSilently();
       await axios.post(
         `http://localhost:8080/visits/${visitId}/attractions`,
-        attractionData,
+        {
+          attractionId: selectedAttractionData.attraction.id,
+          timeOfDay: "CHANGE THIS",
+          actualWaitTime: time,
+          postedWaitTime: selectedAttractionData.attraction.queue.STANDBY.waitTime,
+          attractionName: selectedAttractionData.attraction.name,
+          fastpass: selectedAttractionData.fastpass,
+          singleRider: selectedAttractionData.singleRider,
+          brokeDown: selectedAttractionData.brokeDown,
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -51,10 +66,22 @@ const VisitPage = () => {
       );
       setVisitDetails((prevDetails) => ({
         ...prevDetails,
-        userAttractions: [...prevDetails.userAttractions, attractionData],
+        userAttractions: [
+          ...prevDetails.userAttractions,
+          {
+            attractionId: selectedAttractionData.attraction.id,
+            timeOfDay: "CHANGE THIS",
+            actualWaitTime: time,
+            postedWaitTime: selectedAttractionData.attraction.queue.STANDBY.waitTime,
+            attractionName: selectedAttractionData.attraction.name,
+            fastpass: selectedAttractionData.fastpass,
+            singleRider: selectedAttractionData.singleRider,
+            brokeDown: selectedAttractionData.brokeDown,
+          },
+        ],
       }));
-      setSelectedAttractionData(attractionData);
-      setShowModal(false);
+      setSelectedAttractionData(null);
+      setElapsedTime(0); // Reset elapsed time
     } catch (error) {
       console.error("Error adding attraction: ", error);
     }
@@ -63,6 +90,16 @@ const VisitPage = () => {
   return (
     <div>
       <h1>Visit Page</h1>
+      <button onClick={handleOpenModal}>Add Attraction</button>
+      <Modal show={showModal} onClose={handleCloseModal}>
+        <AttractionsList visitId={visitId} onAddAttraction={handleAddAttraction} />
+      </Modal>
+      {selectedAttractionData && (
+        <div>
+          <h3>Currently Timing: {selectedAttractionData.attraction.name}</h3>
+          <Stopwatch onStop={handleStopwatchStop} />
+        </div>
+      )}
       {visitDetails ? (
         <div>
           <h2>Visited Attractions</h2>
@@ -84,16 +121,6 @@ const VisitPage = () => {
         </div>
       ) : (
         <p>Loading...</p>
-      )}
-      <button onClick={handleOpenModal}>Add Attraction</button>
-      <Modal show={showModal} onClose={handleCloseModal}>
-        <AttractionsList visitId={visitId} onAddAttraction={handleAddAttraction} />
-      </Modal>
-      {selectedAttractionData && (
-        <div>
-          <h3>Currently Timing: {selectedAttractionData.attractionName}</h3>
-          <Stopwatch onStop={(time) => console.log(`Elapsed time: ${time}`)} />
-        </div>
       )}
     </div>
   );
