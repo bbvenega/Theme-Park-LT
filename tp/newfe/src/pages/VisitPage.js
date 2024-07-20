@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import AttractionsList from "../components/AttractionsList";
 import Modal from "../components/Modal";
 import ConfirmationModal from "../components/ConfirmationModal";
@@ -23,7 +23,7 @@ const VisitPage = () => {
   const [attractions, setAttractions] = useState([]);
   const [loadingPage, setLoadingPage] = useState(true);
   const [loadingAttractions, setLoadingAttractions] = useState(true);
-  const history = useHistory();
+  const navigate = useNavigate();
 
  
   useEffect(() => {
@@ -171,7 +171,7 @@ const VisitPage = () => {
   };
 
   const goToDashboard = () => {
-    history.push("/dashboard");
+    navigate("/dashboard");
   };
 
   if (loadingPage) {
@@ -180,7 +180,7 @@ const VisitPage = () => {
 
   return (
     <div className={`visit-page-container ${showModal || showConfirmationModal ? 'blurred' : ''}`}>
-      <button onClick={goToDashboard} className="dashboard-button">Dashboard</button>
+      <button onClick={goToDashboard} className="back-button">Dashboard</button>
       <h1>{parkName}</h1>
       <button className="button" onClick={handleOpenModal}>Add Attraction</button>
       <Modal show={showModal} onClose={handleCloseModal}>
@@ -223,7 +223,7 @@ const VisitPage = () => {
                 <ul className="attraction-details">
                   Posted Wait Time: {attraction.postedWaitTime} minutes || Actual wait time: {formatTime(attraction.actualWaitTime)}
                   <ul>
-                    Fastpass? {attraction.fastpass ? "✅" : "❌"} Single rider? {attraction.singleRider ? "✅" : "❌"} Broke down? {attraction.brokeDown ? "✅" : "❌"}
+                     {attraction.fastpass ? "⚡" : ""}  {attraction.singleRider ? "🙋" : ""} {attraction.brokeDown ? "🔨" : ""}
                   </ul>
                 </ul>
               </li>
