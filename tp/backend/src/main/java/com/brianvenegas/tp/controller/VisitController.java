@@ -44,6 +44,7 @@ public class VisitController {
         List<Visit> visits = visitService.getAllVisit();
         return new ResponseEntity<>(visits, HttpStatus.OK);
     }
+    
 
     @GetMapping("/{id}") // Get a visit by ID
     public Optional<Visit> getVisitById(@PathVariable Long id) {
@@ -66,6 +67,11 @@ public class VisitController {
     @PutMapping("/{id}")
     public Visit updateVisit(@PathVariable Long id, @RequestBody Visit visitDetails) {
         return visitService.updateVisit(id, visitDetails);
+    }
+
+    @PutMapping("/{id}/attractions/{attractionId}")
+    public Visit updateVisitAttraction(@PathVariable Long id, @PathVariable Long attractionId, @RequestBody userAttraction userAttraction) {
+        return visitService.updateVisitAttraction(id, attractionId, userAttraction);
     }
 
     @DeleteMapping("/{id}")
