@@ -2,7 +2,7 @@ import React, {useEffect, useState } from 'react';
 import '../Styles/CircularTimer.css';
 
 const CircularTimer = ({duration, elapsedTime }) => {
-    const radius = 50;
+    const radius = 100;
     const circumference = 2 * Math.PI * radius;
 
 
@@ -29,20 +29,20 @@ const CircularTimer = ({duration, elapsedTime }) => {
 
     return (
         <div className="timer-container">
-            <svg className="circular-timer" width="120" heigh="120">
+            <svg className="circular-timer" width="250" height="250">
                 <circle
                 className="timer-background"
-                cx="60"
-                cy="60"
+                cx="125"
+                cy="125"
                 r={radius}
-                strokeWidth="10"
+                strokeWidth="30"
                 />
                 <circle
                 className="timer-progress"
-                cx="60"
-                cy="60"
+                cx="125"
+                cy="125"
                 r={radius}
-                strokeWidth="10"
+                strokeWidth="30"
                 style={{ 
                     strokeDasharray: circumference, 
                     strokeDashoffset: offset,

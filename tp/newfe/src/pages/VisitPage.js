@@ -5,7 +5,7 @@ import Modal from "../components/Modal";
 import ConfirmationModal from "../components/ConfirmationModal";
 import { getVisitDetails } from "../services/VisitService";
 import { useAuth0 } from "@auth0/auth0-react";
-import { formatMilliseconds } from "../services/formatTime";
+import { formatTime } from "../services/formatTime";
 import Stopwatch from "../components/stopwatch"; // Import Stopwatch component
 import "../Styles/VisitPage.css";
 import axios from "axios";
@@ -141,7 +141,7 @@ const VisitPage = () => {
                   {attraction.attractionName}
                 </span>
                 <ul className="attraction-details">
-                  Posted Wait Time: {attraction.postedWaitTime} minutes || Actual wait time: {formatMilliseconds(attraction.actualWaitTime)}
+                  Posted Wait Time: {attraction.postedWaitTime} minutes || Actual wait time: {formatTime(attraction.actualWaitTime)}
                   <ul>
                     Fastpass? {attraction.fastpass ? "✅" : "❌"} Single rider? {attraction.singleRider ? "✅" : "❌"} Broke down? {attraction.brokeDown ? "✅" : "❌"}
                   </ul>
