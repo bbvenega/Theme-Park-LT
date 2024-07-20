@@ -71,7 +71,7 @@ public class ThemeParkService {
                 for (Park park : parks) {
                     for (IndividualPark individualPark : park.getParks()) {
                         CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
-                            synchronized (this) {
+                            // synchronized (this) {
 
                                 try {
                                     // logger.info("Fetching attractions for park: " + individualPark.getName());
@@ -100,13 +100,11 @@ public class ThemeParkService {
 
                                     // individualParkRepository.save(individualPark);
                                     // logger.info("Attractions loaded for " + individualPark.getName());
-                                    for (Attraction attraction : individualPark.getAttractions()) {
-                                        // System.out.println("Id: " + attraction.getId() + " Name: " + attraction.getName());
-                                    }
+
                                 } catch (IOException | InterruptedException e) {
                                     // logger.error("Error fetching attractions for park: " + individualPark.getName(), e);
                                 }
-                            }
+                            // }
                         }).orTimeout(120, TimeUnit.SECONDS); // Timeout after 10 seconds
                         futures.add(future);
                     }
