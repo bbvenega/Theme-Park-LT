@@ -77,6 +77,8 @@ body {
 .timer-background {
     fill: none;
     stroke: #e6e6e6;
+    width: 400px;
+    height: 400px;
 }
 
 .timer-progress {
@@ -87,7 +89,7 @@ body {
 
 .timer-text {
     position: absolute;
-    font-size: 24px;
+    font-size: 64px;
     text-align: center;
     color: white; /* Ensures the timer text is readable */
 }

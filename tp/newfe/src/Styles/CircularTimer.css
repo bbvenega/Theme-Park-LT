@@ -5,6 +5,8 @@
     justify-content: center;
     position: relative;
     margin: 0 auto; /* Center horizontally */
+    height: 250px;
+    width: 250px;
   }
   
   .circular-timer {
@@ -24,7 +26,10 @@
   
   .timer-text {
     position: absolute;
-    font-size: 24px;
+    font-size: 72px;
     text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
   
