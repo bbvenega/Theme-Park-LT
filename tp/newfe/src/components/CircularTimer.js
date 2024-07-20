@@ -42,7 +42,7 @@ const CircularTimer = ({duration, elapsedTime }) => {
                 cx="125"
                 cy="125"
                 r={radius}
-                strokeWidth="30"
+                strokeWidth="35"
                 style={{ 
                     strokeDasharray: circumference, 
                     strokeDashoffset: offset,

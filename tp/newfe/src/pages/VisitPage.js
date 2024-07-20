@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import AttractionsList from "../components/AttractionsList";
 import Modal from "../components/Modal";
 import ConfirmationModal from "../components/ConfirmationModal";
@@ -9,6 +9,7 @@ import { formatTime } from "../services/formatTime";
 import Stopwatch from "../components/stopwatch"; // Import Stopwatch component
 import "../Styles/VisitPage.css";
 import axios from "axios";
+
 
 const VisitPage = () => {
   const { visitId } = useParams();
@@ -22,7 +23,9 @@ const VisitPage = () => {
   const [attractions, setAttractions] = useState([]);
   const [loadingPage, setLoadingPage] = useState(true);
   const [loadingAttractions, setLoadingAttractions] = useState(true);
+  const history = useHistory();
 
+ 
   useEffect(() => {
     const fetchVisitDetails = async () => {
       try {
@@ -167,14 +170,19 @@ const VisitPage = () => {
     }
   };
 
+  const goToDashboard = () => {
+    history.push("/dashboard");
+  };
+
   if (loadingPage) {
     return <div>Loading...</div>; // Loading placeholder for page
   }
 
   return (
     <div className={`visit-page-container ${showModal || showConfirmationModal ? 'blurred' : ''}`}>
+      <button onClick={goToDashboard} className="dashboard-button">Dashboard</button>
       <h1>{parkName}</h1>
-      <button onClick={handleOpenModal}>Add Attraction</button>
+      <button className="button" onClick={handleOpenModal}>Add Attraction</button>
       <Modal show={showModal} onClose={handleCloseModal}>
         {loadingAttractions ? (
           <div>Loading...</div>
@@ -194,7 +202,7 @@ const VisitPage = () => {
               selectedAttractionData.attraction.queue.STANDBY.waitTime
             }
           />
-          <button onClick={handleShowConfirmationModal}>Submit</button>
+          <button className="button" onClick={handleShowConfirmationModal}>Submit</button>
         </div>
       )}
       <ConfirmationModal
