@@ -1,6 +1,7 @@
 package com.brianvenegas.tp.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.hibernate.Hibernate;
@@ -91,33 +92,31 @@ public class VisitService {
         System.out.println("Finding attraction: " + userAttraction.getAttractionId());
         Visit visit = visitRepository.findById(visitId).orElseThrow(() -> new RuntimeException("Visit not found"));
 
-    // Ensure the userAttraction has a valid Visit reference
-    userAttraction.setVisit(visit);
+        // Ensure the userAttraction has a valid Visit reference
+        userAttraction.setVisit(visit);
 
-    // Ensure the userAttraction has a valid Attraction reference
-    
-    Attraction attraction = attractionRepository.findById(userAttraction.getAttractionId())
-            .orElseThrow(() -> new RuntimeException("Attraction not found"));
-    
+        // Ensure the userAttraction has a valid Attraction reference
+        Attraction attraction = attractionRepository.findById(userAttraction.getAttractionId())
+                .orElseThrow(() -> new RuntimeException("Attraction not found"));
 
-    // Debugging: Print the state of objects before saving
-    System.out.println("Visit: " + visit);
-    System.out.println("userAttraction: " + userAttraction);
-    System.out.println("Attraction: " + attraction);
+        // Debugging: Print the state of objects before saving
+        System.out.println("Visit: " + visit);
+        System.out.println("userAttraction: " + userAttraction);
+        System.out.println("Attraction: " + attraction);
 
-    // Add the userAttraction to the visit's list
-    visit.getUserAttractions().add(userAttraction);
+        // Add the userAttraction to the visit's list
+        visit.getUserAttractions().add(userAttraction);
 
-    // Save the visit, which should cascade the save to userAttractions
-    visitRepository.save(visit);
+        // Save the visit, which should cascade the save to userAttractions
+        visitRepository.save(visit);
 
-    System.out.println("This user's attractions!");
-    for(userAttraction ride : visit.getUserAttractions()) {
-        System.out.println("Attraction: " + ride.getAttractionId() + "Ride: " + ride.getAttractionName());
+        System.out.println("This user's attractions!");
+        for (userAttraction ride : visit.getUserAttractions()) {
+            System.out.println("Attraction: " + ride.getAttractionId() + "Ride: " + ride.getAttractionName());
+        }
+
+        return userAttraction;
     }
-
-    return userAttraction;
-}
 
     public Optional<Visit> getVisitById(Long id) {
         return visitRepository.findById(id);
@@ -141,4 +140,28 @@ public class VisitService {
         Visit visit = visitRepository.findById(visitId).orElseThrow(() -> new RuntimeException("Visit not found"));
         return visit.getUserAttractions();
     }
-}
+
+    public Visit updateVisitAttraction(Long id, Long attractionId, userAttraction userAttraction) {
+        Visit visit = visitRepository.findById(id).orElse(null);
+
+        List<userAttraction> rides = visit.getUserAttractions();
+
+        rides.forEach(ride -> {
+            if (Objects.equals(ride.getId(), attractionId)) {
+                ride.setAttractionName(userAttraction.getAttractionName());
+                ride.setPostedWaitTime(userAttraction.getPostedWaitTime());
+                ride.setActualWaitTime(userAttraction.getActualWaitTime());
+                ride.setFastpass(userAttraction.isFastpass());
+                ride.setSingleRider(userAttraction.isSingleRider());
+                ride.setBrokeDown(userAttraction.isBrokeDown());
+                ride.setAttractionId(userAttraction.getAttractionId());
+            }
+        });
+        visitRepository.save(visit);
+
+        return visit;
+        
+    }
+
+
+};
