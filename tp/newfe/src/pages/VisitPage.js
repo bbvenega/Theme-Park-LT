@@ -146,6 +146,7 @@ const VisitPage = () => {
       };
 
       console.log("Token: ", token);
+      // LEFT OFF HERE ~ ERROR when trying to update attraction in the database
       console.log(`Attempting to call http://localhost:8080/visits/${visitId}/attractions/${updatedAttraction.id}`);
       await axios.put(
         `http://localhost:8080/visits/${visitId}/attractions/${updatedAttraction.id}`,
