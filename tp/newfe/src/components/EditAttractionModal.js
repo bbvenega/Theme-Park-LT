@@ -8,12 +8,14 @@ const EditAttractionModal = ({ show, onClose, attraction, onSave, onDelete }) =>
     const [fastpass, setFastpass] = useState(attraction?.fastpass || false);
     const [singleRider, setSingleRider] = useState(attraction?.singleRider || false);
     const [brokeDown, setBrokeDown] = useState(attraction?.brokeDown || false);
+    const [timeOfDay, setTimeOfDay] = useState(attraction?.timeOfDay || "");
 
     console.log("attraction: ", attraction);
 
     const handleSave = () => {
         onSave({
             ...attraction,
+            timeOfDay,
             postedWaitTime,
             actualWaitTime,
             fastpass,
@@ -51,6 +53,7 @@ const EditAttractionModal = ({ show, onClose, attraction, onSave, onDelete }) =>
                         onChange={(e) => setActualWaitTime(e.target.value)}
                     />
                 </label>
+                <br></br>
                 <label>
                     <input
                         type="checkbox"

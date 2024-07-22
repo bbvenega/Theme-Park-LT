@@ -23,6 +23,10 @@
     stroke-linecap: round;
     transition: stroke-dashoffset 0.5s, stroke 0.5s;
   }
+
+  .timer-progress.loading {
+    animation: snakeAnimation 2s linear forwards;
+  }
   
   .timer-text {
     position: absolute;
@@ -31,5 +35,16 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+
+
+
+  @keyframes snakeAnimation {
+    0% {
+      stroke-dashoffset: 0;
+    }
+    100% {
+      stroke-dashoffset: 628; /* Full circumference for the loading effect */
+    }
   }
   

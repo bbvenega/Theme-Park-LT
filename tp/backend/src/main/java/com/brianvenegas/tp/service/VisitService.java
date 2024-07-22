@@ -163,5 +163,17 @@ public class VisitService {
         
     }
 
+    public Visit deleteVisitAttraction(Long id, Long attractionId) {
+        Visit visit = visitRepository.findById(id).orElse(null);
+
+        List<userAttraction> rides = visit.getUserAttractions();
+
+        rides.removeIf(ride -> Objects.equals(ride.getId(), attractionId));
+
+        visitRepository.save(visit);
+
+        return visit;
+    }
+
 
 };

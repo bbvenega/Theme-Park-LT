@@ -74,6 +74,11 @@ public class VisitController {
         return visitService.updateVisitAttraction(id, attractionId, userAttraction);
     }
 
+    @DeleteMapping("/{id}/attractions/{attractionId}")
+    public Visit deleteVisitAttraction(@PathVariable Long id, @PathVariable Long attractionId) {
+        return visitService.deleteVisitAttraction(id, attractionId);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteVisit(@PathVariable Long id) {
         visitService.deleteVisit(id);
