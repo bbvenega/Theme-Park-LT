@@ -1,16 +1,28 @@
 import React, { useState } from "react";
 
-const AttractionsList = ({ attractions, onAddAttraction }) => {
+const AttractionsList = ({
+  attractions,
+  onAddAttraction,
+  setElapsedTime,
+  setShowConfirmationModal,
+}) => {
   const [selectedAttraction, setSelectedAttraction] = useState(null);
   const [fastpass, setFastpass] = useState(false);
   const [singleRider, setSingleRider] = useState(false);
   const [brokeDown, setBrokeDown] = useState(false);
 
   const handleAttractionSelect = (attraction) => {
+    console.log(attraction);
     setSelectedAttraction(attraction);
+    setFastpass(false);
+    setSingleRider(false);
+    setBrokeDown(false);
+    setElapsedTime(0); // Reset elapsed time for the new attraction
+
   };
 
   const handleSubmit = () => {
+    console.log(selectedAttraction);
     if (selectedAttraction) {
       onAddAttraction({
         attraction: selectedAttraction,
@@ -24,19 +36,24 @@ const AttractionsList = ({ attractions, onAddAttraction }) => {
   return (
     <div>
       <h2>Attractions</h2>
-      <ul>
+      <ul className = "attractions-list">
         {attractions
           .filter(
             (attraction) =>
               attraction.entityType === "ATTRACTION" &&
-              attraction.status === "OPERATING"
+              attraction.status === "OPERATING" &&
+              attraction.queue &&
+              attraction.queue.STANDBY &&
+              attraction.queue.STANDBY.waitTime != null &&
+              attraction.queue.STANDBY.waitTime !== 0
           )
           .map((attraction) => (
             <li
               key={attraction.id}
+              className={`attraction-item ${selectedAttraction === attraction ? 'selected' : ''}`}
               onClick={() => handleAttractionSelect(attraction)}
             >
-              {attraction.name} - ~ Wait Time:{" "}
+              {attraction.name} ~ Wait Time:{" "}
               {attraction.queue && attraction.queue.STANDBY
                 ? attraction.queue.STANDBY.waitTime
                 : "N/A"}
@@ -71,7 +88,7 @@ const AttractionsList = ({ attractions, onAddAttraction }) => {
             Did it breakdown?
           </label>
 
-          <button onClick={handleSubmit}>Add Attraction</button>
+           <button className="button" onClick={handleSubmit}>Add Attraction</button>
         </div>
       )}
     </div>
