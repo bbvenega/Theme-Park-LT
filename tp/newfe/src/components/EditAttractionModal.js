@@ -1,16 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import '../Styles/Modal.css';
-import { formatTime } from '../services/formatTime';
 
 const EditAttractionModal = ({ show, onClose, attraction, onSave, onDelete }) => {
-    const [postedWaitTime, setPostedWaitTime] = useState(attraction?.postedWaitTime || "");
-    const [actualWaitTime, setActualWaitTime] = useState(attraction?.actualWaitTime || "");
-    const [fastpass, setFastpass] = useState(attraction?.fastpass || false);
-    const [singleRider, setSingleRider] = useState(attraction?.singleRider || false);
-    const [brokeDown, setBrokeDown] = useState(attraction?.brokeDown || false);
-    const [timeOfDay, setTimeOfDay] = useState(attraction?.timeOfDay || "");
+    const [postedWaitTime, setPostedWaitTime] = useState("");
+    const [actualWaitTime, setActualWaitTime] = useState("");
+    const [fastpass, setFastpass] = useState(false);
+    const [singleRider, setSingleRider] = useState(false);
+    const [brokeDown, setBrokeDown] = useState(false);
+    const [timeOfDay, setTimeOfDay] = useState("");
+    const [isVisibile, setIsVisible] = useState(false);
 
-    console.log("attraction: ", attraction);
+    useEffect(() => {
+        if (show) {
+            setIsVisible(true);
+        } else {
+            const timer = setTimeout(() => setIsVisible(false), 200);
+            return () => clearTimeout(timer);
+        }
+    }, [show]);
+
+    useEffect(() => {
+        if (attraction) {
+            setPostedWaitTime(attraction.postedWaitTime || "") ;
+            setActualWaitTime(attraction.actualWaitTime || "");
+            setFastpass(attraction.fastpass || false);
+            setSingleRider(attraction.singleRider || false);
+            setBrokeDown(attraction.brokeDown || false);
+            setTimeOfDay(attraction.timeOfDay || "");
+        }
+    }, [attraction]);
+
+
 
     const handleSave = () => {
         onSave({
@@ -28,14 +48,12 @@ const EditAttractionModal = ({ show, onClose, attraction, onSave, onDelete }) =>
         onDelete(attraction.id);
     };
 
-    if (!show) {
-        return null;
-    }
+
 
     return (
-        <div className = "modal-backdrop">
-            <div className= "modal-content">
-                <button onClick= {onClose} className = "modal-close-button"> &times; </button>
+        <div className={`modal-backdrop ${show ? "fade-in" : "fade-out"}`}>
+            <div className={`modal-content ${show ? 'fade-in' : 'fade-out'}`}>
+                <button onClick={onClose} className="modal-close-button"> &times; </button>
                 <h3>Edit Attraction</h3>
                 <label>
                     Posted Wait Time:
@@ -53,7 +71,7 @@ const EditAttractionModal = ({ show, onClose, attraction, onSave, onDelete }) =>
                         onChange={(e) => setActualWaitTime(e.target.value)}
                     />
                 </label>
-                <br></br>
+                <br />
                 <label>
                     <input
                         type="checkbox"
@@ -79,8 +97,8 @@ const EditAttractionModal = ({ show, onClose, attraction, onSave, onDelete }) =>
                     />
                     Broke Down?
                 </label>
-                <button onClick={handleSave}>Save</button>
-                <button onClick={handleDelete}>Delete</button>
+                <button className="button" onClick={handleSave}>Save</button>
+                <button className="button" onClick={handleDelete}>Delete</button>
             </div>
         </div>
     );

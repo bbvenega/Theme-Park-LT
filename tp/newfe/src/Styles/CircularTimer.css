@@ -37,14 +37,28 @@
     transform: translate(-50%, -50%);
   }
 
+  /* .timer-dot {
+    animation: dotAnimation 1s forwards;
+  } */
+
 
 
   @keyframes snakeAnimation {
     0% {
+
       stroke-dashoffset: 0;
     }
     100% {
-      stroke-dashoffset: 628; /* Full circumference for the loading effect */
+
+      stroke-dashoffset: 750; /* Full circumference for the loading effect */
     }
   }
+  
+  /* @keyframes dotAnimation {
+    0% {
+      r:0;
+    }
+    100% {
+      r: 15;
+    } */
   

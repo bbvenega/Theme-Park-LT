@@ -122,8 +122,9 @@ const VisitPage = () => {
   };
 
   const handleShowEditAttractionModal = (attraction) => {
-    setSelectedAttraction(attraction);
+
     setShowEditAttractionModal(true);
+    setSelectedAttraction(attraction);
   };
 
   const handleCloseEditAttractionModal = () => {
@@ -164,7 +165,7 @@ const VisitPage = () => {
       }
     );
   
-    const updatedAttractions = visitDetails.userAttractions.map((attraction) =>
+    const updatedAttractions = visitDetails.userAttractions.reverse().map((attraction) =>
       attraction.id === updatedAttraction.id ? updatedAttraction : attraction
     );
     setVisitDetails((prevDetails) => ({
@@ -205,6 +206,7 @@ const VisitPage = () => {
     }
   };
 
+
   const handleAddAttraction = (data) => {
     setShowModal(false); // Close the modal immediately
     setSelectedAttractionData(data);
@@ -215,6 +217,7 @@ const VisitPage = () => {
   };
 
   const handleConfirmSubmit = async () => {
+
     try {
       const token = await getAccessTokenSilently();
       
@@ -270,6 +273,7 @@ const VisitPage = () => {
     return <div>Loading...</div>; // Loading placeholder for page
   }
 
+    console.log("showeditmodal status: ", showEditAttractionModal);
   return (
     <div
       className={`visit-page-container ${
@@ -287,9 +291,12 @@ const VisitPage = () => {
         {loadingAttractions ? (
           <div>Loading...</div>
         ) : (
+          
           <AttractionsList
             attractions={attractions}
             onAddAttraction={handleAddAttraction}
+            setElapsedTime={setElapsedTime}
+            setShowConfirmationModal={setShowConfirmationModal}
           />
         )}
       </Modal>
