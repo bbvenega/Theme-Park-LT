@@ -1,13 +1,15 @@
 // pages/Dashboard.js
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import LogoutButton from "../components/auth/LogoutButton";
-import fetchVisits from "../services/getVisitsByUserId";
 import { useNavigate } from "react-router-dom";
 import PageTransition from "../services/pageTransition";
+import { getVisitDetails, getVisitsByUserId } from "../services/API Calls/VisitService";
 
 const Dashboard = () => {
+ const[loadingVisit, setLoadingVisit] = useState(false);
   const navigate = useNavigate();
   const [parks, setParks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,68 +17,48 @@ const Dashboard = () => {
     useAuth0();
   const [visits, setVisits] = useState([]);
   const [error, setError] = useState(null);
+  const { state } = useLocation();
+
 
   useEffect(() => {
-    console.log("User object: ", user);
-    const fetchParks = async () => {
-      if (isAuthenticated && !isLoading) {
+
+      const fetchVisits = async () => {
         try {
-          const token = await getAccessTokenSilently();
-          console.log("TOKEN: ", token);
-          try {
-            const response = await axios.get("http://localhost:8080/parks", {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            });
-            setParks(response.data || []);
-          } catch (error) {
-            console.error("Error fetching parks: ", error);
-            setError(error);
-            setLoading(false);
-          }
-
-          try {
-            const userId = user.sub.split("|")[1];
-            console.log(
-              `IN DASHBOARD ~ Fetching visits for user: ${userId}, with token: ${token}`
-            );
-            const userVisits = await fetchVisits(userId, token);
-            setVisits(userVisits);
-          } catch (error) {
-            console.error("Error fetching visits: ", error);
-            setError(error);
-            setLoading(false);
-          }
-
+          const data = state?.visits || await getVisitsByUserId(user, getAccessTokenSilently);
+          setVisits(data);
           setLoading(false);
         } catch (error) {
-          console.error("Error fetching data: ", error);
-          setError(error);
+          console.error('Error fetching visits: ', error);
           setLoading(false);
+        } finally {
+            setLoading(false);
         }
-      } else {
-        console.log("User is not authenticated");
-        setLoading(false);
-      }
-    };
+      };
 
-    fetchParks();
-  }, [getAccessTokenSilently, isAuthenticated, isLoading, user]);
+      fetchVisits();
+    
+  }, [getAccessTokenSilently, state, user]);
 
 
  
  
-  const handleSelectVisit = (visit) => {
+  const handleSelectVisit = async (visit) => {
     console.log("Selected Visit: ", visit);
-    navigate(`/visit/${visit.id}`);
-  };
+    setLoadingVisit(true);
 
-  if (loading) {
-    <div className="visit-list-container">
-      return <div>Loading...</div>;
-    </div>;
-  }
+    try {
+        const visitDetails = await getVisitDetails(visit.id, getAccessTokenSilently);
+        navigate(`/visit/${visit.id}`, { state: { visitDetails } });
+    } catch (error) {
+        console.error("Error fetching visit details: ", error);
+    } finally {
+        setLoadingVisit(false);
+    }
+};
+
+
+
+
 
   if (error) {
     return <div>Oops... {error.message}</div>;
