@@ -65,7 +65,7 @@ const CircularTimer = ({ duration, elapsedTime }) => {
             // className="timer-dot"
             cx="225"
             cy="125"
-            r="15"
+            r="17"
             fill={color}
           />
         )}
