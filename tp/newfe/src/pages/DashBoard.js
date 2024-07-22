@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
 import LogoutButton from "../components/auth/LogoutButton";
 import { useNavigate } from "react-router-dom";
 import PageTransition from "../services/pageTransition";
@@ -11,9 +10,8 @@ import { getVisitDetails, getVisitsByUserId } from "../services/API Calls/VisitS
 const Dashboard = () => {
  const[loadingVisit, setLoadingVisit] = useState(false);
   const navigate = useNavigate();
-  const [parks, setParks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { getAccessTokenSilently, isAuthenticated, isLoading, user } =
+  const { getAccessTokenSilently, user } =
     useAuth0();
   const [visits, setVisits] = useState([]);
   const [error, setError] = useState(null);
@@ -25,7 +23,7 @@ const Dashboard = () => {
       const fetchVisits = async () => {
         try {
           const data = state?.visits || await getVisitsByUserId(user, getAccessTokenSilently);
-          setVisits(data);
+          setVisits(data.reverse());
           setLoading(false);
         } catch (error) {
           console.error('Error fetching visits: ', error);
@@ -74,7 +72,7 @@ const Dashboard = () => {
       {/* <div className="visit-list-container"> */}
         {visits && visits.length > 0 ? (
           <ul className="visit-list">
-            {visits.reverse().map((visit) => (
+            {visits.map((visit) => (
               <li
                 key={visit.id}
                 className="visit-list-item"

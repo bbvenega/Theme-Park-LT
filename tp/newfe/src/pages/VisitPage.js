@@ -238,7 +238,7 @@ const VisitPage = () => {
             singleRider: selectedAttractionData.singleRider,
             brokeDown: selectedAttractionData.brokeDown,
           },
-        ],
+        ].reverse(),
       }));
       setSelectedAttractionData(null);
       setElapsedTime(0); // Reset elapsed time
@@ -314,7 +314,7 @@ const VisitPage = () => {
         <div className="visited-attractions-container">
           <h2>Visited Attractions</h2>
           <ul className="attractions-list">
-            {visitDetails.userAttractions.reverse().map((attraction) => (
+            {visitDetails.userAttractions.map((attraction) => (
               <li
                 key={attraction.id}
                 className="visited-attraction-item"
