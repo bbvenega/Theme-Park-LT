@@ -53,10 +53,11 @@ const AttractionsList = ({
               className={`attraction-item ${selectedAttraction === attraction ? 'selected' : ''}`}
               onClick={() => handleAttractionSelect(attraction)}
             >
-              {attraction.name} ~ Wait Time:{" "}
+              {attraction.name} <br></br> Wait Time:{" "} 
               {attraction.queue && attraction.queue.STANDBY
                 ? attraction.queue.STANDBY.waitTime
                 : "N/A"}
+                {" "} minutes
             </li>
           ))}
       </ul>
