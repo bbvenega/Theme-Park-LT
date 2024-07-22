@@ -1,12 +1,22 @@
-.page-transition{
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out; 
+.page-transition {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    transition: opacity .5s ease-in-out;
 }
 
-.page-transition.fade-in{
+.fade-enter {
+    opacity: 0;
+}
+
+.fade-enter-active {
     opacity: 1;
 }
 
-.page-transition.fade-out{
+.fade-exit {
+    opacity: 1;
+}
+
+.fade-exit-active {
     opacity: 0;
 }

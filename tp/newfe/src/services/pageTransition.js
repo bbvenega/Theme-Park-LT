@@ -1,19 +1,24 @@
-import React, {useState, useEffect} from "react";
+import React from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { useLocation } from 'react-router-dom';
 import '../Styles/pageTransition.css';
 
-const PageTransition = ({children}) => {
-    const [isVisible, setIsVisible] = useState(false);
-
-    useEffect(() => {
-        setIsVisible(true);
-        return () => setIsVisible(false);
-    }, []);
+const PageTransition = ({ children }) => {
+    const location = useLocation();
 
     return (
-<div className={`page-transition ${isVisible ? 'fade-in' : 'fade-out'}`}>
-        {children}
-        </div>
+        <TransitionGroup>
+            <CSSTransition
+                key={location.key}
+                classNames="fade"
+                timeout={300}
+            >
+                <div className="page-transition">
+                    {children}
+                </div>
+            </CSSTransition>
+        </TransitionGroup>
     );
 };
 
-export default PageTransition
+export default PageTransition;
