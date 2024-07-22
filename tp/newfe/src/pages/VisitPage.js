@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import AttractionsList from "../components/AttractionsList";
 import Modal from "../components/Modal";
 import ConfirmationModal from "../components/ConfirmationModal";
 import EditAttractionModal from "../components/EditAttractionModal";
-import { getVisitDetails } from "../services/VisitService";
 import { useAuth0 } from "@auth0/auth0-react";
 import { formatTime } from "../services/formatTime";
 import Stopwatch from "../components/stopwatch"; // Import Stopwatch component
@@ -12,11 +11,14 @@ import "../Styles/VisitPage.css";
 import axios from "axios";
 import  getTimeofDay  from "../services/getTimeofDay";
 import PageTransition from "../services/pageTransition";
+import { getVisitDetails, getVisitAttractions, getVisitsByUserId} from "../services/API Calls/VisitService";
+
 
 const VisitPage = () => {
   const { visitId } = useParams();
-  const [visitDetails, setVisitDetails] = useState(null);
-  const { getAccessTokenSilently } = useAuth0();
+  const { state } = useLocation();
+  const [visitDetails, setVisitDetails] = useState(state?.visitDetails || null);
+  const { getAccessTokenSilently, user} = useAuth0();
   const [showModal, setShowModal] = useState(false);
   const [showEditAttractionModal, setShowEditAttractionModal] = useState(false);
   const [selectedAttractionData, setSelectedAttractionData] = useState(null);
@@ -25,26 +27,30 @@ const VisitPage = () => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [parkName, setParkName] = useState(null);
   const [attractions, setAttractions] = useState([]);
-  const [loadingPage, setLoadingPage] = useState(true);
+  const [loadingPage, setLoadingPage] = useState(!state?.visitDetails);
   const [loadingAttractions, setLoadingAttractions] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchVisitDetails = async () => {
-      try {
-        console.log("Fetching visit details...");
-        const data = await getVisitDetails(visitId, getAccessTokenSilently);
-        console.log("Visit details fetched: ", data);
-        setVisitDetails(data);
-        setLoadingPage(false);
-      } catch (error) {
-        console.error("Error fetching visit details: ", error);
-        setLoadingPage(false);
-      }
-    };
-
-    fetchVisitDetails();
-  }, [visitId, getAccessTokenSilently]);
+    if (!state?.visitDetails) {
+      const fetchVisitDetails = async () => {
+        try {
+          console.log('Fetching visit details...');
+          const data = await getVisitDetails(visitId, getAccessTokenSilently);
+          console.log('Visit details fetched: ', data);
+          setVisitDetails(data);
+          setLoadingPage(false);
+        } catch (error) {
+          console.error('Error fetching visit details:', error);
+          setLoadingPage(false);
+        }
+      };
+  
+      fetchVisitDetails();
+    } else {
+      setLoadingPage(false);
+    }
+  }, [visitId, getAccessTokenSilently, state]);
 
   useEffect(() => {
     if (visitDetails) {
@@ -57,51 +63,18 @@ const VisitPage = () => {
     const fetchAttractions = async () => {
       try {
         console.log("Fetching attractions...");
-        const token = await getAccessTokenSilently();
-        const visitResponse = await axios.get(
-          `http://localhost:8080/visits/${visitId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log("Visit response: ", visitResponse.data);
-        const mainParkId = visitResponse.data.park.id;
-        const individualParksResponse = await axios.get(
-          `http://localhost:8080/parks/${mainParkId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log(
-          "Individual parks response: ",
-          individualParksResponse.data
-        );
-        const individualParks = individualParksResponse.data.parks;
-        const attractionsPromises = individualParks.map((individualPark) =>
-          axios.get(
-            `http://localhost:8080/parks/${individualPark.id}/attractions`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          )
-        );
-
-        const responses = await Promise.all(attractionsPromises);
-        const allAttractions = responses.flatMap((res) => res.data);
-        console.log("Attractions fetched: ", allAttractions);
-        setAttractions(allAttractions);
+        const data = await getVisitAttractions(visitId, getAccessTokenSilently);
+        console.log("Attractions: ", data);
+        setAttractions(data);
         setLoadingAttractions(false); // Data is ready
-      } catch (error) {
-        console.error("Error fetching attractions:", error);
+      }
+      catch (error) {
+        console.error("Error fetching attractions: ", error);
         setLoadingAttractions(false); // Error occurred, stop loading
       }
     };
+
+
 
     fetchAttractions();
   }, [visitId, getAccessTokenSilently]);
@@ -131,6 +104,15 @@ const VisitPage = () => {
   const handleCloseEditAttractionModal = () => {
     setShowEditAttractionModal(false);
   };
+
+  const goToDashboard = async () => {
+    try {
+      const data = await getVisitsByUserId(user, getAccessTokenSilently);
+      navigate("/dashboard", { state: { visits: data } });
+    } catch (error) {
+      console.error("Error fetching user visits: ", error);
+    }
+    };
 
   const handleSaveAttraction = async (updatedAttraction) => {
     console.log("Updated attraction: ", updatedAttraction);
@@ -266,9 +248,7 @@ const VisitPage = () => {
     }
   };
 
-  const goToDashboard = () => {
-    navigate("/dashboard");
-  };
+
 
   // if (loadingPage) {
   //   return <div>Loading...</div>; // Loading placeholder for page
