@@ -33,6 +33,22 @@ body {
     list-style-type: none;
     padding: 0;
     width: 100%;
+    list-style-type: none;
+}
+
+.attraction-item {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.attraction-item:hover {
+    background-color: #1e81b0;
+}
+
+.attraction-item.selected {
+    background-color: #1e81b0;
+    font-weight: bold;
 }
 
 .visited-attraction-item {
@@ -163,6 +179,17 @@ body {
     color: #fff;
     text-decoration: none;
   }
+
+  .back-button:hover {
+    background-position: right center;
+    /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+  }
+
+    .back-button:active {
+        transform: scale(0.95);
+    }
   
   .button:active {
     transform: scale(0.95);

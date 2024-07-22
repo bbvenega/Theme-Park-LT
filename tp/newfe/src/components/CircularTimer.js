@@ -60,6 +60,15 @@ const CircularTimer = ({ duration, elapsedTime }) => {
             stroke: color,
           }}
         />
+        {!startLoading && (
+          <circle
+            // className="timer-dot"
+            cx="225"
+            cy="125"
+            r="15"
+            fill={color}
+          />
+        )}
       </svg>
       <div className="timer-text">{formatTime(elapsedTime)}</div>
     </div>
