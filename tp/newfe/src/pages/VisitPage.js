@@ -10,7 +10,7 @@ import { formatTime } from "../services/formatTime";
 import Stopwatch from "../components/stopwatch"; // Import Stopwatch component
 import "../Styles/VisitPage.css";
 import axios from "axios";
-
+import  getTimeofDay  from "../services/getTimeofDay";
 
 const VisitPage = () => {
   const { visitId } = useParams();
@@ -28,7 +28,6 @@ const VisitPage = () => {
   const [loadingAttractions, setLoadingAttractions] = useState(true);
   const navigate = useNavigate();
 
- 
   useEffect(() => {
     const fetchVisitDetails = async () => {
       try {
@@ -76,7 +75,10 @@ const VisitPage = () => {
             },
           }
         );
-        console.log("Individual parks response: ", individualParksResponse.data);
+        console.log(
+          "Individual parks response: ",
+          individualParksResponse.data
+        );
         const individualParks = individualParksResponse.data.parks;
         const attractionsPromises = individualParks.map((individualPark) =>
           axios.get(
@@ -122,42 +124,46 @@ const VisitPage = () => {
   const handleShowEditAttractionModal = (attraction) => {
     setSelectedAttraction(attraction);
     setShowEditAttractionModal(true);
-  }
+  };
 
   const handleCloseEditAttractionModal = () => {
     setShowEditAttractionModal(false);
-  }
+  };
 
   const handleSaveAttraction = async (updatedAttraction) => {
-    
     console.log("Updated attraction: ", updatedAttraction);
     try {
-      const token = await getAccessTokenSilently();
+    const token = await getAccessTokenSilently();
 
-      const updatedAttractionPayload = {
-        id: updatedAttraction.id,
-        timeOfDay: updatedAttraction.timeOfDay,
-        actualWaitTime: updatedAttraction.actualWaitTime,
-        postedWaitTime: updatedAttraction.postedWaitTime,
-        attractionName: updatedAttraction.attractionName,
-        fastpass: updatedAttraction.fastpass,
-        singleRider: updatedAttraction.singleRider,
-        brokeDown: updatedAttraction.brokeDown
-      };
+    const updatedAttractionPayload = {
+      id: updatedAttraction.id,
+      timeOfDay: updatedAttraction.timeOfDay,
+      actualWaitTime: updatedAttraction.actualWaitTime * 60,
+      postedWaitTime: updatedAttraction.postedWaitTime,
+      attractionName: updatedAttraction.attractionName,
+      fastpass: updatedAttraction.fastpass,
+      singleRider: updatedAttraction.singleRider,
+      brokeDown: updatedAttraction.brokeDown,
+    };
 
-      console.log("Token: ", token);
-      // LEFT OFF HERE ~ ERROR when trying to update attraction in the database
-      console.log(`Attempting to call http://localhost:8080/visits/${visitId}/attractions/${updatedAttraction.id}`);
-      await axios.put(
-        `http://localhost:8080/visits/${visitId}/attractions/${updatedAttraction.id}`,
-        updatedAttractionPayload,
-        {
-          headers: {
-            Authorizationq: `Bearer ${token}`,
-          },
-    }
-
-  );
+    console.log("Token: ", token);
+    // LEFT OFF HERE ~ ERROR when trying to update attraction in th
+    console.log("Attempting to update attraction: ", updatedAttractionPayload);
+    console.log(
+      `Attempting to call http://localhost:8080/visits/${visitId}/attractions/${updatedAttraction.id}`
+    );
+    await axios.put(
+      `http://localhost:8080/visits/${visitId}/attractions/${updatedAttraction.id}`,
+      {
+        ...updatedAttractionPayload,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  
     const updatedAttractions = visitDetails.userAttractions.map((attraction) =>
       attraction.id === updatedAttraction.id ? updatedAttraction : attraction
     );
@@ -166,19 +172,38 @@ const VisitPage = () => {
       userAttractions: updatedAttractions,
     }));
     handleCloseEditAttractionModal();
-  } catch (error) {
-    console.error("Error updating attraction: ", error);
-  }
-};
+    } catch (error) {
+      console.error("Error updating attraction: ", error);
+    }
+  };
 
-  const handleDeleteAttraction = (attractionId) => {
+
+  const handleDeleteAttraction = async (attractionId) => {
+
     setVisitDetails((prevDetails) => ({
       ...prevDetails,
-      userAttractions: prevDetails.userAttractions.filter((attraction) => attraction.id !== attractionId),
+      userAttractions: prevDetails.userAttractions.filter(
+        (attraction) => attraction.id !== attractionId
+      ),
     }));
     setShowEditAttractionModal(false);
-    }
 
+    // Delete the attraction from the database
+    try {
+      const token = await getAccessTokenSilently();
+      await axios.delete(
+        `http://localhost:8080/visits/${visitId}/attractions/${attractionId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    }
+    catch (error) {
+      console.error("Error deleting attraction: ", error);
+    }
+  };
 
   const handleAddAttraction = (data) => {
     setShowModal(false); // Close the modal immediately
@@ -192,13 +217,15 @@ const VisitPage = () => {
   const handleConfirmSubmit = async () => {
     try {
       const token = await getAccessTokenSilently();
+      
       await axios.post(
         `http://localhost:8080/visits/${visitId}/attractions`,
         {
           attractionId: selectedAttractionData.attraction.id,
-          timeOfDay: "CHANGE THIS",
+          timeOfDay: getTimeofDay(),
           actualWaitTime: elapsedTime,
-          postedWaitTime: selectedAttractionData.attraction.queue.STANDBY.waitTime,
+          postedWaitTime:
+            selectedAttractionData.attraction.queue.STANDBY.waitTime,
           attractionName: selectedAttractionData.attraction.name,
           fastpass: selectedAttractionData.fastpass,
           singleRider: selectedAttractionData.singleRider,
@@ -216,9 +243,10 @@ const VisitPage = () => {
           ...prevDetails.userAttractions,
           {
             attractionId: selectedAttractionData.attraction.id,
-            timeOfDay: "CHANGE THIS",
+            timeOfDay: selectedAttractionData.timeOfDay,
             actualWaitTime: elapsedTime,
-            postedWaitTime: selectedAttractionData.attraction.queue.STANDBY.waitTime,
+            postedWaitTime:
+              selectedAttractionData.attraction.queue.STANDBY.waitTime,
             attractionName: selectedAttractionData.attraction.name,
             fastpass: selectedAttractionData.fastpass,
             singleRider: selectedAttractionData.singleRider,
@@ -243,10 +271,18 @@ const VisitPage = () => {
   }
 
   return (
-    <div className={`visit-page-container ${showModal || showConfirmationModal ? 'blurred' : ''}`}>
-      <button onClick={goToDashboard} className="back-button">Dashboard</button>
+    <div
+      className={`visit-page-container ${
+        showModal || showConfirmationModal ? "blurred" : ""
+      }`}
+    >
+      <button onClick={goToDashboard} className="back-button">
+        Dashboard
+      </button>
       <h1>{parkName}</h1>
-      <button className="button" onClick={handleOpenModal}>Add Attraction</button>
+      <button className="button" onClick={handleOpenModal}>
+        Add Attraction
+      </button>
       <Modal show={showModal} onClose={handleCloseModal}>
         {loadingAttractions ? (
           <div>Loading...</div>
@@ -259,14 +295,16 @@ const VisitPage = () => {
       </Modal>
       {selectedAttractionData && (
         <div className="stopwatch-container">
-          <h3>Currently Timing: {selectedAttractionData.attraction.name}</h3>
+          <h3>Currently Timing: <br></br>{selectedAttractionData.attraction.name}</h3>
           <Stopwatch
             onStop={handleStopwatchStop}
             postedWaitTime={
               selectedAttractionData.attraction.queue.STANDBY.waitTime
             }
           />
-          <button className="button" onClick={handleShowConfirmationModal}>Submit</button>
+          <button className="button" onClick={handleShowConfirmationModal}>
+            Submit
+          </button>
         </div>
       )}
       <ConfirmationModal
@@ -286,19 +324,24 @@ const VisitPage = () => {
         <div className="visited-attractions-container">
           <h2>Visited Attractions</h2>
           <ul className="attractions-list">
-            {visitDetails.userAttractions.map((attraction) => (
-              <li key={attraction.id} 
-              className="visited-attraction-item"
-              onClick={() => handleShowEditAttractionModal(attraction)}
+            {visitDetails.userAttractions.reverse().map((attraction) => (
+              <li
+                key={attraction.id}
+                className="visited-attraction-item"
+                onClick={() => handleShowEditAttractionModal(attraction)}
               >
                 <span className="attraction-name">
                   {attraction.attractionName}
                 </span>
                 <ul className="attraction-details">
-                  Posted Wait Time: {attraction.postedWaitTime} minutes || Actual wait time: {formatTime(attraction.actualWaitTime)}
+                  Posted Wait Time: {attraction.postedWaitTime} minutes <br></br>
+                  Actual wait time: {formatTime(attraction.actualWaitTime)} <br></br>
                   <ul>
-                     {attraction.fastpass ? "⚡" : ""}  {attraction.singleRider ? "🙋" : ""} {attraction.brokeDown ? "🔨" : ""}
+                    {attraction.fastpass ? "⚡" : ""}{" "}
+                    {attraction.singleRider ? "🙋" : ""}{" "}
+                    {attraction.brokeDown ? "🔨" : ""}
                   </ul>
+                  {attraction.timeOfDay ? `Time of Day: ${attraction.timeOfDay}` : ""}
                 </ul>
               </li>
             ))}
