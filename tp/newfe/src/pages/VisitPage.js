@@ -11,6 +11,7 @@ import Stopwatch from "../components/stopwatch"; // Import Stopwatch component
 import "../Styles/VisitPage.css";
 import axios from "axios";
 import  getTimeofDay  from "../services/getTimeofDay";
+import PageTransition from "../services/pageTransition";
 
 const VisitPage = () => {
   const { visitId } = useParams();
@@ -269,12 +270,14 @@ const VisitPage = () => {
     navigate("/dashboard");
   };
 
-  if (loadingPage) {
-    return <div>Loading...</div>; // Loading placeholder for page
-  }
+  // if (loadingPage) {
+  //   return <div>Loading...</div>; // Loading placeholder for page
+  // }
 
     console.log("showeditmodal status: ", showEditAttractionModal);
+
   return (
+    <PageTransition>
     <div
       className={`visit-page-container ${
         showModal || showConfirmationModal ? "blurred" : ""
@@ -358,6 +361,7 @@ const VisitPage = () => {
         <p>Loading...</p>
       )}
     </div>
+    </PageTransition>
   );
 };
 
