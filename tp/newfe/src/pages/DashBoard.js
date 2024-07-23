@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+
 import LogoutButton from "../components/auth/LogoutButton";
-import { useNavigate } from "react-router-dom";
-import PageTransition from "../services/pageTransition";
+import AddVisitModal from "../components/Modals/AddVisitModal";
+import ParksList from "../components/Lists/ParksList";
+
+import PageTransition from "../services/Cosmetic/pageTransition";
 import {
   getVisitDetails,
   getVisitsByUserId,
   fetchParks,
   addVisit,
 } from "../services/API Calls/VisitService";
-import AddVisitModal from "../components/AddVisitModal";
-import ParksList from "../components/ParksList";
+
+import "../Styles/Dashboard.css";
+import "../Styles/Button.css";
+import "../Styles/Fonts.css";
 
 const Dashboard = () => {
 

@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import AttractionsList from "../components/AttractionsList";
-import Modal from "../components/Modal";
-import ConfirmationModal from "../components/ConfirmationModal";
-import EditAttractionModal from "../components/EditAttractionModal";
-import { useAuth0 } from "@auth0/auth0-react";
-import { formatTime } from "../services/formatTime";
-import Stopwatch from "../components/stopwatch"; // Import Stopwatch component
-import "../Styles/VisitPage.css";
 import axios from "axios";
-import  getTimeofDay  from "../services/getTimeofDay";
-import PageTransition from "../services/pageTransition";
+import { useAuth0 } from "@auth0/auth0-react";
+
+import AttractionsList from "../components/Lists/AttractionsList";
+import Stopwatch from "../components/Timers/stopwatch"; // Import Stopwatch component
+
+import Modal from "../components/Modals/Modal";
+import ConfirmationModal from "../components/Modals/ConfirmationModal";
+import EditAttractionModal from "../components/Modals/EditAttractionModal";
+
+import { formatTime } from "../services/Time Stuff/formatTime";
+import  getTimeofDay  from "../services/Time Stuff/getTimeofDay";
+import PageTransition from "../services/Cosmetic/pageTransition";
 import { getVisitDetails, getVisitAttractions, getVisitsByUserId} from "../services/API Calls/VisitService";
+
+import "../Styles/VisitPage.css";
+import "../Styles/Button.css";
+import "../Styles/Fonts.css";
 
 
 const VisitPage = () => {
@@ -250,9 +256,9 @@ const VisitPage = () => {
 
 
 
-  // if (loadingPage) {
-  //   return <div>Loading...</div>; // Loading placeholder for page
-  // }
+  if (loadingPage) {
+    return <div>Loading...</div>; // Loading placeholder for page
+  }
 
     console.log("showeditmodal status: ", showEditAttractionModal);
 

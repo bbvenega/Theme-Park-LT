@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import CircularTimer from "./CircularTimer";
+import "../../Styles/CircularTimer.css";
 
 const Stopwatch = ({ onStop, postedWaitTime }) => {
   const [time, setTime] = useState(0);

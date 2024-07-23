@@ -1,5 +1,7 @@
 import React from 'react';
 import LoginButton from '../components/auth/LoginButton';
+import "../Styles/Button.css";
+import "../Styles/Fonts.css";
 
 const HomePage = () => {
     return (
