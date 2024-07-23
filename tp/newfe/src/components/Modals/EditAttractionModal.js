@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../Styles/Modal.css';
+import '../../Styles/Modal.css';
 
 const EditAttractionModal = ({ show, onClose, attraction, onSave, onDelete }) => {
     const [postedWaitTime, setPostedWaitTime] = useState("");
@@ -8,7 +8,7 @@ const EditAttractionModal = ({ show, onClose, attraction, onSave, onDelete }) =>
     const [singleRider, setSingleRider] = useState(false);
     const [brokeDown, setBrokeDown] = useState(false);
     const [timeOfDay, setTimeOfDay] = useState("");
-    const [isVisibile, setIsVisible] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
         if (show) {
@@ -48,7 +48,10 @@ const EditAttractionModal = ({ show, onClose, attraction, onSave, onDelete }) =>
         onDelete(attraction.id);
     };
 
-
+    // if (!isVisible && !show) {
+    //     return null;
+    // }
+    console.log("isVisible: ", isVisible);
 
     return (
         <div className={`modal-backdrop ${show ? "fade-in" : "fade-out"}`}>

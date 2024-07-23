@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import "../Styles/Modal.css";
-import { formatTime } from "../services/formatTime";
+import '../../Styles/Modal.css';
+import { formatTime } from "../../services/Time Stuff/formatTime";
 
 const ConfirmationModal = ({ show, onClose, onConfirm, elapsedTime }) => {
-    const [isVisibile, setIsVisible] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
         if (show) {
@@ -14,6 +14,11 @@ const ConfirmationModal = ({ show, onClose, onConfirm, elapsedTime }) => {
         }
     }, [show]);
 
+  //   if (!isVisible && !show) {
+  //     return null;
+  // }
+
+  console.log("isVisible: ", isVisible);
   return (
     <div className={`modal-backdrop ${show ? "fade-in" : "fade-out"}`}>
       <div className={`modal-content ${show ? "fade-in" : "fade-out"}`}>

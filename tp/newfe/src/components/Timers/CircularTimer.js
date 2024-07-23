@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../Styles/CircularTimer.css';
+import '../../Styles/CircularTimer.css';
 
 const CircularTimer = ({ duration, elapsedTime }) => {
   const [startLoading, setStartLoading] = useState(true);
@@ -13,9 +13,9 @@ const CircularTimer = ({ duration, elapsedTime }) => {
   const circumference = 2 * Math.PI * radius;
 
   const strokeDasharray = startLoading ? circumference / 10 : circumference;
-  const strokeDashoffset = startLoading
-    ? circumference
-    : circumference - (elapsedTime / duration) * circumference;
+  // const strokeDashoffset = startLoading
+  //   ? circumference
+  //   : circumference - (elapsedTime / duration) * circumference;
 
   const currentProgress = Math.min(elapsedTime / duration, 1);
   const offset = circumference - currentProgress * circumference;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from 'react';
 // import { useAuth0 } from '@auth0/auth0-react';
-import '../Styles/Modal.css';
+import '../../Styles/Modal.css';
 
 const AddVisitModal = ({ show, onClose, children, themePark, onAdd }) => {
     const [isVisible, setIsVisible] = useState(false);
@@ -32,9 +32,11 @@ const AddVisitModal = ({ show, onClose, children, themePark, onAdd }) => {
 
 
 
-    if (!isVisible && !show) {
-        return null;
-    }
+    // if (!isVisible && !show) {
+    //     return null;
+    // }
+
+    console.log("isVisible: ", isVisible);
 
     return (
         <div className={`modal-backdrop ${show ? 'fade-in' : 'fade-out'}`}>

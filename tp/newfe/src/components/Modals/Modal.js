@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import '../Styles/Modal.css'
+import '../../Styles/Modal.css'
 ;
 
 const Modal = ({show, onClose, children}) => {
-    const [isVisibile, setIsVisible] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
         if (show) {
@@ -14,6 +14,10 @@ const Modal = ({show, onClose, children}) => {
         }
     }, [show]);
 
+    // if (!isVisible && !show) {
+    //     return null;
+    // }
+    console.log("isVisible: ", isVisible);
 
     return (
         <div className={`modal-backdrop ${show ? 'fade-in' : 'fade-out'}`}>
