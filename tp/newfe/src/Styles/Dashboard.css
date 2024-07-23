@@ -1,0 +1,100 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Ensures the container takes up the full viewport height */
+  padding: 20px;
+}
+
+.visit-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  padding: 10px;
+  /* background-color: #c4deab; */
+  /* background-image: linear-gradient(315deg, #c4deab 0%, #5691c8 74%); */
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 80vw;
+}
+
+.visit-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+  list-style-type: none;
+}
+
+.visit-list-item {
+  background-image: linear-gradient(315deg, #c4deab 0%, #5691c8 74%);
+  border-radius: 10px;
+  margin: 10px 0;
+  padding: 15px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.visit-list-item-content {
+  text-align: center;
+}
+
+.visit-list-item:hover {
+  background-color: #1e81b0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.park-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+  list-style-type: none;
+}
+
+.park-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.park-item:hover {
+  background-color: #1e81b0;
+}
+
+.park-item.selected {
+  background-color: #1e81b0;
+  font-weight: bold;
+}
+
+.park-item-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  padding: 10px;
+  /* background-color: #c4deab; */
+  background-image: linear-gradient(315deg, #c4deab 0%, #5691c8 74%);
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 80vw;
+}
+
+.park-item-subtext {
+  font-size: 0.9em;
+  color: lightgray;
+}

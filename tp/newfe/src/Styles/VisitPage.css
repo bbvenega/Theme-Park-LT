@@ -11,73 +11,10 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh; /* Ensures the container takes up the full viewport height */
+    min-height: 100vh; 
     padding: 20px;
 }
 
-.dashboard-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh; /* Ensures the container takes up the full viewport height */
-    padding: 20px;
-}
-
-.visit-list-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 10px;
-    padding: 10px;
-    /* background-color: #c4deab; */
-    /* background-image: linear-gradient(315deg, #c4deab 0%, #5691c8 74%); */
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 80vw;
-
-}
-
-.visit-list{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    list-style-type: none;
-    padding: 0;
-    width: 100%;
-    list-style-type: none;
-}
-
-.visit-list-item {
-    background-image: linear-gradient(315deg, #c4deab 0%, #5691c8 74%);
-    border-radius: 10px;
-    margin: 10px 0;
-    padding: 15px;
-    width: 100%;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.visit-list-item-content {
-    text-align: center;
-}
-
-.visit-list-item:hover {
-    background-color: #1e81b0;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
-
-.stopwatch-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-}
 
 .attractions-list {
     display: flex;
@@ -105,51 +42,6 @@ body {
     font-weight: bold;
 }
 
-.park-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    list-style-type: none;
-    padding: 0;
-    width: 100%;
-    list-style-type: none;
-}
-
-.park-item {
-    padding: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.park-item:hover {
-    background-color: #1e81b0;
-}
-
-.park-item.selected {
-    background-color: #1e81b0;
-    font-weight: bold;
-}
-
-.park-item-details {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 10px;
-    padding: 10px;
-    /* background-color: #c4deab; */
-    background-image: linear-gradient(315deg, #c4deab 0%, #5691c8 74%);
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 80vw;
-}
-
-.park-item-subtext {
-    font-size: 0.9em;
-    color: lightgray;
-}
 
 
 
@@ -189,38 +81,7 @@ body {
     color: lightgray;
 }
 
-.timer-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    margin: 0 auto; /* Center horizontally */
-}
 
-.circular-timer {
-    transform: rotate(-90deg);
-}
-
-.timer-background {
-    fill: none;
-    stroke: #e6e6e6;
-    width: 400px;
-    height: 400px;
-}
-
-.timer-progress {
-    fill: none;
-    stroke-linecap: round;
-    transition: stroke-dashoffset 0.5s, stroke 0.5s;
-}
-
-.timer-text {
-    position: absolute;
-    font-size: 55px;
-    text-align: center;
-    color: white; /* Ensures the timer text is readable */
-}
 
 .buttons-container {
     display: flex;
@@ -230,77 +91,6 @@ body {
     width: 100%;
 }
 
-.button {
-    margin: 0 10px;
-    margin-top: 10px;
-    padding: 15px 30px;
-    text-align: center;
-    text-transform: uppercase;
-    transition: 0.5s;
-    background-size: 200% auto;
-    color: white;
-    border-radius: 10px;
-    display: block;
-    border: 100px;
-    border-color: white;
-    font-weight: 700;
-    box-shadow: 0px 0px 14px -7px #154c79;
-    background-image: linear-gradient(45deg, #154c79 0%, #1e81b0 51%, #063970  100%);
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-  }
 
-  .back-button {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    padding: 15px 30px;
-    text-align: center;
-    text-transform: uppercase;
-    transition: 0.5s;
-    background-size: 200% auto;
-    color: white;
-    border-radius: 10px;
-    display: block;
-    border: 100px;
-    border-color: white;
-    font-weight: 700;
-    box-shadow: 0px 0px 14px -7px #154c79;
-    background-image: linear-gradient(45deg, #154c79 0%, #1e81b0 51%, #063970  100%);
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-  }
-  
-  .button:hover {
-    background-position: right center;
-    /* change the direction of the change here */
-    color: #fff;
-    text-decoration: none;
-  }
-
-  .back-button:hover {
-    background-position: right center;
-    /* change the direction of the change here */
-    color: #fff;
-    text-decoration: none;
-  }
-
-    .back-button:active {
-        transform: scale(0.95);
-    }
-  
-  .button:active {
-    transform: scale(0.95);
-  }
   
 
-  @font-face {
-    font-family: 'Saira';
-    src: url('../assets/fonts/Saira/static/Saira-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useLocation } from 'react-router-dom';
-import '../Styles/pageTransition.css';
+import '../../Styles/PageTransition.css';
 
 const PageTransition = ({ children }) => {
     const location = useLocation();
