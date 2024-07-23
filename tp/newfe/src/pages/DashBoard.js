@@ -1,62 +1,86 @@
-// pages/Dashboard.js
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import LogoutButton from "../components/auth/LogoutButton";
 import { useNavigate } from "react-router-dom";
 import PageTransition from "../services/pageTransition";
-import { getVisitDetails, getVisitsByUserId } from "../services/API Calls/VisitService";
+import {
+  getVisitDetails,
+  getVisitsByUserId,
+  fetchParks,
+  addVisit,
+} from "../services/API Calls/VisitService";
+import AddVisitModal from "../components/AddVisitModal";
+import ParksList from "../components/ParksList";
 
 const Dashboard = () => {
- const[loadingVisit, setLoadingVisit] = useState(false);
+  const [loadingVisit, setLoadingVisit] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const { getAccessTokenSilently, user } =
-    useAuth0();
+  const { getAccessTokenSilently, user } = useAuth0();
   const [visits, setVisits] = useState([]);
   const [error, setError] = useState(null);
   const { state } = useLocation();
-
+  const [showAddVisitModal, setShowAddVisitModal] = useState(false);
+  const [parks, setParks] = useState([]);
 
   useEffect(() => {
+    const fetchVisits = async () => {
+      try {
+        const data =
+          state?.visits ||
+          (await getVisitsByUserId(user, getAccessTokenSilently));
+        setVisits(data.reverse());
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching visits: ", error);
+        setLoading(false);
+      }
+    };
 
-      const fetchVisits = async () => {
-        try {
-          const data = state?.visits || await getVisitsByUserId(user, getAccessTokenSilently);
-          setVisits(data.reverse());
-          setLoading(false);
-        } catch (error) {
-          console.error('Error fetching visits: ', error);
-          setLoading(false);
-        } finally {
-            setLoading(false);
-        }
-      };
-
-      fetchVisits();
-    
+    fetchVisits();
   }, [getAccessTokenSilently, state, user]);
 
-
- 
- 
   const handleSelectVisit = async (visit) => {
     console.log("Selected Visit: ", visit);
     setLoadingVisit(true);
 
     try {
-        const visitDetails = await getVisitDetails(visit.id, getAccessTokenSilently);
-        navigate(`/visit/${visit.id}`, { state: { visitDetails } });
+      const visitDetails = await getVisitDetails(
+        visit.id,
+        getAccessTokenSilently
+      );
+      navigate(`/visit/${visit.id}`, { state: { visitDetails } });
     } catch (error) {
-        console.error("Error fetching visit details: ", error);
+      console.error("Error fetching visit details: ", error);
     } finally {
-        setLoadingVisit(false);
+      setLoadingVisit(false);
     }
-};
+  };
 
+  const handleOpenAddVisitModal = async () => {
+    try {
+      const parkData = await fetchParks(getAccessTokenSilently);
+      setParks(parkData);
+      setShowAddVisitModal(true);
+    } catch (error) {
+      console.error("Error fetching parks: ", error);
+    }
+  };
 
+  const handleCloseModal = () => {
+    setShowAddVisitModal(false);
+  };
 
-
+  const handleAddVisit = async (newVisit) => {
+    try {
+      await addVisit(newVisit, getAccessTokenSilently);
+      setVisits((prevVisits) => [newVisit, ...prevVisits]);
+      setShowAddVisitModal(false);
+    } catch (error) {
+      console.error("Error adding visit: ", error);
+    }
+  };
 
   if (error) {
     return <div>Oops... {error.message}</div>;
@@ -64,12 +88,10 @@ const Dashboard = () => {
 
   return (
     <PageTransition>
-    <div className="dashboard-container">
-      <h1>Welcome to Your Dashboard</h1>
-      <p>This is a private page you can see only after logging in.</p>
-
-      <h2>Your Visits</h2>
-      {/* <div className="visit-list-container"> */}
+      <div className="dashboard-container">
+        <h1>Welcome to Your Dashboard</h1>
+        <p>This is a private page you can see only after logging in.</p>
+        <h2>Your Visits</h2>
         {visits && visits.length > 0 ? (
           <ul className="visit-list">
             {visits.map((visit) => (
@@ -85,15 +107,20 @@ const Dashboard = () => {
             ))}
           </ul>
         ) : (
-          <p> No Visits Found! </p>
+          <p>No Visits Found!</p>
         )}
-      {/* </div> */}
-      <button className="button" type="button">
-        Add Visit
-      </button>
-
-      <LogoutButton />
-    </div>
+        <button
+          className="button"
+          type="button"
+          onClick={handleOpenAddVisitModal}
+        >
+          Add Visit
+        </button>
+        <AddVisitModal show={showAddVisitModal} onClose={handleCloseModal}>
+          <ParksList parks={parks} onAdd={handleAddVisit} />
+        </AddVisitModal>
+        <LogoutButton />
+      </div>
     </PageTransition>
   );
 };
