@@ -1,16 +1,13 @@
-
 import React, { useEffect, useState} from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
+// import { useAuth0 } from '@auth0/auth0-react';
 import '../Styles/Modal.css';
-import getTimeofDay from '../services/getTimeofDay';
-import ParksList from '../components/ParksList'
 
 const AddVisitModal = ({ show, onClose, children, themePark, onAdd }) => {
     const [isVisible, setIsVisible] = useState(false);
-    const [dateVisited, setDateVisited] = useState("");
-    const [park, setPark] = useState(null);
-    const {  user } = useAuth0();
-    const [userAttractions, setUserAttractions] = useState([]);
+    // const [dateVisited, setDateVisited] = useState("");
+    // const [park, setPark] = useState(null);
+    // const {  user } = useAuth0();
+    // const [userAttractions, setUserAttractions] = useState([]);
 
 
     useEffect(() => {
@@ -24,23 +21,16 @@ const AddVisitModal = ({ show, onClose, children, themePark, onAdd }) => {
 
 
 
-    useEffect(() => {
-        if(themePark) {
-            setDateVisited(new Date().toISOString().split('T')[0]);
-            setPark(themePark);
-            setUserAttractions([]);
+    // useEffect(() => {
+    //     if(themePark) {
+    //         setDateVisited(new Date().toISOString().split('T')[0]);
+    //         setPark(themePark);
+    //         setUserAttractions([]);
             
-        }
-    }, [themePark]);
+    //     }
+    // }, [themePark]);
 
-    const handleAddVisit = async () => {
-        onAdd({
-            park: park,
-            dateVisited: dateVisited,
-            user: user,
-            userAttractions: userAttractions,
-        })
-    };
+
 
     if (!isVisible && !show) {
         return null;

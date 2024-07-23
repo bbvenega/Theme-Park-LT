@@ -42,6 +42,7 @@ export const getVisitDetails = async (visitId, getAccessTokenSilently) => {
 export const addVisit = async (visit, getAccessTokenSilently) => {
   try {
     const token = await getAccessTokenSilently();
+    console.log("Visit: ", visit);
     await axios.post("http://localhost:8080/visits", visit, {
       headers: {
         Authorization: `Bearer ${token}`,
