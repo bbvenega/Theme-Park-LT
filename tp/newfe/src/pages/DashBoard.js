@@ -14,12 +14,12 @@ import AddVisitModal from "../components/AddVisitModal";
 import ParksList from "../components/ParksList";
 
 const Dashboard = () => {
-  const [loadingVisit, setLoadingVisit] = useState(false);
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const { getAccessTokenSilently, user } = useAuth0();
   const [visits, setVisits] = useState([]);
-  const [error, setError] = useState(null);
+  const { error } = useState(null);
   const { state } = useLocation();
   const [showAddVisitModal, setShowAddVisitModal] = useState(false);
   const [parks, setParks] = useState([]);
@@ -43,7 +43,7 @@ const Dashboard = () => {
 
   const handleSelectVisit = async (visit) => {
     console.log("Selected Visit: ", visit);
-    setLoadingVisit(true);
+
 
     try {
       const visitDetails = await getVisitDetails(
@@ -54,7 +54,7 @@ const Dashboard = () => {
     } catch (error) {
       console.error("Error fetching visit details: ", error);
     } finally {
-      setLoadingVisit(false);
+
     }
   };
 
@@ -75,8 +75,11 @@ const Dashboard = () => {
   const handleAddVisit = async (newVisit) => {
     try {
       await addVisit(newVisit, getAccessTokenSilently);
-      setVisits((prevVisits) => [newVisit, ...prevVisits]);
+      const updatedVisits = await getVisitsByUserId(user, getAccessTokenSilently);
+        setVisits(updatedVisits.reverse());
       setShowAddVisitModal(false);
+
+      navigate (`/visit/${newVisit.id}`, {state: {visitDetails: newVisit}});
     } catch (error) {
       console.error("Error adding visit: ", error);
     }
@@ -85,6 +88,10 @@ const Dashboard = () => {
   if (error) {
     return <div>Oops... {error.message}</div>;
   }
+
+    if (loading) {
+    return <div>Loading...</div>;
+    }
 
   return (
     <PageTransition>
