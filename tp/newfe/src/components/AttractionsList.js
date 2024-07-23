@@ -18,7 +18,6 @@ const AttractionsList = ({
     setSingleRider(false);
     setBrokeDown(false);
     setElapsedTime(0); // Reset elapsed time for the new attraction
-
   };
 
   const handleSubmit = () => {
@@ -36,7 +35,7 @@ const AttractionsList = ({
   return (
     <div>
       <h2>Attractions</h2>
-      <ul className = "attractions-list">
+      <ul className="attractions-list">
         {attractions
           .filter(
             (attraction) =>
@@ -50,14 +49,16 @@ const AttractionsList = ({
           .map((attraction) => (
             <li
               key={attraction.id}
-              className={`attraction-item ${selectedAttraction === attraction ? 'selected' : ''}`}
+              className={`attraction-item ${
+                selectedAttraction === attraction ? "selected" : ""
+              }`}
               onClick={() => handleAttractionSelect(attraction)}
             >
-              {attraction.name} <br></br> Wait Time:{" "} 
+              {attraction.name} <br></br> Wait Time:{" "}
               {attraction.queue && attraction.queue.STANDBY
                 ? attraction.queue.STANDBY.waitTime
-                : "N/A"}
-                {" "} minutes
+                : "N/A"}{" "}
+              minutes
             </li>
           ))}
       </ul>
@@ -89,7 +90,9 @@ const AttractionsList = ({
             Did it breakdown?
           </label>
 
-           <button className="button" onClick={handleSubmit}>Add Attraction</button>
+          <button className="button" onClick={handleSubmit}>
+            Add Attraction
+          </button>
         </div>
       )}
     </div>

@@ -39,6 +39,37 @@ export const getVisitDetails = async (visitId, getAccessTokenSilently) => {
   }
 };
 
+export const addVisit = async (visit, getAccessTokenSilently) => {
+  try {
+    const token = await getAccessTokenSilently();
+    await axios.post("http://localhost:8080/visits", visit, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error) {
+    console.error("Error adding visit: ", error);
+    throw error;
+  }
+};
+
+export const fetchParks = async (getAccessTokenSilently) => {
+  try {
+    const token = await getAccessTokenSilently();
+    const response = await axios.get("http://localhost:8080/parks", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching parks: ", error);
+    throw error;
+  }
+};
+
 export const getVisitAttractions = async (visitId, getAccessTokenSilently) => {
   try {
     const token = await getAccessTokenSilently();

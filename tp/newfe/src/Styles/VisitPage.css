@@ -107,6 +107,52 @@ body {
     font-weight: bold;
 }
 
+.park-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    list-style-type: none;
+}
+
+.park-item {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.park-item:hover {
+    background-color: #1e81b0;
+}
+
+.park-item.selected {
+    background-color: #1e81b0;
+    font-weight: bold;
+}
+
+.park-item-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    padding: 10px;
+    /* background-color: #c4deab; */
+    background-image: linear-gradient(315deg, #c4deab 0%, #5691c8 74%);
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 80vw;
+}
+
+.park-item-subtext {
+    font-size: 0.9em;
+    color: lightgray;
+}
+
 
 
 .visited-attraction-item {
