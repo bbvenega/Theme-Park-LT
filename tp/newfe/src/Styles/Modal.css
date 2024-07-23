@@ -16,8 +16,9 @@
 }
 
 .modal-backdrop.fade-in {
-    visibility: visible;
     opacity: 1;
+    visibility: visible;
+
 }
 
 .modal-backdrop.fade-out {
@@ -44,7 +45,6 @@
 .modal-content.fade-in {
     transform: scale(1);
     opacity: 1;
-
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
