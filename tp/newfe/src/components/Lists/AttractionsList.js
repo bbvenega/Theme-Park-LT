@@ -71,7 +71,7 @@ const AttractionsList = ({
           ))}
       </ul>
       {selectedAttraction && (
-        <div>
+        <div className="attraction-select-options">
           <h3>Selected Attraction: {selectedAttraction.name}</h3>
           <label>
             <input
