@@ -1,3 +1,5 @@
+// AuthService class that gets the user from the principal
+
 package com.brianvenegas.tp.service;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

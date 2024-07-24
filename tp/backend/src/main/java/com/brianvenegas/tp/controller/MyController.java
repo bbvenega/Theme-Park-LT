@@ -1,3 +1,5 @@
+// MyController class that contains a simple GET endpoint that returns a greeting message. Used to test the application.
+
 package com.brianvenegas.tp.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;

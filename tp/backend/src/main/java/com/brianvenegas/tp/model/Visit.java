@@ -1,3 +1,4 @@
+// Visit: A visit represents a user's visit to a park. 
 package com.brianvenegas.tp.model;
 
 import java.util.ArrayList;
@@ -27,15 +28,21 @@ public class Visit {
     private String parkName;
     private String dateVisited;
 
+    // A visit is associated with a park.
+    // The visit is the child of the relationship and may belong to only one park.
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "park_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Park park;
 
+    // A visit has a list of userAttractions.
+    // The visit is the owner of the relationship and may have many userAttractions.
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "visit", orphanRemoval = true)
     @JsonManagedReference
     private List<userAttraction> userAttractions = new ArrayList<>();
 
+    // A visit is associated with a user.
+    // The visit is the child of the relationship and may belong to only one user.
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
     @JoinColumn(name = "user_id")
@@ -98,21 +105,35 @@ public class Visit {
         this.park = newPark;
     }
 
+    // UserAttraction: A userAttraction represents an attraction a user rides on a certain visit.
+    // It has special attributes specific to the visit / user.
     @Entity
     public static class userAttraction {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
+
+        // TimeOfDay: The time of day the user rode the attraction.
         private String timeOfDay;
+
+        // ActualWaitTime: The actual wait time the user experienced for the attraction.
+        // PostedWaitTime: The posted wait time for the attraction.
         private long actualWaitTime;
         private int postedWaitTime;
+
         private String attractionName;
         private String attractionId;
+
+        // Fastpass: A boolean that represents if the user has a fastpass for the attraction.
+        // SingleRider: A boolean that represents if the user is riding the attraction as a single rider.
+        // BrokeDown: A boolean that represents if the attraction broke down during the user's visit.
         private boolean fastpass;
         private boolean singleRider;
         private boolean brokeDown;
 
+        // A userAttraction is associated with a visit.
+        // The userAttraction is the child of the relationship and may belong to only one visit.
         @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "visit_id")
         @JsonBackReference
@@ -130,7 +151,6 @@ public class Visit {
             this.timeOfDay = "CHANGE THIS";
             this.actualWaitTime = 0;
             this.postedWaitTime = 0;
-            // this.postedWaitTime = attraction.getQueue().getStandby().getWaitTime();
         }
 
         public Long getId() {

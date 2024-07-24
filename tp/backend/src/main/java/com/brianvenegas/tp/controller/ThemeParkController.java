@@ -1,3 +1,4 @@
+// ThemeParkController manages the endpoints for the Theme Park API. It is responsible for handling requests for parks and attractions.
 package com.brianvenegas.tp.controller;
 
 import java.util.List;
@@ -23,15 +24,16 @@ public class ThemeParkController {
     @Autowired
     private ThemeParkService themeParkService;
 
+    // Get all parks
     @GetMapping
     public List<Park> getParks() {
         return themeParkService.getParks();
     }
 
-    
+    // Get park by ID
     @GetMapping("/{parkId}")
     public ResponseEntity<Park> getParkById(@PathVariable String parkId) {
-        
+
         Park park = themeParkService.getParkByID(parkId);
         if (park != null) {
             return new ResponseEntity<>(park, HttpStatus.OK);
@@ -40,6 +42,7 @@ public class ThemeParkController {
         }
     }
 
+    // Get all attractions
     @GetMapping("/attractions")
     public ResponseEntity<List<Attraction>> getAttractions() {
         try {
@@ -50,6 +53,7 @@ public class ThemeParkController {
         }
     }
 
+    // Get attractions by park ID
     @GetMapping("/{parkId}/attractions")
     public ResponseEntity<List<Attraction>> getAttractionsByIndividualParkId(@PathVariable String parkId) {
         try {

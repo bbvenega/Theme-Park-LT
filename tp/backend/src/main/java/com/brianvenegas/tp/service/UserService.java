@@ -1,3 +1,4 @@
+// UserService is a collection of methods that interact with the database to retrieve and store data about users.
 package com.brianvenegas.tp.service;
 
 import java.util.List;
@@ -9,8 +10,6 @@ import org.springframework.stereotype.Service;
 import com.brianvenegas.tp.model.User;
 import com.brianvenegas.tp.repository.UserRepository; // Import the User entity
 
-
-// @Service indicates this class contains business logic
 @Service
 public class UserService {
 
@@ -18,6 +17,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    // Method to retrieve all users
     public List<User> getAllUser() {
         return userRepository.findAll(); // Returns all users in the database
     }
@@ -32,14 +32,17 @@ public class UserService {
         return userRepository.findById(id); // Finds the user by ID or returns null if not found
     }
 
+    // Method to save a user
     public User saveUser(User user) {
         return userRepository.save(user); // Saves the user entity to the database
     }
 
+    // Method to delete a user by ID
     public void deleteUser(String id) {
         userRepository.deleteById(id); // Deletes the user by ID
     }
 
+    // Method to update a user
     public User updateUser(String id, User userDetails) {
         return userRepository.findById(id).map(user -> {
             user.setName(userDetails.getName());
@@ -51,6 +54,5 @@ public class UserService {
             return userRepository.save(userDetails);
         });
     }
-
 
 }

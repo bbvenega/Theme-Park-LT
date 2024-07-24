@@ -1,3 +1,5 @@
+// AuthController class that handles the authentication of the user
+
 package com.brianvenegas.tp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;

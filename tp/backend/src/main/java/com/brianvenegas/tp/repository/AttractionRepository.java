@@ -1,7 +1,8 @@
+// Attractions Repository: Communicates with the database to perform CRUD operations on the Attraction entity.
+
 package com.brianvenegas.tp.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

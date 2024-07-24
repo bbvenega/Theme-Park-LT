@@ -1,3 +1,8 @@
+// SecurityConfig class that configures the security of the application. 
+// It uses the NimbusJwtDecoder to decode the JWT token and the JwtAuthenticationConverter to convert the JWT token into an authentication object. 
+// It also configures the security filter chain to allow access to the /public/** endpoint without authentication and to require authentication for all other endpoints. 
+// The JWT decoder is configured to use the JWKS URI provided by Auth0 to fetch the public keys used to verify the JWT token signature.
+
 package com.brianvenegas.tp.config;
 
 import org.springframework.context.annotation.Bean;
