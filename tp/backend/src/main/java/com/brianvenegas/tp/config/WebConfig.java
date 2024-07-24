@@ -1,3 +1,5 @@
+// WebConfig class to allow CORS requests from the frontend.
+
 package com.brianvenegas.tp.config;
 
 import org.springframework.context.annotation.Configuration;
