@@ -1,3 +1,5 @@
+// getTimeofDay returns the current time formated as HH:MM 
+
 function getTimeofDay() {
   const now = new Date();
     const hours = now.getHours();

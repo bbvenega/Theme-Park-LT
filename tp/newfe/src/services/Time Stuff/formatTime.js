@@ -1,3 +1,5 @@
+// FormatTime function to convert seconds to hours, minutes, and seconds
+
 export const formatTime = (time) => {
   const seconds = Math.floor(time % 60);
   const minutes = Math.floor((time / 60) % 60);

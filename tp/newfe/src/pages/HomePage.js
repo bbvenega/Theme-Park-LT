@@ -3,6 +3,7 @@ import LoginButton from '../components/auth/LoginButton';
 import "../Styles/Button.css";
 import "../Styles/Fonts.css";
 
+// The page a user logins to. This is a public page.
 const HomePage = () => {
     return (
         <div className="HomePage">
