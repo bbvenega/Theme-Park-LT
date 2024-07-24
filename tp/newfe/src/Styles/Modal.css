@@ -75,3 +75,14 @@
   font-size: 1.5em;
   cursor: pointer;
 }
+
+.modal-text-header {
+  font-size: 1.5em;
+  color: gold;
+  font-weight: bold;
+}
+
+.modal-text-subtext {
+  font-size: 0.9em;
+  color: lightgray;
+}

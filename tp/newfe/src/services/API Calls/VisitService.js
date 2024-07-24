@@ -117,3 +117,20 @@ export const getVisitAttractions = async (visitId, getAccessTokenSilently) => {
     throw error;
   }
 };
+
+// Deletes a visit from the database
+export const deleteVisit = async (visitId, getAccessTokenSilently) => {
+  try {
+    const token = await getAccessTokenSilently();
+    await axios.delete(`http://localhost:8080/visits/${visitId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  } catch (error) {
+    console.error("Error fetching parks: ", error);
+    throw error;
+  }
+};

@@ -2,9 +2,14 @@
 
 function getTimeofDay() {
   const now = new Date();
-    const hours = now.getHours();
+    let hours = now.getHours();
     const minutes = now.getMinutes();
-    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+
+    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${ampm}`;
     return formattedTime;
 
   

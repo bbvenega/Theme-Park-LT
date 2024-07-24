@@ -26,7 +26,7 @@ const CircularTimer = ({ duration, elapsedTime }) => {
   const currentProgress = Math.min(elapsedTime / duration, 1);
   const offset = circumference - currentProgress * circumference;
 
-  const startColor = { r: 0, g: 255, b: 0 };
+  const startColor = { r: 66, g: 153, b: 69 };
   const endColor = { r: 255, g: 0, b: 0 };
 
   const color = `rgb(

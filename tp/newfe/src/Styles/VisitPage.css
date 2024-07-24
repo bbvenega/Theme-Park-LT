@@ -35,6 +35,15 @@ body {
   list-style-type: none;
 }
 
+.attraction-select-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+
+}
+
 /* The attraction item is the individual attraction in the list. */
 .attraction-item {
   padding: 10px;
