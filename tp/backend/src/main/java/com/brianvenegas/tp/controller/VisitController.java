@@ -1,3 +1,4 @@
+// VisitController is the controller class for the Visit model. It contains all the endpoints for the Visit model.
 package com.brianvenegas.tp.controller;
 
 import java.util.ArrayList;
@@ -24,7 +25,6 @@ import com.brianvenegas.tp.model.Visit.userAttraction;
 import com.brianvenegas.tp.service.ThemeParkService;
 import com.brianvenegas.tp.service.VisitService;
 
-
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/visits")
@@ -38,65 +38,69 @@ public class VisitController {
     @Autowired
     private ThemeParkService ThemeParkService;
 
+    // Get all visits
     @GetMapping
     public ResponseEntity<List<Visit>> getAllVisit() {
         System.out.println("Getting all visits");
         List<Visit> visits = visitService.getAllVisit();
         return new ResponseEntity<>(visits, HttpStatus.OK);
     }
-    
 
+    // Get a visit by ID
     @GetMapping("/{id}") // Get a visit by ID
     public Optional<Visit> getVisitById(@PathVariable Long id) {
         return visitService.getVisitById(id);
     }
 
+    // Get all visits by user ID
     @GetMapping("/user/{id}") // Get all visits by patient ID
     public List<Visit> getVisitsByUserId(@PathVariable String id) {
         return visitService.getVisitsByUserId(id);
     }
 
+    // Create a new visit
     @PostMapping
     public Visit createVisit(@RequestBody Visit visit) {
-        if(visit.getUserAttractions() == null) {
+        if (visit.getUserAttractions() == null) {
             visit.setUserAttractions(new ArrayList<>());
         }
         return visitService.createVisit(visit);
-    } 
+    }
 
+    // Update a visit
     @PutMapping("/{id}")
     public Visit updateVisit(@PathVariable Long id, @RequestBody Visit visitDetails) {
         return visitService.updateVisit(id, visitDetails);
     }
 
+    // Update a visit's individual attraction
     @PutMapping("/{id}/attractions/{attractionId}")
     public Visit updateVisitAttraction(@PathVariable Long id, @PathVariable Long attractionId, @RequestBody userAttraction userAttraction) {
         return visitService.updateVisitAttraction(id, attractionId, userAttraction);
     }
 
+    // Delete a visit's individual attraction
     @DeleteMapping("/{id}/attractions/{attractionId}")
     public Visit deleteVisitAttraction(@PathVariable Long id, @PathVariable Long attractionId) {
         return visitService.deleteVisitAttraction(id, attractionId);
     }
 
+    // Delete a visit
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteVisit(@PathVariable Long id) {
         visitService.deleteVisit(id);
         return ResponseEntity.noContent().build();
     }
 
+    // Get all attractions for a visit
     @GetMapping("/{visitId}/attractions")
     public List<userAttraction> getVisitAttractions(@PathVariable Long visitId) {
         return visitService.getVisitAttractions(visitId);
     }
-    
 
+    // Add an attraction to a visit
     @PostMapping("/{visitId}/attractions")
     public ResponseEntity<Visit.userAttraction> addAttractionToVisit(@PathVariable Long visitId, @RequestBody Visit.userAttraction userAttraction) {
-       System.out.println("IN ADD ATTRACTION TO VISIT IN CONTROLLER");
-
-       System.out.println("Recieved visitId: " + visitId);
-    System.out.println("Recieved attraction: " + userAttraction);
         Visit.userAttraction attractionToAdd = visitService.addAttractionToVisit(visitId, userAttraction);
         return ResponseEntity.status(HttpStatus.CREATED).body(attractionToAdd);
     }

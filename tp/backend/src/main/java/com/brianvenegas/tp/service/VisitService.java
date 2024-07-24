@@ -1,3 +1,4 @@
+// VisitService is a collection of methods that interact with the database to retrieve and store data about visits.
 package com.brianvenegas.tp.service;
 
 import java.util.List;
@@ -35,8 +36,8 @@ public class VisitService {
     @Autowired
     private ParkRepository parkRepository;
 
+    // Method to retrieve all visits
     public List<Visit> getAllVisit() {
-        System.out.println("Getting all visits" + visitRepository.findAll());
         List<Visit> visits = visitRepository.findAll();
         visits.forEach(visit -> {
             Hibernate.initialize(visit.getUser());
@@ -46,11 +47,9 @@ public class VisitService {
         return visits;
     }
 
+    // Method to create a new visit
     public Visit createVisit(Visit visit) {
-
         String userId = visit.getUser().getId();
-        System.out.println("Creating visit for user ID: " + userId);
-
         User user = UserRepository.findById(visit.getUser().getId())
                 .orElseGet(() -> {
                     User newUser = new User();
@@ -59,15 +58,11 @@ public class VisitService {
                     newUser.setEmail("Default Email");
                     return UserRepository.save(newUser);
                 });
-
-        // System.out.println("User found: " + user.getName());
         visit.setUser(user);
 
-        System.out.println("Attempting to find park: " + visit.getPark().getId());
         Optional<Park> optionalPark = parkRepository.findById(visit.getPark().getId());
 
         if (optionalPark.isPresent()) {
-            System.out.println("Park found: " + optionalPark.get().getName());
             visit.setPark(optionalPark.get());
         } else {
             throw new RuntimeException("Park not found");
@@ -75,6 +70,7 @@ public class VisitService {
         return visitRepository.save(visit);
     }
 
+    // Method to update a visit
     public Visit updateVisit(Long id, Visit visitDetails) {
         return visitRepository.findById(id).map(visit -> {
             visit.setParkName(visitDetails.getParkName());
@@ -87,9 +83,9 @@ public class VisitService {
         });
     }
 
+    // Method to add an attraction to a visit
     @Transactional
     public Visit.userAttraction addAttractionToVisit(Long visitId, Visit.userAttraction userAttraction) {
-        System.out.println("Finding attraction: " + userAttraction.getAttractionId());
         Visit visit = visitRepository.findById(visitId).orElseThrow(() -> new RuntimeException("Visit not found"));
 
         // Ensure the userAttraction has a valid Visit reference
@@ -99,53 +95,44 @@ public class VisitService {
         Attraction attraction = attractionRepository.findById(userAttraction.getAttractionId())
                 .orElseThrow(() -> new RuntimeException("Attraction not found"));
 
-        // Debugging: Print the state of objects before saving
-        System.out.println("Visit: " + visit);
-        System.out.println("userAttraction: " + userAttraction);
-        System.out.println("Attraction: " + attraction);
-
         // Add the userAttraction to the visit's list
         visit.getUserAttractions().add(userAttraction);
 
         // Save the visit, which should cascade the save to userAttractions
         visitRepository.save(visit);
-
-        System.out.println("This user's attractions!");
-        for (userAttraction ride : visit.getUserAttractions()) {
-            System.out.println("Attraction: " + ride.getAttractionId() + "Ride: " + ride.getAttractionName());
-        }
-
         return userAttraction;
     }
 
+    // Method to retrieve a visit by ID
     public Optional<Visit> getVisitById(Long id) {
         return visitRepository.findById(id);
     }
 
+    // Method to retrieve all visits by user ID
     public List<Visit> getVisitsByUserId(String id) {
-        System.out.println("Getting visits by user ID: " + id);
-        System.out.println(visitRepository.findByUserId(id));
         return visitRepository.findByUserId(id);
     }
 
+    // Method to save a visit
     public Visit saveVisit(Visit visit) {
         return visitRepository.save(visit);
     }
 
+    // Method to delete a visit by ID
     public void deleteVisit(Long id) {
         visitRepository.deleteById(id);
     }
 
+    // Method to retrieve all attractions for a visit
     public List<userAttraction> getVisitAttractions(Long visitId) {
         Visit visit = visitRepository.findById(visitId).orElseThrow(() -> new RuntimeException("Visit not found"));
         return visit.getUserAttractions();
     }
 
+    // Method to update a visit's individual attraction
     public Visit updateVisitAttraction(Long id, Long attractionId, userAttraction userAttraction) {
         Visit visit = visitRepository.findById(id).orElse(null);
-
         List<userAttraction> rides = visit.getUserAttractions();
-
         rides.forEach(ride -> {
             if (Objects.equals(ride.getId(), attractionId)) {
                 ride.setAttractionName(userAttraction.getAttractionName());
@@ -160,18 +147,15 @@ public class VisitService {
         visitRepository.save(visit);
 
         return visit;
-        
+
     }
 
+    // Method to delete a visit's individual attraction
     public Visit deleteVisitAttraction(Long id, Long attractionId) {
         Visit visit = visitRepository.findById(id).orElse(null);
-
         List<userAttraction> rides = visit.getUserAttractions();
-
         rides.removeIf(ride -> Objects.equals(ride.getId(), attractionId));
-
         visitRepository.save(visit);
-
         return visit;
     }
 

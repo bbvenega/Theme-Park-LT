@@ -1,3 +1,7 @@
+// The Attraction Object: The Attraction object represents an attraction in a theme park. 
+// It contains information such as the attraction's name, type, status, and last updated time. 
+// It also contains information about the attraction's queue, showtimes, operating hours, and dining availability. 
+// The Attraction object is part of the model package in the application.
 package com.brianvenegas.tp.model;
 
 import java.util.ArrayList;
@@ -19,6 +23,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
+// The Attraction object represents an attraction in a theme park.
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 public class Attraction {
@@ -32,36 +37,39 @@ public class Attraction {
     private String status;
     private String lastUpdated;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "visit_id")
-    // // @JsonBackReference
-    // private Visit visit;
-
+    // Every attraction belongs to an individual park. Many attractions can belong to the same individual park.
     @ManyToOne
     @JoinColumn(name = "individual_park_id")
     @JsonBackReference
     private IndividualPark individualPark;
 
+    // Every attraction has a queue, which contains information about the attraction's wait times and boarding groups.
+    // Every attraction has one queue.
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonProperty("queue")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Queue queue;
 
+    // Every attraction has a list of showtimes, which contains information about the attraction's showtimes.
+    // Every attraction can have many showtimes.
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonProperty("showtimes")
     @JsonManagedReference
     private List<Showtime> showtimes = new ArrayList<>();
 
+    // Every attraction has a list of operating hours, which contains information about the attraction's operating hours.
+    // Every attraction can have many operating hours.
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonProperty("operatingHours")
     @JsonManagedReference
     private List<OperatingHour> operatingHours = new ArrayList<>();
 
+    // Every attraction has a list of dining availability, which contains information about the attraction's dining availability.
+    // Every attraction can have many dining availability.
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonProperty("diningAvailability")
     @JsonManagedReference
     private List<DiningAvailability> diningAvailability = new ArrayList<>();
-
 
     // Getters and setters
     public String getId() {
@@ -152,14 +160,6 @@ public class Attraction {
         this.diningAvailability = diningAvailability;
     }
 
-    // public Visit getVisit() {
-    //     return visit;
-    // }
-
-    // public void setVisit(Visit visit) {
-    //     this.visit = visit;
-    // }
-
     public IndividualPark getIndividualPark() {
         return individualPark;
     }
@@ -170,24 +170,23 @@ public class Attraction {
 
     @Override
     public String toString() {
-        return "Attraction{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", entityType='" + entityType + '\'' +
-                ", parkId='" + parkId + '\'' +
-                ", externalId='" + externalId + '\'' +
-                ", status='" + status + '\'' +
-                ", lastUpdated='" + lastUpdated + '\'' +
-                ", queue=" + queue +
-                ", showtimes=" + showtimes +
-                ", operatingHours=" + operatingHours +
-                ", diningAvailability=" + diningAvailability +
-                '}';
+        return "Attraction{"
+                + "id='" + id + '\''
+                + ", name='" + name + '\''
+                + ", entityType='" + entityType + '\''
+                + ", parkId='" + parkId + '\''
+                + ", externalId='" + externalId + '\''
+                + ", status='" + status + '\''
+                + ", lastUpdated='" + lastUpdated + '\''
+                + ", queue=" + queue
+                + ", showtimes=" + showtimes
+                + ", operatingHours=" + operatingHours
+                + ", diningAvailability=" + diningAvailability
+                + '}';
     }
 
-
+    // The Queue object represents the queue of an attraction.
     @Entity
-    
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class Queue {
 
@@ -195,6 +194,7 @@ public class Attraction {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
+        // The queue can have different types of wait times, such as standby, single rider, return time, paid return time, boarding group, and paid standby.
         @JsonProperty("STANDBY")
         @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
         private Standby standby;
@@ -277,8 +277,8 @@ public class Attraction {
         }
     }
 
+    // Standby object represents the standby wait time of an attraction.
     @Entity
-    
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class Standby {
 
@@ -305,8 +305,8 @@ public class Attraction {
         }
     }
 
+    // SingleRider object represents the single rider wait time of an attraction.
     @Entity
-    
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class SingleRider {
 
@@ -333,6 +333,7 @@ public class Attraction {
         }
     }
 
+    // ReturnTime object represents the return time of an attraction.
     @Entity
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class ReturnTime {
@@ -378,6 +379,7 @@ public class Attraction {
         }
     }
 
+    // PaidReturnTime object represents the paid return time of an attraction.
     @Entity
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class PaidReturnTime {
@@ -472,6 +474,7 @@ public class Attraction {
         }
     }
 
+    // BoardingGroup object represents the boarding group of an attraction.
     @Entity
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class BoardingGroup {
@@ -535,6 +538,7 @@ public class Attraction {
         }
     }
 
+    // PaidStandby object represents the paid standby of an attraction.
     @Entity
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class PaidStandby {
@@ -562,9 +566,9 @@ public class Attraction {
         }
     }
 
+    // Showtime object represents the showtime of an attraction.
     @Entity
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    
     public static class Showtime {
 
         @Id
@@ -621,6 +625,7 @@ public class Attraction {
         }
     }
 
+    // OperatingHour object represents the operating hours of an attraction.
     @Entity
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public static class OperatingHour {
@@ -679,9 +684,9 @@ public class Attraction {
         }
     }
 
+    // DiningAvailability object represents the dining availability of an attraction.
     @Entity
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    
     public static class DiningAvailability {
 
         @Id

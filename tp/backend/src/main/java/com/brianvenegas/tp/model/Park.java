@@ -1,9 +1,9 @@
+// Park: Represents a theme park that contains a list of individual parks.
 package com.brianvenegas.tp.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,8 +12,6 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -25,6 +23,8 @@ public class Park {
     private String name;
     private String slug;
 
+    // Every theme park has a list of individual parks.
+    // The theme park is the owner of the relationship and may have many individual parks.
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "park")
     @JsonProperty("parks")
     @JsonManagedReference
