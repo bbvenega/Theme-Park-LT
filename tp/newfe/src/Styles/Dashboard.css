@@ -1,3 +1,6 @@
+/* Dashboard.css holds all the styles for the dashboard page. */
+
+/* The dashboard container is the container that holds the entire dashboard. */
 .dashboard-container {
   display: flex;
   flex-direction: column;
@@ -7,6 +10,7 @@
   padding: 20px;
 }
 
+/* The visit list container holds the list of visits for the user. */
 .visit-list-container {
   display: flex;
   flex-direction: column;
@@ -14,14 +18,13 @@
   justify-content: center;
   margin: 10px;
   padding: 10px;
-  /* background-color: #c4deab; */
-  /* background-image: linear-gradient(315deg, #c4deab 0%, #5691c8 74%); */
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   text-align: center;
   width: 80vw;
 }
 
+/* The visit list is the list of visits for the user. */
 .visit-list {
   display: flex;
   flex-direction: column;
@@ -33,6 +36,7 @@
   list-style-type: none;
 }
 
+/* The visit list item is the individual visit in the list. */
 .visit-list-item {
   background-image: linear-gradient(315deg, #c4deab 0%, #5691c8 74%);
   border-radius: 10px;
@@ -44,15 +48,18 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
+/* The visit list item content is the content of the visit list item. */
 .visit-list-item-content {
   text-align: center;
 }
 
+/* The visit list item title is the title of the visit list item. */
 .visit-list-item:hover {
   background-color: #1e81b0;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+/* The park list container holds the list of parks for the user. Primarily used in the addVisit Modal */
 .park-list {
   display: flex;
   flex-direction: column;
@@ -64,6 +71,7 @@
   list-style-type: none;
 }
 
+/* The park item's are the theme Parks in the list. */
 .park-item {
   padding: 10px;
   cursor: pointer;
@@ -86,14 +94,14 @@
   justify-content: center;
   margin: 10px;
   padding: 10px;
-  /* background-color: #c4deab; */
+
   background-image: linear-gradient(315deg, #c4deab 0%, #5691c8 74%);
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   text-align: center;
   width: 80vw;
 }
-
+/* The park item subtext are the details of the park item. In this case the park's indivudal Parks*/
 .park-item-subtext {
   font-size: 0.9em;
   color: lightgray;

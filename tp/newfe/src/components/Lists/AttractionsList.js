@@ -1,5 +1,8 @@
+// This component is used to display a list of attractions and add them to the visit.
+
 import React, { useState } from "react";
 
+// The AttractionsList component is a functional component that will render a list of attractions that a user can add to their visit.
 const AttractionsList = ({
   attractions,
   onAddAttraction,
@@ -11,6 +14,8 @@ const AttractionsList = ({
   const [singleRider, setSingleRider] = useState(false);
   const [brokeDown, setBrokeDown] = useState(false);
 
+  // The handleAttractionSelect function is used to select an attraction from the list of attractions.
+  // This is in preparation for adding the attraction to the visit.
   const handleAttractionSelect = (attraction) => {
     console.log(attraction);
     setSelectedAttraction(attraction);
@@ -20,6 +25,7 @@ const AttractionsList = ({
     setElapsedTime(0); // Reset elapsed time for the new attraction
   };
 
+  // The handleSubmit function is used to add the selected attraction to the visit.
   const handleSubmit = () => {
     console.log(selectedAttraction);
     if (selectedAttraction) {
@@ -32,6 +38,8 @@ const AttractionsList = ({
     }
   };
 
+  // The return statement below will render the AttractionsList component.
+  // The component will display a list of selectable attractions from the visit's theme park that a user can add to their visit.
   return (
     <div>
       <h2>Attractions</h2>

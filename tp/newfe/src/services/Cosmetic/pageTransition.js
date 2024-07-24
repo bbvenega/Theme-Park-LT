@@ -1,3 +1,5 @@
+// PageTransition is used to wrape the children components and provide a fade-in and fade-out effect when navigating between pages.
+
 import React from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useLocation } from 'react-router-dom';

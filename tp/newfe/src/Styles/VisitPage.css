@@ -1,96 +1,102 @@
+/* VistPage.css holds the styling for the visit page in the program. */
+
+/* The body of the visit page. */
 body {
-    /* background-color: #1D2951; */
-    background-image: linear-gradient(45deg, #154c79 0%, #1e81b0 51%, #063970  100%);
-    text-align: center;
-    color: white; /* Ensures text is readable on dark background */
-    font-family: 'Saira', sans-serif;
+  background-image: linear-gradient(
+    45deg,
+    #154c79 0%,
+    #1e81b0 51%,
+    #063970 100%
+  );
+  text-align: center;
+  color: white;
+  font-family: "Saira", sans-serif;
 }
 
+/* The visit page container is the container that holds the entire visit page. */
 .visit-page-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh; 
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
 }
 
-
+/* Tje attractions list container holds the list of attractions for the user.  */
 .attractions-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    list-style-type: none;
-    padding: 0;
-    width: 100%;
-    list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+  list-style-type: none;
 }
 
+/* The attraction item is the individual attraction in the list. */
 .attraction-item {
-    padding: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
+/* Hover and active states for the attraction items. */
 .attraction-item:hover {
-    background-color: #1e81b0;
+  background-color: #1e81b0;
 }
-
 .attraction-item.selected {
-    background-color: #1e81b0;
-    font-weight: bold;
+  background-color: #1e81b0;
+  font-weight: bold;
 }
 
-
-
-
+/* The visited attraction item is the individual visited attraction in the list. */
 .visited-attraction-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 10px;
-    padding: 10px;
-    /* background-color: #c4deab; */
-    background-image: linear-gradient(315deg, #c4deab 0%, #5691c8 74%);
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 80vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  padding: 10px;
+  /* background-color: #c4deab; */
+  background-image: linear-gradient(315deg, #c4deab 0%, #5691c8 74%);
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 80vw;
 }
 
+/* Hover and active states for the visited attraction items. */
 .visited-attraction-item:hover {
-    background-color: #1e81b0;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
+  background-color: #1e81b0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
 
+/* The attraction name is the name of the attraction. */
 .attraction-name {
-    font-weight: bold;
-    color: gold;
+  font-weight: bold;
+  color: gold;
 }
 
+/* The attraction details is the list of details for the attraction. */
 .attraction-details {
-    list-style-type: none;
-    padding: 0;
-    color: white;
+  list-style-type: none;
+  padding: 0;
+  color: white;
 }
 
+/* The attraction detail item is the individual detail for the attraction. */
 .attraction-detail-item {
-    font-size: 0.9em;
-    color: lightgray;
+  font-size: 0.9em;
+  color: lightgray;
 }
 
-
-
+/* The buttons container is the container that holds the buttons. */
 .buttons-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  width: 100%;
 }
-
-
-  
-

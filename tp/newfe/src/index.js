@@ -4,9 +4,8 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import App from './App';
 
 const root = createRoot(document.getElementById('root'));
-console.log("domain: ", process.env.REACT_APP_AUTH0_DOMAIN);
-console.log("client id: ", process.env.REACT_APP_AUTH0_CLIENT_ID);
 
+// The section of code below sets the parameters for the Auth0Provider component, allowing user authentication.
 root.render(
 <Auth0Provider
     domain={process.env.REACT_APP_AUTH0_DOMAIN}

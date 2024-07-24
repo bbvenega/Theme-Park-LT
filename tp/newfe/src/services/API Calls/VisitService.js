@@ -1,5 +1,8 @@
+// VisitService is a collection of functions that are used to commuicate with the Database.
+
 import axios from "axios";
 
+// Gets and returns a user's visits from the database
 export const getVisitsByUserId = async (user, getAccessTokenSilently) => {
   try {
     const userId = user.sub.split("|")[1];
@@ -20,6 +23,7 @@ export const getVisitsByUserId = async (user, getAccessTokenSilently) => {
   }
 };
 
+// Gets and returns the details of a visit from the database
 export const getVisitDetails = async (visitId, getAccessTokenSilently) => {
   try {
     const token = await getAccessTokenSilently();
@@ -39,6 +43,7 @@ export const getVisitDetails = async (visitId, getAccessTokenSilently) => {
   }
 };
 
+// Adds a visit to the database
 export const addVisit = async (visit, getAccessTokenSilently) => {
   try {
     const token = await getAccessTokenSilently();
@@ -54,6 +59,7 @@ export const addVisit = async (visit, getAccessTokenSilently) => {
   }
 };
 
+// Fetches and returns the parks from the database
 export const fetchParks = async (getAccessTokenSilently) => {
   try {
     const token = await getAccessTokenSilently();
@@ -71,6 +77,7 @@ export const fetchParks = async (getAccessTokenSilently) => {
   }
 };
 
+// Fetches and returns the attractions of a visit from the database
 export const getVisitAttractions = async (visitId, getAccessTokenSilently) => {
   try {
     const token = await getAccessTokenSilently();
