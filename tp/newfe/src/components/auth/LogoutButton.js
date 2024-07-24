@@ -1,3 +1,5 @@
+//LogoutButton allows the user to log out of the application. The button is displayed on the dashboard Page.
+
 import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
 

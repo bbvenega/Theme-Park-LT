@@ -1,3 +1,7 @@
+/* CircurlarTimer.css */
+/* This style page holds everything timer related. */
+
+/* The timer container is the container that holds the stopwatch. */
 .stopwatch-container {
   display: flex;
   flex-direction: column;
@@ -6,68 +10,57 @@
   margin-top: 20px;
 }
 
-
+/* The timer container is the container that holds the stopwatch. */
 .timer-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    margin: 0 auto; /* Center horizontally */
-    height: 250px;
-    width: 250px;
-  }
-  
-  .circular-timer {
-    transform: rotate(-90deg);
-  }
-  
-  .timer-background {
-    fill: none;
-    stroke: white;
-  }
-  
-  .timer-progress {
-    fill: none;
-    stroke-linecap: round;
-    transition: stroke-dashoffset 0.5s, stroke 0.5s;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 0 auto; /* Center horizontally */
+  height: 250px;
+  width: 250px;
+}
 
-  .timer-progress.loading {
-    animation: snakeAnimation 2s linear forwards;
+/* Specific to the circular timer: */
+.circular-timer {
+  transform: rotate(-90deg);
+}
+
+/* The background of the timer. */
+.timer-background {
+  fill: none;
+  stroke: white;
+}
+
+/* The progress of the timer. */
+.timer-progress {
+  fill: none;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s, stroke 0.5s;
+}
+
+/* The loading animation for the timer. */
+.timer-progress.loading {
+  animation: snakeAnimation 2s linear forwards;
+}
+
+/* The text of the timer. */
+.timer-text {
+  position: absolute;
+  font-size: 72px;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* The loadup animation for the timer when a user first selects an attraction. */
+@keyframes snakeAnimation {
+  0% {
+    stroke-dashoffset: 0;
   }
-  
-  .timer-text {
-    position: absolute;
-    font-size: 72px;
-    text-align: center;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  100% {
+    stroke-dashoffset: 750; /* Full circumference for the loading effect */
   }
-
-  /* .timer-dot {
-    animation: dotAnimation 1s forwards;
-  } */
-
-
-
-  @keyframes snakeAnimation {
-    0% {
-
-      stroke-dashoffset: 0;
-    }
-    100% {
-
-      stroke-dashoffset: 750; /* Full circumference for the loading effect */
-    }
-  }
-  
-  /* @keyframes dotAnimation {
-    0% {
-      r:0;
-    }
-    100% {
-      r: 15;
-    } */
-  
+}

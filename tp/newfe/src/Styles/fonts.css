@@ -1,3 +1,7 @@
+/* Fonts.css holds the styling for all fonts / text in the program. */
+
+
+/* Primary font of the program. */
 @font-face {
     font-family: 'Saira';
     src: url('../assets/fonts/Saira/static/Saira-Regular.ttf') format('truetype');
