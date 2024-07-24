@@ -18,6 +18,7 @@ import {
   fetchParks,
   addVisit,
 } from "../services/API Calls/VisitService";
+import {FormatDate} from "../services/Time Stuff/FormatDate";
 
 // The following styles are imported from the Styles directory:
 import "../Styles/Dashboard.css";
@@ -134,7 +135,12 @@ const Dashboard = () => {
                 onClick={() => handleSelectVisit(visit)}
               >
                 <div className="visit-list-item-content">
-                  {visit.parkName} - {visit.dateVisited}
+                  <div className="modal-text-header">
+                  {visit.parkName} 
+                  </div>
+                  <div className="modal-text-subtext">
+                  {FormatDate(visit.dateVisited)}
+                  </div>
                 </div>
               </li>
             ))}

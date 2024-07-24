@@ -14,6 +14,7 @@ import Stopwatch from "../components/Timers/stopwatch";
 import Modal from "../components/Modals/Modal";
 import ConfirmationModal from "../components/Modals/ConfirmationModal";
 import EditAttractionModal from "../components/Modals/EditAttractionModal";
+import DeleteVisitModal from "../components/Modals/DeleteVisitModal";
 
 // The following services are imported from the services directory:
 import { formatTime } from "../services/Time Stuff/formatTime";
@@ -23,6 +24,7 @@ import {
   getVisitDetails,
   getVisitAttractions,
   getVisitsByUserId,
+  deleteVisit,
 } from "../services/API Calls/VisitService";
 
 // The following styles are imported from the Styles directory:
@@ -43,6 +45,7 @@ const VisitPage = () => {
   const [visitDetails, setVisitDetails] = useState(state?.visitDetails || null);
   const [showEditAttractionModal, setShowEditAttractionModal] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // The variables below are used to manage the state of selected attractions that are being added / deleted.
   const [selectedAttractionData, setSelectedAttractionData] = useState(null);
@@ -52,6 +55,7 @@ const VisitPage = () => {
   const [attractions, setAttractions] = useState([]);
   const [loadingPage, setLoadingPage] = useState(!state?.visitDetails);
   const [loadingAttractions, setLoadingAttractions] = useState(true);
+
 
   // The useEffect hook below is used to fetch visit details based on the state of the visit.
   // If the visit details are not present, the visit details are fetched.
@@ -133,6 +137,27 @@ const VisitPage = () => {
   const handleCloseEditAttractionModal = () => {
     setShowEditAttractionModal(false);
   };
+
+  // The handleShowDeleteModal function is used to show the delete visit modal component.
+  const handleShowDeleteModal = () => {
+    setShowDeleteModal(true);
+  };
+
+  // The handleCloseDeleteModal function is used to close the delete visit modal component.
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+  };
+
+  // The handleDeleteVisit function is used to delete the visit entirely.
+  const handleDeleteVisit = async () => {
+    try {
+      await deleteVisit(visitId, getAccessTokenSilently);
+      goToDashboard();
+    } catch (error) {
+      console.error("Error deleting visit: ", error);
+    }
+  };
+
   // The following function is used to make naviagtion to the dashboard page easier:
   // It fetches the details of the user's visits and navigates to the dashboard page.
   const goToDashboard = async () => {
@@ -229,6 +254,7 @@ const VisitPage = () => {
 
   // The handleAddAttraction function is used to add an attraction to the visit.
   const handleAddAttraction = (data) => {
+    setElapsedTime(0); // Reset elapsed time
     setShowModal(false); // Close the modal immediately
     setSelectedAttractionData(data);
   };
@@ -283,6 +309,7 @@ const VisitPage = () => {
       setSelectedAttractionData(null);
       setElapsedTime(0); // Reset elapsed time
       setShowConfirmationModal(false);
+
     } catch (error) {
       console.error("Error adding attraction: ", error);
     }
@@ -401,6 +428,17 @@ const VisitPage = () => {
         ) : (
           <p>Loading...</p>
         )}
+
+        {/* The deleteVisitModal is used to delete the visit entirely. */}
+        <DeleteVisitModal
+          show={showDeleteModal}
+          onClose={handleCloseDeleteModal}
+          handleDeleteVisit={handleDeleteVisit} // Pass the function correctly
+        />
+
+        <button className="delete-button" onClick={handleShowDeleteModal}>
+          delete this visit
+        </button>
       </div>
     </PageTransition>
   );
