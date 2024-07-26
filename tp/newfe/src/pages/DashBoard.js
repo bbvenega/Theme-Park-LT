@@ -98,7 +98,7 @@ const Dashboard = () => {
   // The handleAddVisit function is used to add a new visit and navigate to the VisitPage component.
   const handleAddVisit = async (newVisit) => {
     try {
-      await addVisit(newVisit, getAccessTokenSilently);
+      const createdVisit = await addVisit(newVisit, getAccessTokenSilently);
       const updatedVisits = await getVisitsByUserId(
         user,
         getAccessTokenSilently
@@ -106,7 +106,16 @@ const Dashboard = () => {
       setVisits(updatedVisits.reverse());
       setShowAddVisitModal(false);
 
-      navigate(`/visit/${newVisit.id}`, { state: { visitDetails: newVisit } });
+      
+
+     if(createdVisit && createdVisit.id) {
+      console.log("Created Visit: ", createdVisit);
+      navigate(`/visit/${createdVisit.id}`, { state: { visitDetails: createdVisit } });
+     } else {
+      console.error("Error adding visit: ", createdVisit);
+     }
+
+      
     } catch (error) {
       console.error("Error adding visit: ", error);
     }

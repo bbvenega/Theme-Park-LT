@@ -48,11 +48,13 @@ export const addVisit = async (visit, getAccessTokenSilently) => {
   try {
     const token = await getAccessTokenSilently();
     console.log("Visit: ", visit);
-    await axios.post("http://localhost:8080/visits", visit, {
+    const response = await axios.post("http://localhost:8080/visits", visit, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log("Response: ", response);
+    return response.data;
   } catch (error) {
     console.error("Error adding visit: ", error);
     throw error;
@@ -67,8 +69,7 @@ export const fetchParks = async (getAccessTokenSilently) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
-  );
+    });
 
     return response.data;
   } catch (error) {
@@ -126,9 +127,7 @@ export const deleteVisit = async (visitId, getAccessTokenSilently) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
-  );
-
+    });
   } catch (error) {
     console.error("Error fetching parks: ", error);
     throw error;

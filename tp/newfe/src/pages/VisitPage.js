@@ -75,9 +75,7 @@ const VisitPage = () => {
         }
       };
       fetchVisitDetails();
-    } else {
-      setLoadingPage(false);
-    }
+    } 
   }, [visitId, getAccessTokenSilently, state]); // The useEffect hook is dependent on the visitId, getAccessTokenSilently, and state variables.
 
   // The useEffect hook below is used to set the park name based on the visit details.
@@ -93,6 +91,7 @@ const VisitPage = () => {
 // If the attractions are not present, the attractions are fetched.
 // Otherwise, the loading attractions is set to false and the attractions are displayed.
 useEffect(() => {
+  console.log("Visit ID: ", visitId);
   const fetchAttractions = async () => {
     try {
       console.log("Fetching attractions...");
