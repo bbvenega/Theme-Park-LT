@@ -31,6 +31,7 @@ import {
 import "../Styles/VisitPage.css";
 import "../Styles/Button.css";
 import "../Styles/Fonts.css";
+import BreakdownTimerModal from "../components/Modals/BreakdownTimerModal";
 
 // The VisitPage component is a functional component that will display a user's visit and allow them to add, edit, and delete attractions from their visit.
 const VisitPage = () => {
@@ -50,6 +51,7 @@ const VisitPage = () => {
   // The variables below are used to manage the state of selected attractions that are being added / deleted.
   const [selectedAttractionData, setSelectedAttractionData] = useState(null);
   const [selectedAttraction, setSelectedAttraction] = useState(null);
+  const [breakdownTime, setBreakdownTime] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [parkName, setParkName] = useState(null);
   const [attractions, setAttractions] = useState([]);
@@ -282,6 +284,7 @@ const VisitPage = () => {
           fastpass: selectedAttractionData.fastpass,
           singleRider: selectedAttractionData.singleRider,
           brokeDown: selectedAttractionData.brokeDown,
+          breakdownTime: breakdownTime,
         },
         {
           headers: {
@@ -303,6 +306,7 @@ const VisitPage = () => {
             fastpass: selectedAttractionData.fastpass,
             singleRider: selectedAttractionData.singleRider,
             brokeDown: selectedAttractionData.brokeDown,
+            breakdownTime: breakdownTime,
           },
         ].reverse(),
       }));
@@ -314,6 +318,8 @@ const VisitPage = () => {
       console.error("Error adding attraction: ", error);
     }
   };
+
+  const handleBreakdownTimeChange = (time) => setBreakdownTime(time);
 
   // The following conditional statement is used to display a loading message while the page is loading.
   if (loadingPage) {
@@ -367,6 +373,7 @@ const VisitPage = () => {
               postedWaitTime={
                 selectedAttractionData.attraction.queue.STANDBY.waitTime
               }
+              onBreakdownTimeChange={handleBreakdownTimeChange}
             />
             {/* The button below is used to submit the time. */}
             <button className="button" onClick={handleShowConfirmationModal}>
@@ -412,6 +419,7 @@ const VisitPage = () => {
                       attraction.actualWaitTime
                     )}{" "}
                     <br></br>
+                    Breakdown time: {attraction.breakdownTime} seconds
                     <ul>
                       {attraction.fastpass ? "⚡" : ""}{" "}
                       {attraction.singleRider ? "🙋" : ""}{" "}
@@ -439,6 +447,13 @@ const VisitPage = () => {
         <button className="delete-button" onClick={handleShowDeleteModal}>
           delete this visit
         </button>
+
+        <BreakdownTimerModal>
+        show={false}
+        onClose={() => {}}
+        breakdownTime={breakdownTime}
+        setBreakDownTime={setBreakdownTime}
+        </BreakdownTimerModal>
       </div>
     </PageTransition>
   );

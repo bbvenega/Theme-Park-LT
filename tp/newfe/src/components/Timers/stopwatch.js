@@ -3,17 +3,21 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import CircularTimer from "./CircularTimer";
+import BreakdownTimerModal from "../Modals/BreakdownTimerModal";
 import "../../Styles/CircularTimer.css";
 
-// The stopwatch function takes in the onStop and postedWaitTime props.
-// The onStop prop is used to stop the stopwatch.
+// The stopwatch function takes in the onStop, postedWaitTime, and onBreakdownTimeChange props.
+// The onStop prop is used to stop the stopwatch and notify the parent component.
 // The postedWaitTime prop is used to set the posted wait time.
-const Stopwatch = ({ onStop, postedWaitTime }) => {
+// The onBreakdownTimeChange prop is used to notify the parent component of the breakdown time.
+const Stopwatch = ({ onStop, postedWaitTime, onBreakdownTimeChange }) => {
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
+  const [showBreakdownModal, setShowBreakdownModal] = useState(false);
+  const [breakdownTime, setBreakdownTime] = useState(0);
   const timerRef = useRef(null);
 
-  // The useEffect hook is used to set the time for the stopwatch.
+  // The useEffect hook is used to update the main timer.
   useEffect(() => {
     if (isRunning) {
       timerRef.current = setInterval(() => {
@@ -24,7 +28,12 @@ const Stopwatch = ({ onStop, postedWaitTime }) => {
     }
 
     return () => clearInterval(timerRef.current);
-  }, [isRunning]); // The useEffect hook is dependent on the isRunning variable.
+  }, [isRunning]);
+
+  // The useEffect hook is used to notify the parent component of breakdown time changes.
+  useEffect(() => {
+    onBreakdownTimeChange(breakdownTime);
+  }, [breakdownTime, onBreakdownTimeChange]);
 
   // The start function is used to start the stopwatch.
   const start = () => {
@@ -38,6 +47,7 @@ const Stopwatch = ({ onStop, postedWaitTime }) => {
       onStop(time);
     }
   };
+
   // The reset function is used to reset the stopwatch.
   const reset = () => {
     clearInterval(timerRef.current);
@@ -50,10 +60,18 @@ const Stopwatch = ({ onStop, postedWaitTime }) => {
     <div>
       <CircularTimer duration={postedWaitTime * 60} elapsedTime={time} />
       <div className="buttons-container">
-      <button className="button" onClick={start}>Start</button>
-      <button className="button" onClick={stop}>Stop</button>
-      <button className="button" onClick={reset}>Reset</button>
-    </div>
+        <button className="button" onClick={start}>Start</button>
+        <button className="button" onClick={stop}>Stop</button>
+        <button className="button" onClick={reset}>Reset</button>
+        <button className="button" onClick={() => setShowBreakdownModal(true)}>Did it break down?</button>
+      </div>
+
+      <BreakdownTimerModal
+        show={showBreakdownModal}
+        onClose={() => setShowBreakdownModal(false)}
+        breakdownTime={breakdownTime}
+        setBreakdownTime={setBreakdownTime}
+      />
     </div>
   );
 };

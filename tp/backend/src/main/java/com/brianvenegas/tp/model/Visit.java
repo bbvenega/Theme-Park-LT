@@ -121,6 +121,7 @@ public class Visit {
         // PostedWaitTime: The posted wait time for the attraction.
         private long actualWaitTime;
         private int postedWaitTime;
+        private long breakdownTime;
 
         private String attractionName;
         private String attractionId;
@@ -232,6 +233,14 @@ public class Visit {
 
         public void setBrokeDown(boolean newBrokeDown) {
             this.brokeDown = newBrokeDown;
+        }
+
+        public long getBreakdownTime() {
+            return breakdownTime;
+        }
+
+        public void setBreakdownTime(long newBreakdownTime) {
+            this.breakdownTime = newBreakdownTime;
         }
 
         @Override
