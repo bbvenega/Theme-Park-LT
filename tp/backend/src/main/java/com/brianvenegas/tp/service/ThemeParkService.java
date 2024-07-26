@@ -2,6 +2,7 @@
 package com.brianvenegas.tp.service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -10,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.brianvenegas.tp.client.ThemeParkApiClient;
@@ -49,7 +51,11 @@ public class ThemeParkService {
     // It saves the attraction data to the database using the attractionRepository.
     // The function uses CompletableFuture to fetch the attraction data for each park asynchronously.
     // It retries the data loading process up to 3 times if it fails.
+
+    @Scheduled(fixedRate = 300000)
     private void loadParkandAttractions() {
+
+
         logger.info("Initializing ThemeParkService...");
         boolean dataLoaded = false;
         int attempts = 0;
@@ -98,7 +104,7 @@ public class ThemeParkService {
                 // Wait for all futures to complete
                 CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
                 dataLoaded = true;
-                logger.info("Parks and Attractions data loaded successfully");
+                System.out.printf("Parks and Attractions data loaded successfully @ %s", LocalDateTime.now());
             } catch (IOException | InterruptedException e) {
                 attempts++;
                 logger.error("Error initializing parks", e);

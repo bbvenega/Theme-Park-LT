@@ -89,26 +89,35 @@ const VisitPage = () => {
     }
   }, [visitDetails]); // The useEffect hook is dependent on the visitDetails variable.
 
-  // The useEffect hook below is used to fetch attractions based on the visitId.
-  // If the attractions are not present, the attractions are fetched.
-  // Otherwise, the loading attractions is set to false and the attractions are displayed.
-  useEffect(() => {
-    const fetchAttractions = async () => {
-      try {
-        // console.log("Fetching attractions...");
-        const data = await getVisitAttractions(visitId, getAccessTokenSilently);
-        // console.log("Attractions: ", data);
-        setAttractions(data);
-        setLoadingAttractions(false); // Data is ready
-      } catch (error) {
-        console.error("Error fetching attractions: ", error);
-        setLoadingAttractions(false); // Error occurred, stop loading
-      }
-    };
+// The useEffect hook below is used to fetch attractions based on the visitId.
+// If the attractions are not present, the attractions are fetched.
+// Otherwise, the loading attractions is set to false and the attractions are displayed.
+useEffect(() => {
+  const fetchAttractions = async () => {
+    try {
+      console.log("Fetching attractions...");
+      const data = await getVisitAttractions(visitId, getAccessTokenSilently);
+      // console.log("Attractions data:", data);
+      setAttractions(data);
+      setLoadingAttractions(false); // Data is ready
+    } catch (error) {
+      console.error("Error fetching attractions: ", error);
+      setLoadingAttractions(false); // Error occurred, stop loading
+    }
+  };
 
+  console.log("Initial fetch at: ", new Date());
+  fetchAttractions(); // Initial fetch
+  const intervalId = setInterval(() => {
+    console.log("Fetching at interval @ ", new Date());
     fetchAttractions();
-  }, [visitId, getAccessTokenSilently]); // The useEffect hook is dependent on the visitId and getAccessTokenSilently variables.
+  }, 300000); // 10 seconds
 
+  return () => {
+    console.log("Clearing interval @ ", new Date());
+    clearInterval(intervalId);
+  };
+}, [visitId, getAccessTokenSilently]); // The useEffect hook is dependent on the visitId and getAccessTokenSilently variables.
   // The handleOpenModal function is used to open the modal component.
   const handleOpenModal = () => {
     setShowModal(true);
