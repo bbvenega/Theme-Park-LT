@@ -109,3 +109,75 @@ body {
   margin-top: 10px;
   width: 100%;
 }
+
+
+input[type="number"] {
+  width: 100%;
+  padding: 5px 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  color: #5691c8;
+  border-radius: 4px;
+  font-size: 100px;
+  text-align: center;
+}
+
+/* Hide the default checkbox */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #333;
+  border-radius: 4px; /* Rounded corners */
+  position: relative;
+  cursor: pointer;
+}
+
+/* Style the check mark */
+input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 10px;
+  height: 10px;
+  background-color: #333;
+  border-radius: 2px;
+}
+
+/* Optional: hover state */
+input[type="checkbox"]:hover {
+  border-color: #666;
+}
+
+/* Optional: checked state styling */
+input[type="checkbox"]:checked {
+  border-color: #333;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.form-group input[type="checkbox"] {
+  margin-right: 8px; /* Space between checkbox and label */
+  transform: scale(1.2); /* Optional: Resize the checkbox */
+}
+
+.form-group label {
+  margin: 0;
+  font-size: 16px; /* Adjust the label font size */
+}
+
+.edit-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  width: 100%;
+}

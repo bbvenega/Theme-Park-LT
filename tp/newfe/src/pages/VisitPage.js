@@ -353,12 +353,12 @@ useEffect(() => {
       >
         {/* The button below is used to navigate to the dashboard page, it loads the user's visits and navigates to the dashboard page. */}
         <button onClick={goToDashboard} className="back-button">
-          Dashboard
+        ←
         </button>
         <h1>{parkName}</h1>
         {/* The button below is used to open the add attraction modal. It presents a list of attractions that the user can add to their visit.  */}
         {/* This is done with the AttractionsList component. */}
-        <button className="button" onClick={handleOpenModal}>
+        <button className="big-button" onClick={handleOpenModal}>
           Add Attraction
         </button>
         <Modal show={showModal} onClose={handleCloseModal}>

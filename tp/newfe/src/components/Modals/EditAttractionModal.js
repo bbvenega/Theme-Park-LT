@@ -76,6 +76,7 @@ const EditAttractionModal = ({
           &times;{" "}
         </button>
         <h3>Edit Attraction</h3>
+        <div class = "form-group">
         <label>
           Posted Wait Time:
           <input
@@ -84,6 +85,8 @@ const EditAttractionModal = ({
             onChange={(e) => setPostedWaitTime(e.target.value)}
           />
         </label>
+          </div>
+          <div class = "form-group">
         <label>
           Actual Wait Time:
           <input
@@ -92,7 +95,9 @@ const EditAttractionModal = ({
             onChange={(e) => setActualWaitTime(e.target.value)}
           />
         </label>
+          </div>
         <br />
+        <div class = "form-group">
         <label>
           <input
             type="checkbox"
@@ -101,6 +106,7 @@ const EditAttractionModal = ({
           />
           Fastpass?
         </label>
+
         <label>
           <input
             type="checkbox"
@@ -110,20 +116,15 @@ const EditAttractionModal = ({
           Single Rider?
         </label>
 
-        <label>
-          <input
-            type="checkbox"
-            checked={brokeDown}
-            onChange={(e) => setBrokeDown(e.target.checked)}
-          />
-          Broke Down?
-        </label>
-        <button className="button" onClick={handleSave}>
+          </div>
+          <div class = "edit-button-container">
+        <button className="big-button" onClick={handleSave}>
           Save
         </button>
         <button className="delete-button" onClick={handleDelete}>
           Delete
         </button>
+        </div>
       </div>
     </div>
   );

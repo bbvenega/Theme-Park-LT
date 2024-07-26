@@ -61,7 +61,7 @@ const Stopwatch = ({ onStop, postedWaitTime, onBreakdownTimeChange }) => {
       <CircularTimer duration={postedWaitTime * 60} elapsedTime={time} />
       <div className="buttons-container">
         <button className="button" onClick={start}>Start</button>
-        <button className="button" onClick={stop}>Stop</button>
+        <button className="stop-button" onClick={stop}>Stop</button>
         <button className="button" onClick={reset}>Reset</button>
         <button className="button" onClick={() => setShowBreakdownModal(true)}>Break down?</button>
       </div>

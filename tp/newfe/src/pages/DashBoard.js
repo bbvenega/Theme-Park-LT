@@ -162,8 +162,9 @@ const Dashboard = () => {
         ) : (
           <p>No Visits Found!</p>
         )}
+        <div className="dashboard-button-container">
         <button
-          className="button"
+          className="big-button"
           type="button"
           onClick={handleOpenAddVisitModal}
         >
@@ -174,6 +175,7 @@ const Dashboard = () => {
           <ParksList parks={parks} onAdd={handleAddVisit} />
         </AddVisitModal>
         <LogoutButton />
+        </div>
       </div>
     </PageTransition>
   );

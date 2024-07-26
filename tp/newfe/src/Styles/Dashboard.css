@@ -106,3 +106,33 @@
   font-size: 0.9em;
   color: lightgray;
 }
+
+.dashboard-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  width: 100%;
+}
+
+input[type="date"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+}
+
+input[type="date"]:focus {
+  border: 3px solid #555;
+  outline: none;
+}
+
+input[type="date"]::placeholder {
+  text-align: center;
+}
+
+
+

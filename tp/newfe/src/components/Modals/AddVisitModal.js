@@ -27,7 +27,6 @@ const AddVisitModal = ({ show, onClose, children}) => {
   return (
     <div className={`modal-backdrop ${show ? "fade-in" : "fade-out"}`}>
       <div className={`modal-content ${show ? "fade-in" : "fade-out"}`}>
-        <h3> add a visit </h3>
         <button onClick={onClose} className="modal-close-button">
           &times;
         </button>
