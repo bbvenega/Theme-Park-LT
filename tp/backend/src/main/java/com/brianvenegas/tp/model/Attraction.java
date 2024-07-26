@@ -390,9 +390,10 @@ public class Attraction {
         private String state;
         private String returnStart;
         private String returnEnd;
+        
 
         @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-        @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+        @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
         private Price price;
 
         // Getters and setters
@@ -446,6 +447,7 @@ public class Attraction {
 
             private int amount;
             private String currency;
+            private String formatted;
 
             // Getters and setters
             public Long getId() {
@@ -470,6 +472,14 @@ public class Attraction {
 
             public void setCurrency(String currency) {
                 this.currency = currency;
+            }
+
+            public void setFormatted(String formatted) {
+                this.formatted = formatted;
+            }
+
+            public String getFormatted() {
+                return formatted;
             }
         }
     }

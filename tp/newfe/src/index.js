@@ -5,6 +5,8 @@ import App from './App';
 
 const root = createRoot(document.getElementById('root'));
 
+
+
 // The section of code below sets the parameters for the Auth0Provider component, allowing user authentication.
 root.render(
 <Auth0Provider
