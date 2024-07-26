@@ -23,7 +23,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Ignore configuration files
-application.properties
-application.yml
+# Ignore all application properties and YAML configuration files
+src/main/resources/application.properties
+src/main/resources/application.yml
+tp/backend/src/main/resources/application.properties
+tp/backend/src/main/resources/application.yml
 
+tp/frontend/.env
