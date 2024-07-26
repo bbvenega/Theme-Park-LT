@@ -89,14 +89,7 @@ const AttractionsList = ({
             />
             Single Rider?
           </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={brokeDown}
-              onChange={(e) => setBrokeDown(e.target.checked)}
-            />
-            Did it breakdown?
-          </label>
+
 
           <button className="button" onClick={handleSubmit}>
             Add Attraction

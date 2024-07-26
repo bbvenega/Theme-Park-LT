@@ -85,7 +85,7 @@ const VisitPage = () => {
   useEffect(() => {
     if (visitDetails) {
       setParkName(visitDetails.parkName);
-      console.log("Park name set: ", visitDetails.parkName);
+      // console.log("Park name set: ", visitDetails.parkName);
     }
   }, [visitDetails]); // The useEffect hook is dependent on the visitDetails variable.
 
@@ -95,9 +95,9 @@ const VisitPage = () => {
   useEffect(() => {
     const fetchAttractions = async () => {
       try {
-        console.log("Fetching attractions...");
+        // console.log("Fetching attractions...");
         const data = await getVisitAttractions(visitId, getAccessTokenSilently);
-        console.log("Attractions: ", data);
+        // console.log("Attractions: ", data);
         setAttractions(data);
         setLoadingAttractions(false); // Data is ready
       } catch (error) {
@@ -174,11 +174,11 @@ const VisitPage = () => {
   // The handleSaveAttraction function is used to save the updated attraction details.
   // It updates the attraction details in the database and updates the visit details with the new attraction details.
   const handleSaveAttraction = async (updatedAttraction) => {
-    console.log("Updated attraction: ", updatedAttraction);
+    // console.log("Updated attraction: ", updatedAttraction);
     try {
       const token = await getAccessTokenSilently();
-      console.log("Token: ", token);
-      console.log("Updated attraction: ", updatedAttraction.id);
+      // console.log("Token: ", token);
+      // console.log("Updated attraction: ", updatedAttraction.id);
 
       // the payload is updated to match the format of the database
       const updatedAttractionPayload = {
@@ -271,7 +271,7 @@ const VisitPage = () => {
     try {
       const token = await getAccessTokenSilently();
 
-      console.log("Selected Attraction Data: ", selectedAttractionData);
+      // console.log("Selected Attraction Data: ", selectedAttractionData);
       await axios.post(
         `http://localhost:8080/visits/${visitId}/attractions`,
         {
@@ -283,7 +283,7 @@ const VisitPage = () => {
           attractionName: selectedAttractionData.attraction.name,
           fastpass: selectedAttractionData.fastpass,
           singleRider: selectedAttractionData.singleRider,
-          brokeDown: selectedAttractionData.brokeDown,
+          brokeDown: breakdownTime > 0 ? true : false,
           breakdownTime: breakdownTime,
         },
         {
@@ -298,22 +298,29 @@ const VisitPage = () => {
           ...prevDetails.userAttractions,
           {
             attractionId: selectedAttractionData.attraction.id,
-            timeOfDay: selectedAttractionData.timeOfDay,
+            timeOfDay: getTimeofDay(),
             actualWaitTime: elapsedTime,
             postedWaitTime:
               selectedAttractionData.attraction.queue.STANDBY.waitTime,
             attractionName: selectedAttractionData.attraction.name,
             fastpass: selectedAttractionData.fastpass,
             singleRider: selectedAttractionData.singleRider,
-            brokeDown: selectedAttractionData.brokeDown,
+            brokeDown: breakdownTime > 0 ? true : false,
             breakdownTime: breakdownTime,
           },
         ].reverse(),
       }));
+      const updatedVisitDetails = await getVisitDetails(visitId, getAccessTokenSilently);
+      updatedVisitDetails.userAttractions.reverse();
+      setVisitDetails(updatedVisitDetails);
+  
+      // Reset the state and close modals
       setSelectedAttractionData(null);
       setElapsedTime(0); // Reset elapsed time
+      setBreakdownTime(0); // Reset breakdown time
       setShowConfirmationModal(false);
 
+      
     } catch (error) {
       console.error("Error adding attraction: ", error);
     }
@@ -326,7 +333,7 @@ const VisitPage = () => {
     return <div>Loading...</div>; // Loading placeholder for page
   }
 
-  console.log("showeditmodal status: ", showEditAttractionModal);
+  // console.log("showeditmodal status: ", showEditAttractionModal);
 
   // The return statement below is used to return the JSX for the VisitPage component.
   return (
@@ -367,6 +374,8 @@ const VisitPage = () => {
             <h3>
               Currently Timing: <br></br>
               {selectedAttractionData.attraction.name}
+              <br></br>
+              Posted Wait Time: {selectedAttractionData.attraction.queue.STANDBY.waitTime} minutes
             </h3>
             <Stopwatch
               onStop={handleStopwatchStop}
@@ -419,7 +428,9 @@ const VisitPage = () => {
                       attraction.actualWaitTime
                     )}{" "}
                     <br></br>
-                    Breakdown time: {attraction.breakdownTime} seconds
+                    {attraction.brokeDown ? (
+                    <>Breakdown time: {attraction.breakdownTime} seconds</>
+                    ) : null}
                     <ul>
                       {attraction.fastpass ? "⚡" : ""}{" "}
                       {attraction.singleRider ? "🙋" : ""}{" "}

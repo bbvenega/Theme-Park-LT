@@ -65,7 +65,7 @@ const EditAttractionModal = ({
     onDelete(attraction.id);
   };
 
-  console.log("isVisible: ", isVisible);
+  // console.log("isVisible: ", isVisible);
 
   // The return statement below will render the EditAttractionModal component.
   return (

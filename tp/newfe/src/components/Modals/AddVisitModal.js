@@ -21,7 +21,7 @@ const AddVisitModal = ({ show, onClose, children}) => {
     }
   }, [show]); // useEffect hook is dependent on the show variable.
 
-  console.log("isVisible: ", isVisible);
+  // console.log("isVisible: ", isVisible);
 
   // The return statement below will render the AddVisitModal component.
   return (

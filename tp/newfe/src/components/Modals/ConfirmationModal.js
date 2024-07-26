@@ -24,7 +24,7 @@ const ConfirmationModal = ({ show, onClose, onConfirm, elapsedTime }) => {
     }, [show]);
 
 
-  console.log("isVisible: ", isVisible);
+  // console.log("isVisible: ", isVisible);
 
   // The return statement below will render the ConfirmationModal component.
   return (

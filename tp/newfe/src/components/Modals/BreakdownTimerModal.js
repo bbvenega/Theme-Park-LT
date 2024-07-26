@@ -3,6 +3,8 @@
 
 import React, { useEffect } from "react";
 import "../../Styles/Modal.css";
+import { formatTime } from "../../services/Time Stuff/formatTime";
+
 
 const BreakdownTimerModal = ({ show, onClose, breakdownTime, setBreakdownTime }) => {
   useEffect(() => {
@@ -19,8 +21,10 @@ const BreakdownTimerModal = ({ show, onClose, breakdownTime, setBreakdownTime })
     <div className={`modal-backdrop ${show ? "fade-in" : "fade-out"}`}>
       <div className={`modal-content ${show ? "fade-in" : "fade-out"}`}>
         <h3>Breakdown Timer</h3>
-        <p>Breakdown Time: {breakdownTime} seconds</p>
-        <button onClick={onClose} className="modal-close-button"></button>
+        <p>Breakdown Time: {formatTime(breakdownTime)}</p>
+        <button onClick={onClose} className="modal-close-button">
+          &times;
+        </button>
       </div>
     </div>
   );

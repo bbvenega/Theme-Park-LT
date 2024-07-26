@@ -67,6 +67,11 @@ const Dashboard = () => {
         visit.id,
         getAccessTokenSilently
       );
+
+      if(visitDetails && visitDetails.userAttractions) { 
+      visitDetails.userAttractions.reverse();
+      
+      }
       navigate(`/visit/${visit.id}`, { state: { visitDetails } });
     } catch (error) {
       console.error("Error fetching visit details: ", error);

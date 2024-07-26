@@ -20,7 +20,7 @@ const Modal = ({ show, onClose, children }) => {
     }
   }, [show]); // useEffect hook is dependent on the show variable.
 
-  console.log("isVisible: ", isVisible);
+  // console.log("isVisible: ", isVisible);
 
     // The return statement below will render the Modal component.
   return (
