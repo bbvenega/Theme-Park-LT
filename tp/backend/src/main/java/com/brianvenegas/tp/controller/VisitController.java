@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,8 +50,28 @@ public class VisitController {
 
     // Get a visit by ID
     @GetMapping("/{id}") // Get a visit by ID
-    public Optional<Visit> getVisitById(@PathVariable Long id) {
-        return visitService.getVisitById(id);
+    public ResponseEntity<?> getVisitById(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
+        Optional<Visit> optionalVisit = visitService.getVisitById(id);
+        
+        // Check if the visit exists
+        if (optionalVisit.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Visit not found.");
+        }
+
+        Visit visit = optionalVisit.get();
+        System.out.println("Visit: " +visit);
+        System.out.println("Visit's UserID: " + visit.getUser().getId());
+
+
+        String userId = jwt.getSubject();
+        userId = userId.substring(userId.lastIndexOf("|") + 1);
+        System.out.println("User ID: " + userId);
+        // Check if the authenticated user owns this visit
+        System.out.println(visit.getUser().getId());
+        if (!visit.getUser().getId().equals(userId)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to access this visit.");
+        }
+        return ResponseEntity.ok(visit);
     }
 
     // Get all visits by user ID

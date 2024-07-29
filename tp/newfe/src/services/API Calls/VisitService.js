@@ -2,6 +2,8 @@
 
 import axios from "axios";
 
+
+
 // Gets and returns a user's visits from the database
 export const getVisitsByUserId = async (user, getAccessTokenSilently) => {
   try {
@@ -25,10 +27,14 @@ export const getVisitsByUserId = async (user, getAccessTokenSilently) => {
 
 // Gets and returns the details of a visit from the database
 export const getVisitDetails = async (visitId, getAccessTokenSilently) => {
+  // console.log("User: ", user);
   try {
     const token = await getAccessTokenSilently();
+    
+
+    // console.log("User ID: ", userId);
     const response = await axios.get(
-      `http://localhost:8080/visits/${visitId}`,
+      `http://localhost:8080/visits/${visitId}`,  
       {
         headers: {
           Authorization: `Bearer ${token}`,

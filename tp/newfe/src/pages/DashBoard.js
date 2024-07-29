@@ -64,7 +64,7 @@ const Dashboard = () => {
 
     try {
       const visitDetails = await getVisitDetails(
-        visit.id,
+        visit.id, 
         getAccessTokenSilently
       );
 
