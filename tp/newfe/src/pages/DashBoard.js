@@ -136,7 +136,7 @@ const Dashboard = () => {
     <PageTransition>
       <div className="dashboard-container">
         <h1>Welcome to Your Dashboard</h1>
-        <p>This is a private page you can see only after logging in.</p>
+        
         <h2>Your Visits</h2>
         {/* If the visits array is not empty, the component will render a list of the user's visits. If the visits array is empty, the component will render a message saying "No Visits Found!". */}
         {visits && visits.length > 0 ? (

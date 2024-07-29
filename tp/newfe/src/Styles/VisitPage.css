@@ -32,7 +32,7 @@ body {
 
 .h2-attraction-list-title {
   font-size: 2em;
-  color: gold;
+  color: #FFBF00;
   font-weight: bold;
 }
 
@@ -48,7 +48,7 @@ body {
 
 /* The attraction item is the individual attraction in the list. */
 .attraction-item {
-  padding: 20px 45px;
+  padding: 10px 45px;
   cursor: pointer;
   transition: background-color 0.3s;
   border-radius: 10px;
@@ -95,9 +95,9 @@ body {
 
 /* The attraction name is the name of the attraction. */
 .attraction-name {
-  font-weight: bold;
-  color: gold;
-  font-size: 1.3em;
+  font-weight: 600;
+  color: #FFBF00;
+  /* font-size: 1em; */
 }
 
 /* The attraction details is the list of details for the attraction. */
@@ -205,18 +205,18 @@ input[type="checkbox"]:checked {
 .currently-timing {
   font-size: 1.2em;
   color: white;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .currently-timing-attraction {
   font-size: 1.2em;
-  color: gold;
+  color: #FFBF00;
   font-weight: 700;
 }
 
 .currently-timing-waitTime {
   font-size: 1.2em;
   color: white;
-  font-weight: 600;
+  font-weight: 500;
 
 }

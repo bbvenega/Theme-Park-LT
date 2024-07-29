@@ -63,7 +63,7 @@ const Stopwatch = ({ onStop, postedWaitTime, onBreakdownTimeChange }) => {
         <button className="button" onClick={start}>Start</button>
         <button className="stop-button" onClick={stop}>Stop</button>
         <button className="button" onClick={reset}>Reset</button>
-        <button className="button" onClick={() => setShowBreakdownModal(true)}>Break down?</button>
+        <button className="button" onClick={() => setShowBreakdownModal(true)}>🚧</button>
       </div>
 
       <BreakdownTimerModal

@@ -439,9 +439,16 @@ const VisitPage = () => {
                     {attraction.attractionName}
                   </span>
                   <ul className="attraction-details">
-                    Posted Wait Time: {attraction.postedWaitTime} minutes{" "}
+                    {attraction.fastpass ? "⚡" : ""}{" "}
+                    {attraction.singleRider ? "🙋" : ""}{" "}
+                    {attraction.brokeDown ? "🔨" : ""}
+                    {attraction.fastpass || attraction.singleRider || attraction.brokeDown ? <br /> : null}
+                    {attraction.timeOfDay
+                      ? `${attraction.timeOfDay}`
+                      : ""}
+                    <br></br>Posted Wait Time: {attraction.postedWaitTime} minutes{" "}
                     <br></br>
-                    Actual wait time: {formatTime(
+                    Actual wait time <br></br> {formatTime(
                       attraction.actualWaitTime
                     )}{" "}
                     <br></br>
@@ -450,14 +457,6 @@ const VisitPage = () => {
                         Breakdown time: {formatTime(attraction.breakdownTime)}
                       </>
                     ) : null}
-                    {attraction.fastpass || attraction.singleRider || attraction.brokeDown ? <br /> : null}
-                    {attraction.fastpass ? "⚡" : ""}{" "}
-                    {attraction.singleRider ? "🙋" : ""}{" "}
-                    {attraction.brokeDown ? "🔨" : ""}
-                    {attraction.fastpass || attraction.singleRider || attraction.brokeDown ? <br /> : null}
-                    {attraction.timeOfDay
-                      ? `Time of Day: ${attraction.timeOfDay}`
-                      : ""}
                   </ul>
                 </li>
               ))}
