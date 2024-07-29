@@ -380,10 +380,10 @@ useEffect(() => {
         {selectedAttractionData && (
           <div className="stopwatch-container">
             <h3>
-              Currently Timing: <br></br>
-              {selectedAttractionData.attraction.name}
+             <span className="currently-timing"> Currently Timing </span> <br></br>
+              <span className="currently-timing-attraction">{selectedAttractionData.attraction.name}</span>
               <br></br>
-              Posted Wait Time: {selectedAttractionData.attraction.queue.STANDBY.waitTime} minutes
+              <span className="currently-timing-waitTime">Posted Wait Time: {selectedAttractionData.attraction.queue.STANDBY.waitTime} minutes </span>
             </h3>
             <Stopwatch
               onStop={handleStopwatchStop}

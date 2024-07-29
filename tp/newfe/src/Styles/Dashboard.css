@@ -38,7 +38,7 @@
 
 /* The visit list item is the individual visit in the list. */
 .visit-list-item {
-  background-image: linear-gradient(315deg, #c4deab 0%, #5691c8 74%);
+  background-color: #3999CD;
   border-radius: 10px;
   margin: 10px 0;
   padding: 15px;
