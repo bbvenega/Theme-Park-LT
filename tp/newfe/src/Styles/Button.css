@@ -55,7 +55,7 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  padding: 15px 30px;
+  padding: 5px 20px;
   text-align: center;
   text-transform: uppercase;
   transition: 0.5s;
@@ -72,6 +72,7 @@ background-color: transparent;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  font-size: 25px;
 }
 
 .big-button {
@@ -95,6 +96,31 @@ background-color: #3999CD;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  
+}
+
+.info-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  padding: 0px 5px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  border-radius: 10px;
+  display: block;
+  border: 100px;
+  border-color: white;
+  font-weight: 700;
+  /* box-shadow: 0px 0px 14px -7px #154c79; */
+background-color: transparent;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  font-size: 30px;
 }
 
 .delete-button:hover {

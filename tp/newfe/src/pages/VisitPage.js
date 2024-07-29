@@ -15,6 +15,8 @@ import Modal from "../components/Modals/Modal";
 import ConfirmationModal from "../components/Modals/ConfirmationModal";
 import EditAttractionModal from "../components/Modals/EditAttractionModal";
 import DeleteVisitModal from "../components/Modals/DeleteVisitModal";
+import BreakdownTimerModal from "../components/Modals/BreakdownTimerModal";
+import InfoModal from "../components/Modals/InfoModal";
 
 // The following services are imported from the services directory:
 import { formatTime } from "../services/Time Stuff/formatTime";
@@ -31,7 +33,6 @@ import {
 import "../Styles/VisitPage.css";
 import "../Styles/Button.css";
 import "../Styles/Fonts.css";
-import BreakdownTimerModal from "../components/Modals/BreakdownTimerModal";
 
 // The VisitPage component is a functional component that will display a user's visit and allow them to add, edit, and delete attractions from their visit.
 const VisitPage = () => {
@@ -47,6 +48,8 @@ const VisitPage = () => {
   const [showEditAttractionModal, setShowEditAttractionModal] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showInfoModal, setShowInfoModal] = useState(false);
+
 
   // The variables below are used to manage the state of selected attractions that are being added / deleted.
   const [selectedAttractionData, setSelectedAttractionData] = useState(null);
@@ -157,6 +160,14 @@ const VisitPage = () => {
   // The handleCloseDeleteModal function is used to close the delete visit modal component.
   const handleCloseDeleteModal = () => {
     setShowDeleteModal(false);
+  };
+
+  const handleShowInfoModal = () => {
+    setShowInfoModal(true);
+  };
+
+  const handleCloseInfoModal = () => {
+    setShowInfoModal(false);
   };
 
   // The handleDeleteVisit function is used to delete the visit entirely.
@@ -270,6 +281,8 @@ const VisitPage = () => {
     setSelectedAttractionData(data);
   };
 
+
+
   // The handleStopwatchStop function is used to handle the stopwatch stop event.
   const handleStopwatchStop = (time) => {
     setElapsedTime(time);
@@ -355,7 +368,7 @@ const VisitPage = () => {
       >
         {/* The button below is used to navigate to the dashboard page, it loads the user's visits and navigates to the dashboard page. */}
         <button onClick={goToDashboard} className="back-button">
-          ←
+        ←
         </button>
         <h1 className="title">{parkName}</h1>
         {/* The button below is used to open the add attraction modal. It presents a list of attractions that the user can add to their visit.  */}
@@ -477,12 +490,20 @@ const VisitPage = () => {
           delete this visit
         </button>
 
+
+
         <BreakdownTimerModal>
           show={false}
           onClose={() => {}}
           breakdownTime={breakdownTime}
           setBreakDownTime={setBreakdownTime}
         </BreakdownTimerModal>
+
+        <button className="info-button" onClick={handleShowInfoModal}>
+        ❔
+        </button>
+        <InfoModal show={showInfoModal} onClose={handleCloseInfoModal}> 
+        </InfoModal>
       </div>
     </PageTransition>
   );

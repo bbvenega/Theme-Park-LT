@@ -23,6 +23,8 @@ const EditAttractionModal = ({
   const [singleRider, setSingleRider] = useState(false);
   const [brokeDown, setBrokeDown] = useState(false);
   const [timeOfDay, setTimeOfDay] = useState("");
+  // const [attraction, setAttraction] = useState(null);\
+  const [attractionName, setAttractionName] = useState("");
   const [isVisible, setIsVisible] = useState(false);
 
   // The useEffect hook is used to set the visibility of the modal.
@@ -34,16 +36,18 @@ const EditAttractionModal = ({
       return () => clearTimeout(timer);
     }
   }, [show]); // useEffect hook is dependent on the show variable.
-
+// console.log("attraction: ", attraction);
   // The useEffect hook is used to set the state of the attraction details based on the updated information.
   useEffect(() => {
     if (attraction) {
+      // setAttraction(attraction);
       setPostedWaitTime(attraction.postedWaitTime || "");
       setActualWaitTime(attraction.actualWaitTime || "");
       setFastpass(attraction.fastpass || false);
       setSingleRider(attraction.singleRider || false);
       setBrokeDown(attraction.brokeDown || false);
       setTimeOfDay(attraction.timeOfDay || "");
+      setAttractionName(attraction.attractionName || "");
     }
   }, [attraction]); // useEffect hook is dependent on the attraction variable.
 
@@ -51,6 +55,7 @@ const EditAttractionModal = ({
   const handleSave = () => {
     onSave({
       id: attraction.id,
+      attractionName,
       timeOfDay,
       postedWaitTime,
       actualWaitTime,
@@ -78,7 +83,7 @@ const EditAttractionModal = ({
         <h3>Edit Attraction</h3>
         <div class = "form-group">
         <label>
-          Posted Wait Time:
+          Posted Wait Time (Minutes):
           <input
             type="number"
             value={postedWaitTime}
@@ -88,11 +93,11 @@ const EditAttractionModal = ({
           </div>
           <div class = "form-group">
         <label>
-          Actual Wait Time:
+          Actual Wait Time (Minutes):
           <input
             type="number"
-            value={actualWaitTime}
-            onChange={(e) => setActualWaitTime(e.target.value)}
+            // value={Math.ceil( actualWaitTime / 60)}
+            onChange={(e) => setActualWaitTime(e.target.value )}
           />
         </label>
           </div>
