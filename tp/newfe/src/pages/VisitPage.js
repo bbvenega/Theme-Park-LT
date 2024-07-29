@@ -355,7 +355,7 @@ useEffect(() => {
         <button onClick={goToDashboard} className="back-button">
         ←
         </button>
-        <h1>{parkName}</h1>
+        <h1 className="title">{parkName}</h1>
         {/* The button below is used to open the add attraction modal. It presents a list of attractions that the user can add to their visit.  */}
         {/* This is done with the AttractionsList component. */}
         <button className="big-button" onClick={handleOpenModal}>
@@ -437,9 +437,9 @@ useEffect(() => {
                     )}{" "}
                     <br></br>
                     {attraction.brokeDown ? (
-                    <>Breakdown time: {attraction.breakdownTime} seconds</>
+                    <>Breakdown time: {formatTime(attraction.breakdownTime)} seconds</>
                     ) : null}
-                    <ul>
+                    <ul >
                       {attraction.fastpass ? "⚡" : ""}{" "}
                       {attraction.singleRider ? "🙋" : ""}{" "}
                       {attraction.brokeDown ? "🔨" : ""}

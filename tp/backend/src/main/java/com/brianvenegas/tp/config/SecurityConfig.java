@@ -5,6 +5,7 @@
 
 package com.brianvenegas.tp.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,9 +33,14 @@ public class SecurityConfig {
         return http.build();
     }
 
+    @Value("${aut0.domain}")
+    private String auth0domain;
+    
     @Bean
     public JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder.withJwkSetUri("https://dev-iowg40sbidzmwlif.us.auth0.com/.well-known/jwks.json").build();
+        
+        String jwkSeturi = String.format("https://%s/.well-known/jwks.json", auth0domain);
+        return NimbusJwtDecoder.withJwkSetUri(jwkSeturi).build();
     }
 
 }

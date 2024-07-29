@@ -17,7 +17,7 @@ const AttractionsList = ({
   // The handleAttractionSelect function is used to select an attraction from the list of attractions.
   // This is in preparation for adding the attraction to the visit.
   const handleAttractionSelect = (attraction) => {
-    console.log(attraction);
+    // console.log(attraction);
     setSelectedAttraction(attraction);
     setFastpass(false);
     setSingleRider(false);
@@ -42,7 +42,7 @@ const AttractionsList = ({
   // The component will display a list of selectable attractions from the visit's theme park that a user can add to their visit.
   return (
     <div>
-      <h2>Attractions</h2>
+      <h2 className="h2-attraction-list-title">Attractions</h2>
       <ul className="attractions-list">
         {attractions
           .filter(
@@ -62,7 +62,7 @@ const AttractionsList = ({
               }`}
               onClick={() => handleAttractionSelect(attraction)}
             >
-              {attraction.name} <br></br> Wait Time:{" "}
+              <span className="attraction-name">{attraction.name}</span> <br></br> Live Wait Time:{" "}
               {attraction.queue && attraction.queue.STANDBY
                 ? attraction.queue.STANDBY.waitTime
                 : "N/A"}{" "}

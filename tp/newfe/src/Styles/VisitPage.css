@@ -35,29 +35,45 @@ body {
   list-style-type: none;
 }
 
+.h2-attraction-list-title {
+  font-size: 2em;
+  color: gold;
+  font-weight: bold;
+}
+
 .attraction-select-options {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-top: 20px;
+  border-radius: 10px;
 
 }
 
 /* The attraction item is the individual attraction in the list. */
 .attraction-item {
-  padding: 10px;
+  padding: 20px 45px;
   cursor: pointer;
   transition: background-color 0.3s;
+  border-radius: 10px;
 }
+
+
 
 /* Hover and active states for the attraction items. */
 .attraction-item:hover {
   background-color: #1e81b0;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 20px 45px;
 }
 .attraction-item.selected {
   background-color: #1e81b0;
   font-weight: bold;
+  border-radius: 10px;
+  padding: 20px 45px;
+
 }
 
 /* The visited attraction item is the individual visited attraction in the list. */
@@ -86,6 +102,7 @@ body {
 .attraction-name {
   font-weight: bold;
   color: gold;
+  
 }
 
 /* The attraction details is the list of details for the attraction. */
@@ -180,4 +197,10 @@ input[type="checkbox"]:checked {
   justify-content: center;
   margin-top: 10px;
   width: 100%;
+}
+
+.title {
+  font-size: 3em;
+  color: purple;
+  font-weight: bold;
 }
