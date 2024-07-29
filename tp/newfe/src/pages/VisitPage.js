@@ -58,7 +58,6 @@ const VisitPage = () => {
   const [loadingPage, setLoadingPage] = useState(!state?.visitDetails);
   const [loadingAttractions, setLoadingAttractions] = useState(true);
 
-
   // The useEffect hook below is used to fetch visit details based on the state of the visit.
   // If the visit details are not present, the visit details are fetched.
   // Otherwise, the loading page is set to false and the visit details are displayed.
@@ -75,7 +74,7 @@ const VisitPage = () => {
         }
       };
       fetchVisitDetails();
-    } 
+    }
   }, [visitId, getAccessTokenSilently, state]); // The useEffect hook is dependent on the visitId, getAccessTokenSilently, and state variables.
 
   // The useEffect hook below is used to set the park name based on the visit details.
@@ -87,36 +86,38 @@ const VisitPage = () => {
     }
   }, [visitDetails]); // The useEffect hook is dependent on the visitDetails variable.
 
-// The useEffect hook below is used to fetch attractions based on the visitId.
-// If the attractions are not present, the attractions are fetched.
-// Otherwise, the loading attractions is set to false and the attractions are displayed.
-useEffect(() => {
-  console.log("Visit ID: ", visitId);
-  const fetchAttractions = async () => {
-    try {
-      console.log("Fetching attractions...");
-      const data = await getVisitAttractions(visitId, getAccessTokenSilently);
-      // console.log("Attractions data:", data);
-      setAttractions(data);
-      setLoadingAttractions(false); // Data is ready
-    } catch (error) {
-      console.error("Error fetching attractions: ", error);
-      setLoadingAttractions(false); // Error occurred, stop loading
-    }
-  };
+  // The useEffect hook below is used to fetch attractions based on the visitId.
+  // If the attractions are not present, the attractions are fetched.
+  // Otherwise, the loading attractions is set to false and the attractions are displayed.
+  useEffect(() => {
+    console.log("Visit ID: ", visitId);
+    const fetchAttractions = async () => {
+      try {
+        console.log("Fetching attractions...");
+        const data = await getVisitAttractions(visitId, getAccessTokenSilently);
+        const sortedAttractions = data.sort(
+          (a, b) => a.name.localeCompare(b.name)
+        );
+        setAttractions(sortedAttractions);
+        setLoadingAttractions(false); // Data is ready
+      } catch (error) {
+        console.error("Error fetching attractions: ", error);
+        setLoadingAttractions(false); // Error occurred, stop loading
+      }
+    };
 
-  console.log("Initial fetch at: ", new Date());
-  fetchAttractions(); // Initial fetch
-  const intervalId = setInterval(() => {
-    console.log("Fetching at interval @ ", new Date());
-    fetchAttractions();
-  }, 300000); // 10 seconds
+    console.log("Initial fetch at: ", new Date());
+    fetchAttractions(); // Initial fetch
+    const intervalId = setInterval(() => {
+      console.log("Fetching at interval @ ", new Date());
+      fetchAttractions();
+    }, 300000); // 10 seconds
 
-  return () => {
-    console.log("Clearing interval @ ", new Date());
-    clearInterval(intervalId);
-  };
-}, [visitId, getAccessTokenSilently]); // The useEffect hook is dependent on the visitId and getAccessTokenSilently variables.
+    return () => {
+      console.log("Clearing interval @ ", new Date());
+      clearInterval(intervalId);
+    };
+  }, [visitId, getAccessTokenSilently]); // The useEffect hook is dependent on the visitId and getAccessTokenSilently variables.
   // The handleOpenModal function is used to open the modal component.
   const handleOpenModal = () => {
     setShowModal(true);
@@ -318,17 +319,18 @@ useEffect(() => {
           },
         ].reverse(),
       }));
-      const updatedVisitDetails = await getVisitDetails(visitId, getAccessTokenSilently);
+      const updatedVisitDetails = await getVisitDetails(
+        visitId,
+        getAccessTokenSilently
+      );
       updatedVisitDetails.userAttractions.reverse();
       setVisitDetails(updatedVisitDetails);
-  
+
       // Reset the state and close modals
       setSelectedAttractionData(null);
       setElapsedTime(0); // Reset elapsed time
       setBreakdownTime(0); // Reset breakdown time
       setShowConfirmationModal(false);
-
-      
     } catch (error) {
       console.error("Error adding attraction: ", error);
     }
@@ -353,7 +355,7 @@ useEffect(() => {
       >
         {/* The button below is used to navigate to the dashboard page, it loads the user's visits and navigates to the dashboard page. */}
         <button onClick={goToDashboard} className="back-button">
-        ←
+          ←
         </button>
         <h1 className="title">{parkName}</h1>
         {/* The button below is used to open the add attraction modal. It presents a list of attractions that the user can add to their visit.  */}
@@ -380,10 +382,17 @@ useEffect(() => {
         {selectedAttractionData && (
           <div className="stopwatch-container">
             <h3>
-             <span className="currently-timing"> Currently Timing </span> <br></br>
-              <span className="currently-timing-attraction">{selectedAttractionData.attraction.name}</span>
+              <span className="currently-timing"> Currently Timing </span>{" "}
               <br></br>
-              <span className="currently-timing-waitTime">Posted Wait Time: {selectedAttractionData.attraction.queue.STANDBY.waitTime} minutes </span>
+              <span className="currently-timing-attraction">
+                {selectedAttractionData.attraction.name}
+              </span>
+              <br></br>
+              <span className="currently-timing-waitTime">
+                Posted Wait Time:{" "}
+                {selectedAttractionData.attraction.queue.STANDBY.waitTime}{" "}
+                minutes{" "}
+              </span>
             </h3>
             <Stopwatch
               onStop={handleStopwatchStop}
@@ -437,13 +446,15 @@ useEffect(() => {
                     )}{" "}
                     <br></br>
                     {attraction.brokeDown ? (
-                    <>Breakdown time: {formatTime(attraction.breakdownTime)} seconds</>
+                      <>
+                        Breakdown time: {formatTime(attraction.breakdownTime)}
+                      </>
                     ) : null}
-                    <ul >
-                      {attraction.fastpass ? "⚡" : ""}{" "}
-                      {attraction.singleRider ? "🙋" : ""}{" "}
-                      {attraction.brokeDown ? "🔨" : ""}
-                    </ul>
+                    {attraction.fastpass || attraction.singleRider || attraction.brokeDown ? <br /> : null}
+                    {attraction.fastpass ? "⚡" : ""}{" "}
+                    {attraction.singleRider ? "🙋" : ""}{" "}
+                    {attraction.brokeDown ? "🔨" : ""}
+                    {attraction.fastpass || attraction.singleRider || attraction.brokeDown ? <br /> : null}
                     {attraction.timeOfDay
                       ? `Time of Day: ${attraction.timeOfDay}`
                       : ""}
@@ -468,10 +479,10 @@ useEffect(() => {
         </button>
 
         <BreakdownTimerModal>
-        show={false}
-        onClose={() => {}}
-        breakdownTime={breakdownTime}
-        setBreakDownTime={setBreakdownTime}
+          show={false}
+          onClose={() => {}}
+          breakdownTime={breakdownTime}
+          setBreakDownTime={setBreakdownTime}
         </BreakdownTimerModal>
       </div>
     </PageTransition>

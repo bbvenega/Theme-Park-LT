@@ -97,7 +97,7 @@ body {
 .attraction-name {
   font-weight: bold;
   color: gold;
-  
+  font-size: 1.3em;
 }
 
 /* The attraction details is the list of details for the attraction. */
@@ -205,18 +205,18 @@ input[type="checkbox"]:checked {
 .currently-timing {
   font-size: 1.2em;
   color: white;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .currently-timing-attraction {
   font-size: 1.2em;
   color: gold;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .currently-timing-waitTime {
   font-size: 1.2em;
   color: white;
-  font-weight: 500;
+  font-weight: 600;
 
 }

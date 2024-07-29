@@ -7,9 +7,11 @@ import "../Styles/Fonts.css";
 const HomePage = () => {
     return (
         <div className="HomePage">
-            <h1>Welcome to the Home Page</h1>
-            <p>This is a public page you can see without logging in.</p>
+            <h1>Welcome to the TPLT!</h1>
+            <p>A web-based application that allows you to track your ride wait times at over XX theme parks!</p>
+            <div className='buttons-container'>
             <LoginButton />
+            </div>
         </div>
     );
 };
