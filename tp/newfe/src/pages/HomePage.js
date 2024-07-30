@@ -15,7 +15,7 @@ const HomePage = () => {
             <div className='logo-container'>
             <div className="logo"></div>
             </div>
-            <p>A web-based application that allows you to track your ride wait times at over XX theme parks!</p>
+            <p>A web-based application that allows you to track your real-time ride wait times for <strong>2,950</strong> attractions at <strong>80</strong> different theme parks!</p>
             <div className='buttons-container'>
             <LoginButton />
             </div>

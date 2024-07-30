@@ -4,7 +4,9 @@ package com.brianvenegas.tp.service;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -51,10 +53,8 @@ public class ThemeParkService {
     // It saves the attraction data to the database using the attractionRepository.
     // The function uses CompletableFuture to fetch the attraction data for each park asynchronously.
     // It retries the data loading process up to 3 times if it fails.
-
     @Scheduled(fixedRate = 300000)
     private void loadParkandAttractions() {
-
 
         logger.info("Initializing ThemeParkService...");
         boolean dataLoaded = false;
@@ -104,7 +104,39 @@ public class ThemeParkService {
                 // Wait for all futures to complete
                 CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
                 dataLoaded = true;
+
                 System.out.printf("Parks and Attractions data loaded successfully @ %s", LocalDateTime.now());
+
+                int parkCount = 0;
+                int attractionCount = 0;
+                Set<String> uniqueAttractionIds = new HashSet<>();
+                Set<String> uniqueParkIds = new HashSet<>();
+                for (Park park : parks) {
+
+                    for (IndividualPark individualPark : park.getParks()) {
+                        String parkId = individualPark.getId();
+                        if (!uniqueParkIds.contains(parkId)) {
+                            uniqueParkIds.add(parkId);
+                            System.out.printf("%d: %s\n", parkCount, individualPark.getName());
+                            parkCount++;
+
+                        }
+                    }
+
+                    for (Attraction attraction : attractionRepository.findAll()) {
+                        String attractionId = attraction.getId();
+
+                        if (!uniqueAttractionIds.contains(attractionId)
+                                && attraction.getEntityType().equals("ATTRACTION")) {
+
+                            uniqueAttractionIds.add(attractionId);  // Add the ID to the set if it passes the checks
+                            // System.out.printf("%d: %s %s\n", attractionCount, attraction.getIndividualPark().getName(), attraction.getName());
+                            attractionCount++;
+                        }
+                    }
+                }
+
+                System.out.printf("Parks: %d, Attractions: %d\n", parkCount, attractionCount);
             } catch (IOException | InterruptedException e) {
                 attempts++;
                 logger.error("Error initializing parks", e);

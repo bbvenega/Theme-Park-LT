@@ -130,7 +130,7 @@ const EditAttractionModal = ({
         <button className="big-button" onClick={handleSave}>
           Save
         </button>
-        <button className="delete-button" onClick={handleDelete}>
+        <button className="delete-button-visit" onClick={handleDelete}>
           Delete
         </button>
         </div>

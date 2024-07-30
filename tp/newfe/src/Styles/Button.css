@@ -123,6 +123,30 @@ background-color: transparent;
   font-size: 30px;
 }
 
+.delete-button-visit {
+  margin: 0 10px;
+  margin-top: 10px;
+  padding: 15px 50px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  border-radius: 10px;
+  display: block;
+  border: 100px;
+  border-color: white;
+  font-weight: 600;
+  box-shadow: 0px 0px 14px -7px #b56e7b;
+  background-color: #cf5168;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  font-family: poppins;
+}
+
+
 .delete-button:hover {
   background-position: right center;
   /* change the direction of the change here */
@@ -130,7 +154,13 @@ background-color: transparent;
   text-decoration: none;
   /* testing this */
 } 
-
+.delete-button-visit:hover {
+  background-position: right center;
+  /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+  /* testing this */
+} 
 .big-button:hover {
   background-position: right center;
   /* change the direction of the change here */
@@ -182,6 +212,9 @@ background-color: transparent;
 }
 
 .delete-button:active {
+  transform: scale(0.95);
+}
+.delete-button-visit:active {
   transform: scale(0.95);
 }
 

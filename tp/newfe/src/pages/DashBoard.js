@@ -160,6 +160,7 @@ const Dashboard = () => {
                   {visit.parkName} 
                   </div>
                   <div className="modal-text-subtext">
+                    {console.log("Visit date: ", visit.dateVisited)}
                   {FormatDate(visit.dateVisited)}
                   </div>
                 </div>

@@ -36,7 +36,7 @@ const DeleteVisitModal = ({ show, onClose, handleDeleteVisit}) => {
           &times;
         </button>
         <div className="buttons-container">
-        <button onClick={handleDeleteVisit} className="delete-button">
+        <button onClick={handleDeleteVisit} className="delete-button-visit">
             Delete
         </button>
         </div>

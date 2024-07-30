@@ -1,12 +1,12 @@
 // FormatTime function to convert date to Month, Day, Year
 
 export const FormatDate = (dateString) => {
-
+    dateString += "T00:00:00";
     const date = new Date(dateString);
-
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const day = date.getDate();
+    const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+    const year = localDate.getFullYear();
+    const month = localDate.getMonth();
+    const day = localDate.getDate();
 
     const monthNames = [
         "January", "February", "March", "April", "May", "June",
@@ -26,7 +26,7 @@ export const FormatDate = (dateString) => {
 
       const monthName = monthNames[month];
       const daySuffix = getDaySuffix(day);
-
+      console.log("Day: ", day);
       return `${monthName} ${day}${daySuffix}, ${year}`;
 
   };

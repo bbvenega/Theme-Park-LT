@@ -91,9 +91,11 @@ const ParksList = ({ parks, onAdd }) => {
             </ul>
           
         </div>
+        <div className="buttons-container">
         <button className="button" type="submit" disabled={!selectedPark}>
           Add Visit
         </button>
+        </div>
       </form>
     </div>
   );
