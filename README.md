@@ -39,7 +39,7 @@ The Visit Page offers a detailed overview of all the attractions you experienced
 ### Adding a Ride
 To enhance your visit log, you can add new rides by selecting from a comprehensive list of attractions currently available at the theme park. The list is organized alphabetically, and each ride's live wait time is displayed for easy reference. After selecting a ride, you can indicate if you used a fastpass or single rider line to modify the wait time data. This feature helps you maintain an accurate and detailed record of your theme park experiences.
 
-![TPLT Add Attraction Modal](https://github.com/user-attachments/assets/34c41e92-142c-441b-ac43-d1182436ac4f) !TPLT Add Attraction Modal)](https://github.com/user-attachments/assets/5a41fa0b-8bb0-4831-9b25-0bb9be30bcf5)
+![TPLT Add Attraction Modal](https://github.com/user-attachments/assets/34c41e92-142c-441b-ac43-d1182436ac4f) ![TPLT Add Attraction Modal)](https://github.com/user-attachments/assets/5a41fa0b-8bb0-4831-9b25-0bb9be30bcf5)
 
  ### Timing a Ride 
 The "Timing a Ride" feature allows you to track your actual wait time for each attraction. Upon selecting a ride, a visual stopwatch appears, filling up and changing color as it approaches the originally posted wait time. This helps you monitor your wait duration and compare it with the park's estimates. Additionally, the feature includes a breakdown timer, enabling you to record any delays experienced during your wait. This detailed timing data enhances your visit logs and provides valuable insights for future visits.
