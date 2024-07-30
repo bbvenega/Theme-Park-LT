@@ -38,7 +38,7 @@
 
 /* The visit list item is the individual visit in the list. */
 .visit-list-item {
-  background-color: #3999CD;
+  background-color: #3999cd;
   border-radius: 10px;
   margin: 10px 0;
   padding: 15px;
@@ -69,6 +69,8 @@
   padding: 0;
   width: 100%;
   list-style-type: none;
+  font-family: poppins;
+  font-weight: 500;
 }
 
 /* The park item's are the theme Parks in the list. */
@@ -76,15 +78,18 @@
   padding: 10px;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-family: poppins;
+  font-weight: 500;
 }
 
 .park-item:hover {
   background-color: #1e81b0;
+  font-weight: 600;
 }
 
 .park-item.selected {
   background-color: #1e81b0;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .park-item-details {
@@ -123,16 +128,26 @@ input[type="date"] {
   border: 2px solid #ccc;
   border-radius: 4px;
   text-align: center;
+  ;
 }
 
 input[type="date"]:focus {
   border: 3px solid #555;
   outline: none;
+  
 }
 
 input[type="date"]::placeholder {
   text-align: center;
+  font-family: poppins;
+  font-weight: 500;
 }
 
+.fade-in-DB {
+  opacity: 1;
+  transition: opacity 1s ease-in-out;
+}
 
-
+.hidden-DB {
+  opacity: 0;
+}

@@ -81,20 +81,22 @@ const EditAttractionModal = ({
           &times;{" "}
         </button>
         <h3>Edit Attraction</h3>
-        <div class = "form-group">
-        <label>
+        <div className = "form-group">
+        <label htmlFor="postedWaitTimeID">
           Posted Wait Time (Minutes):
           <input
+            id="postedWaitTimeID"
             type="number"
             value={postedWaitTime}
             onChange={(e) => setPostedWaitTime(e.target.value)}
           />
         </label>
           </div>
-          <div class = "form-group">
-        <label>
+          <div className = "form-group">
+        <label htmlFor="actualWaitTimeID">
           Actual Wait Time (Minutes):
           <input
+            id="actualWaitTimeID"
             type="number"
             // value={Math.ceil( actualWaitTime / 60)}
             onChange={(e) => setActualWaitTime(e.target.value )}
@@ -102,9 +104,10 @@ const EditAttractionModal = ({
         </label>
           </div>
         <br />
-        <div class = "form-group">
-        <label>
+        <div className = "form-group">
+        <label htmlFor="fastpassID">
           <input
+            id="fastpassID"
             type="checkbox"
             checked={fastpass}
             onChange={(e) => setFastpass(e.target.checked)}
@@ -112,8 +115,9 @@ const EditAttractionModal = ({
           Fastpass?
         </label>
 
-        <label>
+        <label htmlFor="SingleRiderID">
           <input
+            id="SingleRiderID"
             type="checkbox"
             checked={singleRider}
             onChange={(e) => setSingleRider(e.target.checked)}
@@ -122,7 +126,7 @@ const EditAttractionModal = ({
         </label>
 
           </div>
-          <div class = "edit-button-container">
+          <div className= "edit-button-container">
         <button className="big-button" onClick={handleSave}>
           Save
         </button>
