@@ -2,15 +2,10 @@
 
 /* The body of the visit page. */
 body {
-  background-image: linear-gradient(
-    45deg,
-    #154c79 0%,
-    #1e81b0 51%,
-    #063970 100%
-  );
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.dev/svgjs' width='1440' height='560' preserveAspectRatio='none' viewBox='0 0 1440 560'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1050%26quot%3b)' fill='none'%3e%3crect width='1440' height='560' x='0' y='0' fill='rgba(99%2c 188%2c 235%2c 1)'%3e%3c/rect%3e%3cpath d='M0%2c618.429C114.857%2c623.458%2c214.759%2c546.47%2c307.744%2c478.859C396.406%2c414.391%2c471.647%2c335.737%2c522.406%2c238.575C575.21%2c137.497%2c636.27%2c22.415%2c603.213%2c-86.729C570.471%2c-194.833%2c426.177%2c-220.012%2c356.568%2c-308.968C281.239%2c-405.234%2c294.448%2c-573.157%2c183.106%2c-623.6C74.056%2c-673.004%2c-51.635%2c-594.948%2c-159.352%2c-542.702C-254.095%2c-496.749%2c-326.864%2c-422.559%2c-395.691%2c-342.868C-464.413%2c-263.299%2c-532.445%2c-182.137%2c-558.693%2c-80.328C-586.812%2c28.739%2c-599.26%2c149.935%2c-548.692%2c250.579C-498.66%2c350.156%2c-383.463%2c390.593%2c-290.9%2c452.649C-196.282%2c516.082%2c-113.805%2c613.446%2c0%2c618.429' fill='%2348b1e8'%3e%3c/path%3e%3cpath d='M1440 1204.396C1562.376 1198.078 1678.777 1158.19 1782.4859999999999 1092.9189999999999 1886.92 1027.191 1972.089 938.0899999999999 2033.336 830.967 2098.989 716.139 2193.61 581.69 2145.149 458.615 2094.8940000000002 330.983 1903.872 338.379 1802.845 245.59300000000002 1719.035 168.61900000000003 1708.347 32.52099999999996 1613.218-29.924999999999955 1503.435-101.99000000000001 1364.394-163.55600000000004 1239.003-124.53200000000004 1113.701-85.53499999999997 1068.127 64.19 984.8720000000001 165.62900000000002 904.287 263.814 785.168 337.885 757.693 461.899 729.585 588.77 780.792 718.208 836.433 835.64 891.481 951.821 964.3 1062.467 1074.008 1129.4940000000001 1182.467 1195.759 1313.069 1210.949 1440 1204.396' fill='%237ec7ee'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1050'%3e%3crect width='1440' height='560' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e");
   text-align: center;
   color: white;
-  font-family: "Saira", sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 /* The visit page container is the container that holds the entire visit page. */
@@ -37,7 +32,7 @@ body {
 
 .h2-attraction-list-title {
   font-size: 2em;
-  color: gold;
+  color: #FFBF00;
   font-weight: bold;
 }
 
@@ -53,7 +48,7 @@ body {
 
 /* The attraction item is the individual attraction in the list. */
 .attraction-item {
-  padding: 20px 45px;
+  padding: 10px 45px;
   cursor: pointer;
   transition: background-color 0.3s;
   border-radius: 10px;
@@ -85,8 +80,8 @@ body {
   margin: 10px;
   padding: 10px;
   /* background-color: #c4deab; */
-  background-image: linear-gradient(315deg, #c4deab 0%, #5691c8 74%);
-  border-radius: 5px;
+  background-color: #3999CD;
+  border-radius: 10px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   text-align: center;
   width: 80vw;
@@ -100,9 +95,9 @@ body {
 
 /* The attraction name is the name of the attraction. */
 .attraction-name {
-  font-weight: bold;
-  color: gold;
-  
+  font-weight: 600;
+  color: #FFBF00;
+  /* font-size: 1em; */
 }
 
 /* The attraction details is the list of details for the attraction. */
@@ -110,6 +105,8 @@ body {
   list-style-type: none;
   padding: 0;
   color: white;
+  font-family: poppins;
+  font-weight: 500;
 }
 
 /* The attraction detail item is the individual detail for the attraction. */
@@ -137,6 +134,7 @@ input[type="number"] {
   color: #5691c8;
   border-radius: 4px;
   font-size: 100px;
+  font-family: poppins;
   text-align: center;
 }
 
@@ -157,10 +155,10 @@ input[type="checkbox"] {
 input[type="checkbox"]:checked::after {
   content: "";
   position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 10px;
-  height: 10px;
+  top: 0px;
+  left: 0px;
+  width: 13px;
+  height: 13px;
   background-color: #333;
   border-radius: 2px;
 }
@@ -179,6 +177,8 @@ input[type="checkbox"]:checked {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  place-content: center;
+  font-family: poppins;
 }
 
 .form-group input[type="checkbox"] {
@@ -201,6 +201,25 @@ input[type="checkbox"]:checked {
 
 .title {
   font-size: 3em;
-  color: purple;
+  color: white;
   font-weight: bold;
+}
+
+.currently-timing {
+  font-size: 1.2em;
+  color: white;
+  font-weight: 500;
+}
+
+.currently-timing-attraction {
+  font-size: 1.2em;
+  color: #FFBF00;
+  font-weight: 700;
+}
+
+.currently-timing-waitTime {
+  font-size: 1.2em;
+  color: white;
+  font-weight: 500;
+
 }

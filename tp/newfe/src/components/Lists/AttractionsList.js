@@ -43,36 +43,42 @@ const AttractionsList = ({
   return (
     <div>
       <h2 className="h2-attraction-list-title">Attractions</h2>
-      <ul className="attractions-list">
-        {attractions
-          .filter(
-            (attraction) =>
-              attraction.entityType === "ATTRACTION" &&
-              attraction.status === "OPERATING" &&
-              attraction.queue &&
-              attraction.queue.STANDBY &&
-              attraction.queue.STANDBY.waitTime != null &&
-              attraction.queue.STANDBY.waitTime !== 0
-          )
-          .map((attraction) => (
-            <li
-              key={attraction.id}
-              className={`attraction-item ${
-                selectedAttraction === attraction ? "selected" : ""
-              }`}
-              onClick={() => handleAttractionSelect(attraction)}
-            >
-              <span className="attraction-name">{attraction.name}</span> <br></br> Live Wait Time:{" "}
-              {attraction.queue && attraction.queue.STANDBY
-                ? attraction.queue.STANDBY.waitTime
-                : "N/A"}{" "}
-              minutes
-            </li>
-          ))}
-      </ul>
+      {attractions && attractions.length > 0 ? (
+        <ul className="attractions-list">
+          {attractions
+            .filter(
+              (attraction) =>
+                attraction.entityType === "ATTRACTION" &&
+                attraction.status === "OPERATING" &&
+                attraction.queue &&
+                attraction.queue.STANDBY &&
+                attraction.queue.STANDBY.waitTime != null &&
+                attraction.queue.STANDBY.waitTime !== 0
+            )
+            .map((attraction) => (
+              <li
+                key={attraction.id}
+                className={`attraction-item ${
+                  selectedAttraction === attraction ? "selected" : ""
+                }`}
+                onClick={() => handleAttractionSelect(attraction)}
+              >
+                <span className="attraction-name">{attraction.name}</span>{" "}
+                <br></br> Live Wait Time:{" "}
+                {attraction.queue && attraction.queue.STANDBY
+                  ? attraction.queue.STANDBY.waitTime
+                  : "N/A"}{" "}
+                minutes
+              </li>
+            ))}
+        </ul>
+      ) : (
+        <p>No attractions available, ensure your park is open!</p>
+      )}
       {selectedAttraction && (
         <div className="attraction-select-options">
-          <h3>Selected Attraction: {selectedAttraction.name}</h3>
+          <h3>Selected Attraction: 
+            <br></br>{selectedAttraction.name}</h3>
           <label>
             <input
               type="checkbox"
@@ -89,7 +95,6 @@ const AttractionsList = ({
             />
             Single Rider?
           </label>
-
 
           <button className="button" onClick={handleSubmit}>
             Add Attraction

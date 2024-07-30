@@ -36,8 +36,10 @@ const ConfirmationModal = ({ show, onClose, onConfirm, elapsedTime }) => {
           Are you sure you want to submit the time: <br></br>
           {formatTime(elapsedTime)}?
         </p>
+        <div className="buttons-container"> 
         <button className="button" onClick={onConfirm}> Yes</button>
         <button className="button" onClick={onClose}> No</button>
+        </div>
       </div>
     </div>
   );

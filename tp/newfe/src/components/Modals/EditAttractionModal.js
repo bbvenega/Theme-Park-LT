@@ -23,6 +23,8 @@ const EditAttractionModal = ({
   const [singleRider, setSingleRider] = useState(false);
   const [brokeDown, setBrokeDown] = useState(false);
   const [timeOfDay, setTimeOfDay] = useState("");
+  // const [attraction, setAttraction] = useState(null);\
+  const [attractionName, setAttractionName] = useState("");
   const [isVisible, setIsVisible] = useState(false);
 
   // The useEffect hook is used to set the visibility of the modal.
@@ -34,16 +36,18 @@ const EditAttractionModal = ({
       return () => clearTimeout(timer);
     }
   }, [show]); // useEffect hook is dependent on the show variable.
-
+// console.log("attraction: ", attraction);
   // The useEffect hook is used to set the state of the attraction details based on the updated information.
   useEffect(() => {
     if (attraction) {
+      // setAttraction(attraction);
       setPostedWaitTime(attraction.postedWaitTime || "");
       setActualWaitTime(attraction.actualWaitTime || "");
       setFastpass(attraction.fastpass || false);
       setSingleRider(attraction.singleRider || false);
       setBrokeDown(attraction.brokeDown || false);
       setTimeOfDay(attraction.timeOfDay || "");
+      setAttractionName(attraction.attractionName || "");
     }
   }, [attraction]); // useEffect hook is dependent on the attraction variable.
 
@@ -51,6 +55,7 @@ const EditAttractionModal = ({
   const handleSave = () => {
     onSave({
       id: attraction.id,
+      attractionName,
       timeOfDay,
       postedWaitTime,
       actualWaitTime,
@@ -76,30 +81,33 @@ const EditAttractionModal = ({
           &times;{" "}
         </button>
         <h3>Edit Attraction</h3>
-        <div class = "form-group">
-        <label>
-          Posted Wait Time:
+        <div className = "form-group">
+        <label htmlFor="postedWaitTimeID">
+          Posted Wait Time (Minutes):
           <input
+            id="postedWaitTimeID"
             type="number"
             value={postedWaitTime}
             onChange={(e) => setPostedWaitTime(e.target.value)}
           />
         </label>
           </div>
-          <div class = "form-group">
-        <label>
-          Actual Wait Time:
+          <div className = "form-group">
+        <label htmlFor="actualWaitTimeID">
+          Actual Wait Time (Minutes):
           <input
+            id="actualWaitTimeID"
             type="number"
-            value={actualWaitTime}
-            onChange={(e) => setActualWaitTime(e.target.value)}
+            // value={Math.ceil( actualWaitTime / 60)}
+            onChange={(e) => setActualWaitTime(e.target.value )}
           />
         </label>
           </div>
         <br />
-        <div class = "form-group">
-        <label>
+        <div className = "form-group">
+        <label htmlFor="fastpassID">
           <input
+            id="fastpassID"
             type="checkbox"
             checked={fastpass}
             onChange={(e) => setFastpass(e.target.checked)}
@@ -107,8 +115,9 @@ const EditAttractionModal = ({
           Fastpass?
         </label>
 
-        <label>
+        <label htmlFor="SingleRiderID">
           <input
+            id="SingleRiderID"
             type="checkbox"
             checked={singleRider}
             onChange={(e) => setSingleRider(e.target.checked)}
@@ -117,7 +126,7 @@ const EditAttractionModal = ({
         </label>
 
           </div>
-          <div class = "edit-button-container">
+          <div className= "edit-button-container">
         <button className="big-button" onClick={handleSave}>
           Save
         </button>

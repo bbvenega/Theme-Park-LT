@@ -1,8 +1,7 @@
 // Parks List component that displays a list of parks and allows the user to select a park and add a visit to that park.
 // This component is used in the AddVisitModal component and is similar to AttractionsList component.
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-
 
 const ParksList = ({ parks, onAdd }) => {
   const [date, setDate] = useState("");
@@ -55,38 +54,42 @@ const ParksList = ({ parks, onAdd }) => {
       <h1>Add a New Visit</h1>
       <form onSubmit={handleAddVisit}>
         <div>
-          <label>Date:</label>
-          <input
-            type="date"
-            id="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            required
-          />
+          <label>
+            Date:
+            <input
+              type="date"
+              id="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              required
+            />
+          </label>
         </div>
         <div>
-          <label>Park:</label>
-          <ul className="park-list">
-            {sortedParks.map((park) => (
-              <li
-                key={park.id}
-                className={`park-item ${
-                  selectedPark === park.id ? "selected" : ""
-                }`}
-                onClick={() => handleParkSelect(park)}
-              >
-                <div className="park-item-content">
-                  <strong>{park.name}</strong>
-                  <br />
-                  <div className="park-item-subtext">
-                    {park.parks
-                      .map((individualPark) => individualPark.name)
-                      .join(", ")}
+          
+            Park:
+            <ul className="park-list">
+              {sortedParks.map((park) => (
+                <li
+                  key={park.id}
+                  className={`park-item ${
+                    selectedPark === park.id ? "selected" : ""
+                  }`}
+                  onClick={() => handleParkSelect(park)}
+                >
+                  <div className="park-item-content">
+                    <strong>{park.name}</strong>
+                    <br />
+                    <div className="park-item-subtext">
+                      {park.parks
+                        .map((individualPark) => individualPark.name)
+                        .join(", ")}
+                    </div>
                   </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+                </li>
+              ))}
+            </ul>
+          
         </div>
         <button className="button" type="submit" disabled={!selectedPark}>
           Add Visit

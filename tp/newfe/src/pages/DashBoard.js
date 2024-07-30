@@ -43,6 +43,12 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchVisits = async () => {
       try {
+
+              // Check if the user object and necessary properties are available
+      if (!user || !user.sub) {
+        console.warn("User information not available yet.");
+        return; // Exit the function early if user info is not available
+      }
         const data =
           state?.visits ||
           (await getVisitsByUserId(user, getAccessTokenSilently));
@@ -64,7 +70,7 @@ const Dashboard = () => {
 
     try {
       const visitDetails = await getVisitDetails(
-        visit.id,
+        visit.id, 
         getAccessTokenSilently
       );
 
@@ -127,16 +133,17 @@ const Dashboard = () => {
   }
 
   // The following conditional statement is used to display a loading message while the visits are being fetched.
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
 
   // The following JSX is the structure of the dashboard component.
   return (
     <PageTransition>
+      <div className={loading ? "hidden-DB" : "fade-in-DB"}>
       <div className="dashboard-container">
         <h1>Welcome to Your Dashboard</h1>
-        <p>This is a private page you can see only after logging in.</p>
+        
         <h2>Your Visits</h2>
         {/* If the visits array is not empty, the component will render a list of the user's visits. If the visits array is empty, the component will render a message saying "No Visits Found!". */}
         {visits && visits.length > 0 ? (
@@ -176,6 +183,7 @@ const Dashboard = () => {
         </AddVisitModal>
         <LogoutButton />
         </div>
+      </div>
       </div>
     </PageTransition>
   );
