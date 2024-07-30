@@ -1,4 +1,4 @@
-# Theme Park Line Tracker
+# Theme Park Line Tracker 🎡
 
 *Note: The application is currently in active development. We welcome feedback and contributions to improve user experience and functionality. Also, the application is currently only available through web-browser.*
 
@@ -15,7 +15,7 @@ Theme Park Line Tracker transforms the way amusement park enthusiasts manage the
  ## Live Webpage 🔗
  The current live version of Theme Park Line Tracker is available here. 
 
- ## Site 🖥️
+ ## Web App 🖥️
 
  ### Homepage
 The homepage offers a secure login experience using Okta's Auth0, ensuring your data's safety and privacy. Once logged in, you can access our web-based platform to track real-time wait times for rides at various theme parks.
@@ -57,7 +57,7 @@ The "Editing a Ride" feature allows users to correct any mistakes made when addi
  ## Usage 🐛
  ### Bug / Feature Request
 
-If you find any bugs or have any constructive feedback please let me know as I want to ensure everyone can enhance their theme park experiences.
+If you find any bugs or have any constructive feedback [please let me know](https://github.com/bbvenega/Theme-Park-LT/issues) as I want to ensure everyone can enhance their theme park experiences.
 
 
  ## How was Theme Park Line Tracker Created? 🎨
