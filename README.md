@@ -8,7 +8,7 @@ As a frequent visitor to amusement parks, I always enjoyed keeping track of the 
 
 I wanted to create a more engaging and efficient way to log my amusement park visits, including details about the rides, wait times, and other unique aspects of the experience.
 
-This led to the creation of Theme Park Line Tracker, an application designed to make tracking amusement park visits more enjoyable. The app allows users to log their visits to over **XX amusement parks**, track the attractions they ride, and record how long they wait in line. Additionally, users can set special attributes for each ride, such as using fastpasses, single rider lines, and noting any breakdown times.
+This led to the creation of Theme Park Line Tracker, an application designed to make tracking amusement park visits more enjoyable. The app allows users to log their visits to over **80 amusement parks** and **2,950 attractions**, track the attractions they ride, and record how long they wait in line. Additionally, users can set special attributes for each ride, such as using fastpasses, single rider lines, and noting any breakdown times.
 
 Theme Park Line Tracker transforms the way amusement park enthusiasts manage their park experiences. It provides a fun, organized, and interactive way to document their adventures, enhancing the overall enjoyment of visiting theme parks.
 
@@ -18,44 +18,39 @@ Theme Park Line Tracker transforms the way amusement park enthusiasts manage the
  ## Site 🖥️
 
  ### Homepage
-The homepage allows users to securely log in using Okta's Auth0, ensuring a personalized and safe experience.
+The homepage offers a secure login experience using Okta's Auth0, ensuring your data's safety and privacy. Once logged in, you can access our web-based platform to track real-time wait times for rides at various theme parks.
 
-![file(1)](https://github.com/user-attachments/assets/c83d01b4-3ca8-466d-b177-d7f8f7209403)
+![TPLT Home Page](https://github.com/user-attachments/assets/c83d01b4-3ca8-466d-b177-d7f8f7209403)
 
 
 
  ### Dashboard
-The dashboard lists the user's visits in reverse chronological order, allowing users to either select a visit by its name and date visited or add another.
+The dashboard provides a personalized view of your theme park visits, allowing you to manage and track your experiences easily.
 
-![GH - Dashboard 2](https://github.com/user-attachments/assets/7c058f64-2c48-4ac0-8f99-17c5de6c7c83) ![GH - Add Visit](https://github.com/user-attachments/assets/7186ee92-8a50-45eb-a765-6d1f6682281b)
+![TPLT Dashboard](https://github.com/user-attachments/assets/7c058f64-2c48-4ac0-8f99-17c5de6c7c83) ![TPLT Add Visit Modal](https://github.com/user-attachments/assets/7186ee92-8a50-45eb-a765-6d1f6682281b)
 
 
 
  ### Visit Page
-The visit page displays all the attractions a user visited during the trip, including the attraction's name, original posted wait time, actual wait time, time of day, and any special attributes they added. It also allows the user to add more attractions with live wait times!
+The Visit Page offers a detailed overview of all the attractions you experienced during your theme park visit. It displays each ride's name, posted wait time, and your actual wait time, allowing you to compare and analyze your experience. You can also add new attractions with live wait times, specifying details such as the type of line you used (e.g., single rider or fastpass). Additionally, the page includes a timer feature to help you track and record wait times accurately, along with the option to add notes about each ride for a personalized visit log.
 
-![GH - VisitPage 2](https://github.com/user-attachments/assets/a62f2faf-7fd7-44c9-a7b0-740ef2de0939) ![GH - Visited Attractions](https://github.com/user-attachments/assets/fee9d80f-369d-4b11-a4d3-f4e1733cdf62) ![GH - Help](https://github.com/user-attachments/assets/f5afdadf-063a-4525-8e27-52031f6c3fbc)
+![TPLT VisitPage](https://github.com/user-attachments/assets/a62f2faf-7fd7-44c9-a7b0-740ef2de0939) ![TPLT Visited Attractions](https://github.com/user-attachments/assets/fee9d80f-369d-4b11-a4d3-f4e1733cdf62) ![TPLT Help](https://github.com/user-attachments/assets/f5afdadf-063a-4525-8e27-52031f6c3fbc)
 
 ### Adding a Ride
-When the user selects add an atraction, a list of all of the rides that are currently operating at that theme park is presented in alpahbetical order. The user can tap the ride they are entering the queue for and then select line modifications just as using a fastpass or using a single rider line.
-![GH - Add Attraction](https://github.com/user-attachments/assets/34c41e92-142c-441b-ac43-d1182436ac4f) ![GH - Add Attraction (2)](https://github.com/user-attachments/assets/5a41fa0b-8bb0-4831-9b25-0bb9be30bcf5)
+To enhance your visit log, you can add new rides by selecting from a comprehensive list of attractions currently available at the theme park. The list is organized alphabetically, and each ride's live wait time is displayed for easy reference. After selecting a ride, you can indicate if you used a fastpass or single rider line to modify the wait time data. This feature helps you maintain an accurate and detailed record of your theme park experiences.
 
-
+![TPLT Add Attraction Modal](https://github.com/user-attachments/assets/34c41e92-142c-441b-ac43-d1182436ac4f) !TPLT Add Attraction Modal)](https://github.com/user-attachments/assets/5a41fa0b-8bb0-4831-9b25-0bb9be30bcf5)
 
  ### Timing a Ride 
-When the user selects a ride from the park's live options, they are presented with a visual stopwatch where they can track how long they've been in line. The stopwatch circle fills and turns red as it approaches the originally posted wait time. Users can also track the duration of ride breakdowns if they choose to stay in line.
+The "Timing a Ride" feature allows you to track your actual wait time for each attraction. Upon selecting a ride, a visual stopwatch appears, filling up and changing color as it approaches the originally posted wait time. This helps you monitor your wait duration and compare it with the park's estimates. Additionally, the feature includes a breakdown timer, enabling you to record any delays experienced during your wait. This detailed timing data enhances your visit logs and provides valuable insights for future visits.
 
-
-![GH - Timing Ride (GREEN) 1](https://github.com/user-attachments/assets/128a5b3d-585c-4905-8562-0340834ddc7e) ![GH - Timing Ride (RED)](https://github.com/user-attachments/assets/cb66241f-b6f0-4be9-9394-b359973c13f8) ![GH - Breakdown Timer](https://github.com/user-attachments/assets/0b24ed73-9eb6-43ba-89c5-bddb0e4d6163)
-
-
-
+![TPLT Timing Ride (GREEN)](https://github.com/user-attachments/assets/128a5b3d-585c-4905-8562-0340834ddc7e) ![TPLT Timing Ride (RED)](https://github.com/user-attachments/assets/cb66241f-b6f0-4be9-9394-b359973c13f8) ![TPLT Breakdown Timer](https://github.com/user-attachments/assets/d9337319-ac06-4aef-87cb-7ee8fcc1dacb)
 
 
  ### Editing a Ride
-If there was a mistake when adding an attraction, the user can easily edit past attractions to accurately reflect their visit.
+The "Editing a Ride" feature allows users to correct any mistakes made when adding an attraction. Users can easily update the posted and actual wait times, as well as specify if they used a fastpass or single rider line. This ensures that their visit log accurately reflects their experience, providing precise data for personal records and future planning.
 
-![GH - Edit Attraction](https://github.com/user-attachments/assets/6742bc0b-59d3-4432-bb52-2248a8540cbc)
+![TPLT Edit Attraction](https://github.com/user-attachments/assets/6742bc0b-59d3-4432-bb52-2248a8540cbc)
 
 
 
