@@ -19,19 +19,45 @@ Theme Park Line Tracker transforms the way amusement park enthusiasts manage the
 
  ### Homepage
 The homepage allows users to securely log in using Okta's Auth0, ensuring a personalized and safe experience.
- 
+
+![file(1)](https://github.com/user-attachments/assets/c83d01b4-3ca8-466d-b177-d7f8f7209403)
+
+
 
  ### Dashboard
-The dashboard lists the user's visits in reverse chronological order, allowing users to either select a visit by its name and date visited or add another visit.
+The dashboard lists the user's visits in reverse chronological order, allowing users to either select a visit by its name and date visited or add another.
+
+![GH - Dashboard 2](https://github.com/user-attachments/assets/7c058f64-2c48-4ac0-8f99-17c5de6c7c83) ![GH - Add Visit](https://github.com/user-attachments/assets/7186ee92-8a50-45eb-a765-6d1f6682281b)
+
+
 
  ### Visit Page
 The visit page displays all the attractions a user visited during the trip, including the attraction's name, original posted wait time, actual wait time, time of day, and any special attributes they added. It also allows the user to add more attractions with live wait times!
 
+![GH - VisitPage 2](https://github.com/user-attachments/assets/a62f2faf-7fd7-44c9-a7b0-740ef2de0939) ![GH - Visited Attractions](https://github.com/user-attachments/assets/fee9d80f-369d-4b11-a4d3-f4e1733cdf62) ![GH - Help](https://github.com/user-attachments/assets/f5afdadf-063a-4525-8e27-52031f6c3fbc)
+
+### Adding a Ride
+When the user selects add an atraction, a list of all of the rides that are currently operating at that theme park is presented in alpahbetical order. The user can tap the ride they are entering the queue for and then select line modifications just as using a fastpass or using a single rider line.
+![GH - Add Attraction](https://github.com/user-attachments/assets/34c41e92-142c-441b-ac43-d1182436ac4f) ![GH - Add Attraction (2)](https://github.com/user-attachments/assets/5a41fa0b-8bb0-4831-9b25-0bb9be30bcf5)
+
+
+
  ### Timing a Ride 
 When the user selects a ride from the park's live options, they are presented with a visual stopwatch where they can track how long they've been in line. The stopwatch circle fills and turns red as it approaches the originally posted wait time. Users can also track the duration of ride breakdowns if they choose to stay in line.
 
+
+![GH - Timing Ride (GREEN) 1](https://github.com/user-attachments/assets/128a5b3d-585c-4905-8562-0340834ddc7e) ![GH - Timing Ride (RED)](https://github.com/user-attachments/assets/cb66241f-b6f0-4be9-9394-b359973c13f8) ![GH - Breakdown Timer](https://github.com/user-attachments/assets/0b24ed73-9eb6-43ba-89c5-bddb0e4d6163)
+
+
+
+
+
  ### Editing a Ride
 If there was a mistake when adding an attraction, the user can easily edit past attractions to accurately reflect their visit.
+
+![GH - Edit Attraction](https://github.com/user-attachments/assets/6742bc0b-59d3-4432-bb52-2248a8540cbc)
+
+
 
  ## Usage 🐛
  ### Bug / Feature Request
