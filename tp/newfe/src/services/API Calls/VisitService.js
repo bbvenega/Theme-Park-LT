@@ -10,7 +10,7 @@ export const getVisitsByUserId = async (user, getAccessTokenSilently) => {
     const userId = user.sub.split("|")[1];
     const token = await getAccessTokenSilently();
     const response = await axios.get(
-      `http://localhost:8080/visits/user/${userId}`,
+      `${process.env.REACT_APP_API_URL}/visits/user/${userId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -34,7 +34,7 @@ export const getVisitDetails = async (visitId, getAccessTokenSilently) => {
 
     // console.log("User ID: ", userId);
     const response = await axios.get(
-      `http://localhost:8080/visits/${visitId}`,  
+      `${process.env.REACT_APP_API_URL}/visits/${visitId}`,  
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -54,7 +54,7 @@ export const addVisit = async (visit, getAccessTokenSilently) => {
   try {
     const token = await getAccessTokenSilently();
     console.log("Visit: ", visit);
-    const response = await axios.post("http://localhost:8080/visits", visit, {
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}/visits`, visit, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -71,7 +71,7 @@ export const addVisit = async (visit, getAccessTokenSilently) => {
 export const fetchParks = async (getAccessTokenSilently) => {
   try {
     const token = await getAccessTokenSilently();
-    const response = await axios.get("http://localhost:8080/parks", {
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/parks`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -89,7 +89,7 @@ export const getVisitAttractions = async (visitId, getAccessTokenSilently) => {
   try {
     const token = await getAccessTokenSilently();
     const visitResponse = await axios.get(
-      `http://localhost:8080/visits/${visitId}`,
+      `${process.env.REACT_APP_API_URL}/visits/${visitId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -98,7 +98,7 @@ export const getVisitAttractions = async (visitId, getAccessTokenSilently) => {
     );
     const mainParkId = visitResponse.data.park.id;
     const individualParksResponse = await axios.get(
-      `http://localhost:8080/parks/${mainParkId}`,
+      `${process.env.REACT_APP_API_URL}/parks/${mainParkId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -108,7 +108,7 @@ export const getVisitAttractions = async (visitId, getAccessTokenSilently) => {
     const individualParks = individualParksResponse.data.parks;
     const attractionsPromises = individualParks.map((individualPark) =>
       axios.get(
-        `http://localhost:8080/parks/${individualPark.id}/attractions`,
+        `${process.env.REACT_APP_API_URL}/parks/${individualPark.id}/attractions`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -129,7 +129,7 @@ export const getVisitAttractions = async (visitId, getAccessTokenSilently) => {
 export const deleteVisit = async (visitId, getAccessTokenSilently) => {
   try {
     const token = await getAccessTokenSilently();
-    await axios.delete(`http://localhost:8080/visits/${visitId}`, {
+    await axios.delete(`${process.env.REACT_APP_API_URL}/visits/${visitId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

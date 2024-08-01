@@ -66,7 +66,7 @@ const Dashboard = () => {
   // The handleSelectVisit function is used to select a visit and navigate to the VisitPage component.
   // It preloads the visit details to the state of the VisitPage component.
   const handleSelectVisit = async (visit) => {
-    console.log("Selected Visit: ", visit);
+    // console.log("Selected Visit: ", visit);
 
     try {
       const visitDetails = await getVisitDetails(
@@ -89,6 +89,7 @@ const Dashboard = () => {
   const handleOpenAddVisitModal = async () => {
     try {
       const parkData = await fetchParks(getAccessTokenSilently);
+     
       setParks(parkData);
       setShowAddVisitModal(true);
     } catch (error) {
@@ -115,7 +116,7 @@ const Dashboard = () => {
       
 
      if(createdVisit && createdVisit.id) {
-      console.log("Created Visit: ", createdVisit);
+      // console.log("Created Visit: ", createdVisit);
       navigate(`/visit/${createdVisit.id}`, { state: { visitDetails: createdVisit } });
      } else {
       console.error("Error adding visit: ", createdVisit);
@@ -136,7 +137,7 @@ const Dashboard = () => {
   // if (loading) {
   //   return <div>Loading...</div>;
   // }
-
+  
   // The following JSX is the structure of the dashboard component.
   return (
     <PageTransition>
@@ -160,7 +161,7 @@ const Dashboard = () => {
                   {visit.parkName} 
                   </div>
                   <div className="modal-text-subtext">
-                    {console.log("Visit date: ", visit.dateVisited)}
+                    {/* {console.log("Visit date: ", visit.dateVisited)} */}
                   {FormatDate(visit.dateVisited)}
                   </div>
                 </div>

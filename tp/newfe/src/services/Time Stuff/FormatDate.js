@@ -26,7 +26,7 @@ export const FormatDate = (dateString) => {
 
       const monthName = monthNames[month];
       const daySuffix = getDaySuffix(day);
-      console.log("Day: ", day);
+      // console.log("Day: ", day);
       return `${monthName} ${day}${daySuffix}, ${year}`;
 
   };

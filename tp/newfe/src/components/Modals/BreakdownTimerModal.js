@@ -21,7 +21,7 @@ const BreakdownTimerModal = ({ show, onClose, breakdownTime, setBreakdownTime })
     <div className={`modal-backdrop ${show ? "fade-in" : "fade-out"}`}>
       <div className={`modal-content ${show ? "fade-in" : "fade-out"}`}>
         <h3>🚧 Breakdown Timer 🚧</h3>
-        <p>Breakdown Time: {formatTime(breakdownTime)}</p>
+        <p>Breakdown Time <br></br>{formatTime(breakdownTime)}</p>
         <button onClick={onClose} className="modal-close-button">
           &times;
         </button>

@@ -214,7 +214,7 @@ const VisitPage = () => {
 
       // The updated attraction is sent to the database to be updated.
       await axios.put(
-        `http://localhost:8080/visits/${visitId}/attractions/${updatedAttraction.id}`,
+        `${process.env.REACT_APP_API_URL}/visits/${visitId}/attractions/${updatedAttraction.id}`,
         {
           ...updatedAttractionPayload,
         },
@@ -262,7 +262,7 @@ const VisitPage = () => {
     try {
       const token = await getAccessTokenSilently();
       await axios.delete(
-        `http://localhost:8080/visits/${visitId}/attractions/${attractionId}`,
+        `${process.env.REACT_APP_API_URL}/visits/${visitId}/attractions/${attractionId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -295,7 +295,7 @@ const VisitPage = () => {
 
       // console.log("Selected Attraction Data: ", selectedAttractionData);
       await axios.post(
-        `http://localhost:8080/visits/${visitId}/attractions`,
+        `${process.env.REACT_APP_API_URL}/visits/${visitId}/attractions`,
         {
           attractionId: selectedAttractionData.attraction.id,
           timeOfDay: getTimeofDay(),

@@ -70,10 +70,15 @@ public class ThemeParkService {
 
                 // For every park: save park and for every individual park: save individual park and set that individual park's park to the park
                 for (Park park : parks) {
-                    parkRepository.save(park);
+                    if (!parkRepository.findById(park.getId()).isPresent()) {
+                        parkRepository.save(park);
+                    }
                     for (IndividualPark individualPark : park.getParks()) {
-                        individualPark.setPark(park);
-                        individualParkRepository.save(individualPark);
+                        if (!individualParkRepository.findById(individualPark.getId()).isPresent()) {
+                            individualPark.setPark(park);
+                            individualParkRepository.save(individualPark);
+                        }
+
                     }
                 }
 

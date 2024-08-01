@@ -13,7 +13,7 @@ const ParksList = ({ parks, onAdd }) => {
   const handleAddVisit = async (e) => {
     e.preventDefault();
     const userId = user.sub.split("|")[1];
-    console.log("User ID: ", userId);
+    // console.log("User ID: ", userId);
 
     const newVisit = {
       park: {

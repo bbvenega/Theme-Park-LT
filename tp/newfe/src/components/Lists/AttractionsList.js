@@ -27,7 +27,7 @@ const AttractionsList = ({
 
   // The handleSubmit function is used to add the selected attraction to the visit.
   const handleSubmit = () => {
-    console.log(selectedAttraction);
+    // console.log(selectedAttraction);
     if (selectedAttraction) {
       onAddAttraction({
         attraction: selectedAttraction,

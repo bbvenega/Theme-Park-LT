@@ -30,3 +30,5 @@ tp/backend/src/main/resources/application.properties
 tp/backend/src/main/resources/application.yml
 
 tp/frontend/.env
+tp/newfe/Dockerfile
+tp/backend/Dockerfile
