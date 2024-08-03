@@ -36,7 +36,7 @@ function App() {
 // The AppWrapper component is a wrapper for the App component that will be rendered by the Router.
 const AppWrapper = () => {
   return (
-    <Router>
+    <Router basename="Theme-Park-LT">
       <App />
     </Router>
   );

@@ -43,7 +43,7 @@ public class VisitController {
     // Get all visits
     @GetMapping
     public ResponseEntity<List<Visit>> getAllVisit() {
-        System.out.println("Getting all visits");
+        // System.out.println("Getting all visits");
         List<Visit> visits = visitService.getAllVisit();
         return new ResponseEntity<>(visits, HttpStatus.OK);
     }
@@ -59,15 +59,15 @@ public class VisitController {
         }
 
         Visit visit = optionalVisit.get();
-        System.out.println("Visit: " +visit);
-        System.out.println("Visit's UserID: " + visit.getUser().getId());
+        // System.out.println("Visit: " +visit);
+        // System.out.println("Visit's UserID: " + visit.getUser().getId());
 
 
         String userId = jwt.getSubject();
         userId = userId.substring(userId.lastIndexOf("|") + 1);
-        System.out.println("User ID: " + userId);
+        // System.out.println("User ID: " + userId);
         // Check if the authenticated user owns this visit
-        System.out.println(visit.getUser().getId());
+        // System.out.println(visit.getUser().getId());
         if (!visit.getUser().getId().equals(userId)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to access this visit.");
         }
