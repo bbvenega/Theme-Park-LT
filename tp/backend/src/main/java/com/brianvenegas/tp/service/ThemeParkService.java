@@ -4,9 +4,7 @@ package com.brianvenegas.tp.service;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -67,7 +65,7 @@ public class ThemeParkService {
                 String response = ThemeParkApiClient.getDestinations();
                 List<CompletableFuture<Void>> futures = new ArrayList<>();
                 parks = ThemeParkApiClient.parseParks(response);
-
+                System.out.println("Saving parks to database... @ " + LocalDateTime.now());
                 // For every park: save park and for every individual park: save individual park and set that individual park's park to the park
                 for (Park park : parks) {
                     if (!parkRepository.findById(park.getId()).isPresent()) {
@@ -81,8 +79,9 @@ public class ThemeParkService {
 
                     }
                 }
+                System.out.println("Parks saved to database successfully @ " + LocalDateTime.now());
 
-                logger.info("Parks data loaded successfully ~ Attempting to load attractions data...");
+                logger.info("Parks data loaded successfully ~ Attempting to load attractions data... @ " + LocalDateTime.now());
 
                 // For every park in park, for every individual park in park:
                 for (Park park : parks) {
@@ -102,46 +101,20 @@ public class ThemeParkService {
                             } catch (IOException | InterruptedException e) {
                                 logger.error("Error fetching attractions for park: " + individualPark.getName(), e);
                             }
-                        }).orTimeout(120, TimeUnit.SECONDS); // Timeout after 10 seconds
+                        }).orTimeout(300, TimeUnit.SECONDS); // Timeout after 10 seconds
                         futures.add(future);
                     }
                 }
+
+                
                 // Wait for all futures to complete
                 CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
                 dataLoaded = true;
 
+                System.out.println("Attractions saved to database successfully @ " + LocalDateTime.now());
                 System.out.printf("Parks and Attractions data loaded successfully @ %s", LocalDateTime.now());
 
-                int parkCount = 0;
-                int attractionCount = 0;
-                Set<String> uniqueAttractionIds = new HashSet<>();
-                Set<String> uniqueParkIds = new HashSet<>();
-                for (Park park : parks) {
 
-                    for (IndividualPark individualPark : park.getParks()) {
-                        String parkId = individualPark.getId();
-                        if (!uniqueParkIds.contains(parkId)) {
-                            uniqueParkIds.add(parkId);
-                            System.out.printf("%d: %s\n", parkCount, individualPark.getName());
-                            parkCount++;
-
-                        }
-                    }
-
-                    for (Attraction attraction : attractionRepository.findAll()) {
-                        String attractionId = attraction.getId();
-
-                        if (!uniqueAttractionIds.contains(attractionId)
-                                && attraction.getEntityType().equals("ATTRACTION")) {
-
-                            uniqueAttractionIds.add(attractionId);  // Add the ID to the set if it passes the checks
-                            // System.out.printf("%d: %s %s\n", attractionCount, attraction.getIndividualPark().getName(), attraction.getName());
-                            attractionCount++;
-                        }
-                    }
-                }
-
-                System.out.printf("Parks: %d, Attractions: %d\n", parkCount, attractionCount);
             } catch (IOException | InterruptedException e) {
                 attempts++;
                 logger.error("Error initializing parks", e);

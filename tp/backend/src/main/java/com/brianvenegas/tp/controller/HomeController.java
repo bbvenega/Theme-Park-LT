@@ -3,8 +3,9 @@
 package com.brianvenegas.tp.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-
+@CrossOrigin(origins = "https://bbvenega.github.io")
 @Controller
 public class HomeController {
     

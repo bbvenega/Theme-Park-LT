@@ -37,7 +37,8 @@ build/
 .env
 
 # Ignore all application properties and YAML configuration files
-tp/backend/src/main/resources/application.properties
 tp/backend/src/main/resources/application.yml
+tp/backend/src/main/resources/application.properties
+tp/backend/src/main/resources/keystore.jks
 
 tp/frontend/.env

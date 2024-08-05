@@ -6,12 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.brianvenegas.tp.model.User;
 import com.brianvenegas.tp.service.UserService;
 
-
+@CrossOrigin(origins = "https://bbvenega.github.io")
 public class AuthCrontoller {
     
 

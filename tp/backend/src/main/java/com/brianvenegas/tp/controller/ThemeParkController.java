@@ -16,7 +16,8 @@ import com.brianvenegas.tp.model.Attraction;
 import com.brianvenegas.tp.model.Park;
 import com.brianvenegas.tp.service.ThemeParkService;
 
-@CrossOrigin(origins = "http://localhost:3000")
+// @CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://bbvenega.github.io")
 @RestController
 @RequestMapping("/parks")
 public class ThemeParkController {

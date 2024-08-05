@@ -27,7 +27,8 @@ import com.brianvenegas.tp.model.Visit.userAttraction;
 import com.brianvenegas.tp.service.ThemeParkService;
 import com.brianvenegas.tp.service.VisitService;
 
-@CrossOrigin(origins = "http://localhost:3000")
+// @CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://bbvenega.github.io")
 @RestController
 @RequestMapping("/visits")
 public class VisitController {
