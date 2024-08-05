@@ -101,10 +101,11 @@ const Dashboard = () => {
   const handleCloseModal = () => {
     setShowAddVisitModal(false);
   };
-
+  
   // The handleAddVisit function is used to add a new visit and navigate to the VisitPage component.
   const handleAddVisit = async (newVisit) => {
     try {
+      console.log("token: ", getAccessTokenSilently);
       const createdVisit = await addVisit(newVisit, getAccessTokenSilently);
       const updatedVisits = await getVisitsByUserId(
         user,
@@ -137,7 +138,6 @@ const Dashboard = () => {
   // if (loading) {
   //   return <div>Loading...</div>;
   // }
-  
   // The following JSX is the structure of the dashboard component.
   return (
     <PageTransition>
