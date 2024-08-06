@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Theme-Park-LT/static/css/main.2e7e71f2.css",
-    "main.js": "/Theme-Park-LT/static/js/main.9fd14d0c.js",
+    "main.js": "/Theme-Park-LT/static/js/main.0d5a2c63.js",
     "static/media/primaryLG.png": "/Theme-Park-LT/static/media/primaryLG.fee81ef2e18b64def043.png",
     "static/media/Poppins-Light.ttf": "/Theme-Park-LT/static/media/Poppins-Light.7641a0f76ca9ef6c252c.ttf",
     "static/media/Poppins-Regular.ttf": "/Theme-Park-LT/static/media/Poppins-Regular.35d26b781dc5fda684cc.ttf",
@@ -10,10 +10,10 @@
     "static/media/Poppins-Bold.ttf": "/Theme-Park-LT/static/media/Poppins-Bold.cdb29a5d7ccf57ff05a3.ttf",
     "index.html": "/Theme-Park-LT/index.html",
     "main.2e7e71f2.css.map": "/Theme-Park-LT/static/css/main.2e7e71f2.css.map",
-    "main.9fd14d0c.js.map": "/Theme-Park-LT/static/js/main.9fd14d0c.js.map"
+    "main.0d5a2c63.js.map": "/Theme-Park-LT/static/js/main.0d5a2c63.js.map"
   },
   "entrypoints": [
     "static/css/main.2e7e71f2.css",
-    "static/js/main.9fd14d0c.js"
+    "static/js/main.0d5a2c63.js"
   ]
 }
