@@ -63,7 +63,7 @@ If you find any bugs or have any constructive feedback [please let me know](http
  ## How was Theme Park Line Tracker Created? 🎨
 
 ### Backend 
-The backend is built using Java and Spring Boot, with MySQL as the database. Spring Boot's robust networking capabilities and Java's object-oriented programming features enabled the creation of a self-sufficient database that stores live data for all supported theme parks. This data is accessed through personalized API calls, allowing for real-time updates and management of user visits and attractions.
+The backend is built using Java and Spring Boot, with MySQL as the database. Spring Boot's robust networking capabilities and Java's object-oriented programming features enabled the creation of a self-sufficient database that stores live data for all supported theme parks. All of the data and APIs are hosted on an Amazon EC2 VPS. This data is accessed through personalized API calls, allowing for real-time updates and management of user visits and attractions.
 
 ### Frontend
 The frontend is developed using ReactJS, ensuring a user-friendly and organized experience. The data presented to users on the webpage is dynamically pulled from the backend database, providing up-to-date information and seamless interaction.
