@@ -10,6 +10,7 @@ import Dashboard from "./pages/DashBoard";
 import Home from "./pages/HomePage";
 import VisitPage from "./pages/VisitPage";
 import PageTransition from "./services/Cosmetic/pageTransition";
+import AuthCallback from "./components/auth/AuthCallback";
 
 // The App component is the main component that will be rendered by the Router.
 function App() {
@@ -21,8 +22,11 @@ function App() {
       <Routes location={location}>
         {/* The default route is the Home component. */}
         <Route path="/" element={<Home />} />
+
         {/* The Dashboard route will render the Dashboard component, where a user can see / add a visit. */}
         <Route path="/dashboard" element={<Dashboard />} />
+        {/* The AuthCallback route will handle the Auth0 login callback. */}
+
         {/* The VisitPage route will render the VisitPage component, where a user's indiviudal visit can be modified. */}
         <Route path="/visit/:visitId" element={<VisitPage />} />
         {/* If the route does not match any of the above, the user will be redirected to the Home component. */}
