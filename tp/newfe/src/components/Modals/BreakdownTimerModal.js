@@ -11,11 +11,18 @@ const BreakdownTimerModal = ({ show, onClose, breakdownTime, setBreakdownTime })
     let timer;
     if (show) {
       timer = setInterval(() => {
-        setBreakdownTime((prevTime) => prevTime + 1);
+        const savedBreakdownStartTime = localStorage.getItem("breakdownStartTime");
+        if (savedBreakdownStartTime) {
+          const now = Date.now();
+          const breakdownStartTime = parseInt(savedBreakdownStartTime, 10);
+          const breakdownElapsed = Math.floor((now - breakdownStartTime) / 1000);
+          setBreakdownTime(breakdownElapsed);
+        }
       }, 1000);
     }
     return () => clearInterval(timer);
   }, [show, setBreakdownTime]);
+
 
   return (
     <div className={`modal-backdrop ${show ? "fade-in" : "fade-out"}`}>

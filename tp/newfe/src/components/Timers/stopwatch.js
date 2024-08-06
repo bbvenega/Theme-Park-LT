@@ -1,69 +1,134 @@
-// The stopwatch component is used to measure the time taken for an attraction to be completed.
-// This is used in combination with the circular timer component to display the time taken for an attraction to be completed.
-
 import React, { useState, useEffect, useRef } from "react";
 import CircularTimer from "./CircularTimer";
 import BreakdownTimerModal from "../Modals/BreakdownTimerModal";
 import "../../Styles/CircularTimer.css";
 
-// The stopwatch function takes in the onStop, postedWaitTime, and onBreakdownTimeChange props.
-// The onStop prop is used to stop the stopwatch and notify the parent component.
-// The postedWaitTime prop is used to set the posted wait time.
-// The onBreakdownTimeChange prop is used to notify the parent component of the breakdown time.
 const Stopwatch = ({ onStop, postedWaitTime, onBreakdownTimeChange }) => {
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [showBreakdownModal, setShowBreakdownModal] = useState(false);
   const [breakdownTime, setBreakdownTime] = useState(0);
-  const timerRef = useRef(null);
+  const animationFrameRef = useRef(null);
+  const startTimeRef = useRef(null);
+  const breakdownStartTimeRef = useRef(null);
 
-  // The useEffect hook is used to update the main timer.
   useEffect(() => {
-    if (isRunning) {
-      timerRef.current = setInterval(() => {
-        setTime((prevTime) => prevTime + 1);
-      }, 1000);
-    } else {
-      clearInterval(timerRef.current);
-    }
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        if (isRunning) {
+          const now = Date.now();
+          const elapsed = Math.floor((now - startTimeRef.current) / 1000);
+          setTime(elapsed);
+        }
+        const savedBreakdownStartTime = localStorage.getItem("breakdownStartTime");
+        if (savedBreakdownStartTime) {
+          const now = Date.now();
+          breakdownStartTimeRef.current = parseInt(savedBreakdownStartTime, 10);
+          const breakdownElapsed = Math.floor((now - breakdownStartTimeRef.current) / 1000);
+          setBreakdownTime(breakdownElapsed);
+        }
+      }
+    };
 
-    return () => clearInterval(timerRef.current);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, [isRunning]);
 
-  // The useEffect hook is used to notify the parent component of breakdown time changes.
+  useEffect(() => {
+    const savedStartTime = localStorage.getItem("stopwatchStartTime");
+    const savedBreakdownStartTime = localStorage.getItem("breakdownStartTime");
+
+    if (savedStartTime) {
+      const now = Date.now();
+      startTimeRef.current = parseInt(savedStartTime, 10);
+      const elapsed = Math.floor((now - startTimeRef.current) / 1000);
+      setTime(elapsed);
+      setIsRunning(true);
+    }
+
+    if (savedBreakdownStartTime) {
+      const now = Date.now();
+      breakdownStartTimeRef.current = parseInt(savedBreakdownStartTime, 10);
+      const breakdownElapsed = Math.floor((now - breakdownStartTimeRef.current) / 1000);
+      setBreakdownTime(breakdownElapsed);
+    }
+
+    return () => cancelAnimationFrame(animationFrameRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (isRunning) {
+      const updateTimer = () => {
+        const now = Date.now();
+        const elapsed = Math.floor((now - startTimeRef.current) / 1000);
+        setTime(elapsed);
+
+        if (breakdownStartTimeRef.current) {
+          const breakdownElapsed = Math.floor((now - breakdownStartTimeRef.current) / 1000);
+          setBreakdownTime(breakdownElapsed);
+        }
+        animationFrameRef.current = requestAnimationFrame(updateTimer);
+      };
+      animationFrameRef.current = requestAnimationFrame(updateTimer);
+    } else {
+      cancelAnimationFrame(animationFrameRef.current);
+    }
+  }, [isRunning]);
+
   useEffect(() => {
     onBreakdownTimeChange(breakdownTime);
   }, [breakdownTime, onBreakdownTimeChange]);
 
-  // The start function is used to start the stopwatch.
   const start = () => {
+    const now = Date.now();
+    startTimeRef.current = now;
     setIsRunning(true);
+    localStorage.setItem("stopwatchStartTime", now.toString());
   };
 
-  // The stop function is used to stop the stopwatch.
   const stop = () => {
     setIsRunning(false);
+    localStorage.removeItem("stopwatchStartTime");
     if (onStop) {
       onStop(time);
     }
   };
 
-  // The reset function is used to reset the stopwatch.
   const reset = () => {
-    clearInterval(timerRef.current);
     setIsRunning(false);
     setTime(0);
+    localStorage.removeItem("stopwatchStartTime");
+    localStorage.removeItem("breakdownStartTime");
+    startTimeRef.current = null;
+    breakdownStartTimeRef.current = null;
   };
 
-  // The return statement below will render the Stopwatch component.
+  const handleBreakdownStart = () => {
+    const now = Date.now();
+    breakdownStartTimeRef.current = now;
+    localStorage.setItem("breakdownStartTime", now.toString());
+    setShowBreakdownModal(true);
+  };
+
   return (
     <div>
       <CircularTimer duration={postedWaitTime * 60} elapsedTime={time} />
       <div className="buttons-container">
-        <button className="button" onClick={start}>Start</button>
-        <button className="stop-button" onClick={stop}>Stop</button>
-        <button className="button" onClick={reset}>Reset</button>
-        <button className="button" onClick={() => setShowBreakdownModal(true)}>🚧</button>
+        <button className="button" onClick={start}>
+          Start
+        </button>
+        <button className="stop-button" onClick={stop}>
+          Stop
+        </button>
+        <button className="button" onClick={reset}>
+          Reset
+        </button>
+        <button className="button" onClick={handleBreakdownStart}>
+          🚧
+        </button>
       </div>
 
       <BreakdownTimerModal

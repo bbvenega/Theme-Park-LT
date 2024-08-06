@@ -114,7 +114,7 @@ const VisitPage = () => {
     const intervalId = setInterval(() => {
       console.log("Fetching at interval @ ", new Date());
       fetchAttractions();
-    }, 300000); // 10 seconds
+    }, 120000); // 10 seconds
 
     return () => {
       console.log("Clearing interval @ ", new Date());
