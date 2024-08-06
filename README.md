@@ -13,7 +13,7 @@ This led to the creation of Theme Park Line Tracker, an application designed to 
 Theme Park Line Tracker transforms the way amusement park enthusiasts manage their park experiences. It provides a fun, organized, and interactive way to document their adventures, enhancing the overall enjoyment of visiting theme parks.
 
  ## Live Webpage 🔗
- The current live version of Theme Park Line Tracker is available here. 
+ The current live version of Theme Park Line Tracker is available [here](https://bbvenega.github.io/Theme-Park-LT/).
 
  ## Web App 🖥️
 
